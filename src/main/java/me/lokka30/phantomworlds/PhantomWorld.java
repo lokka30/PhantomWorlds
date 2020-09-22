@@ -5,7 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -22,24 +21,17 @@ public class PhantomWorld {
 
     public void createWorld() {
         Bukkit.createWorld(new WorldCreator(name));
-        instance.worldsMap.put(name, this);
         addToData();
     }
 
-    public void deleteWorld() throws IOException {
+    public void unloadWorld() {
         for (Player player : Objects.requireNonNull(Bukkit.getWorld(name)).getPlayers()) {
-            player.kickPlayer(colorize(Objects.requireNonNull(instance.messagesCfg.getString("delete.kick"))
+            player.kickPlayer(colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.kick"))
                     .replace("%prefix%", Objects.requireNonNull(instance.messagesCfg.getString("prefix")))));
         }
 
         Bukkit.unloadWorld(name, true);
 
-        File folder = new File(Bukkit.getWorldContainer(), name);
-        if (!folder.delete()) {
-            throw new IOException("Unable to delete world as world folder didn't exist");
-        }
-
-        instance.worldsMap.remove(name);
         removeFromData();
     }
 
@@ -51,20 +43,21 @@ public class PhantomWorld {
         return ChatColor.translateAlternateColorCodes('&', msg);
     }
 
-    private void addToData() {
-        List<String> worlds = instance.dataCfg.getStringList("worlds");
-        if (!worlds.contains(name)) {
-            worlds.add(name);
-            instance.dataCfg.set("worlds", worlds);
+    public void addToData() {
+        if (!instance.worldsMap.containsKey(name)) {
+            instance.worldsMap.put(name, this);
+        }
+
+        List<String> worldsList = instance.dataCfg.getStringList("worlds");
+        if (!worldsList.contains(name)) {
+            worldsList.add(name);
+            instance.dataCfg.set("worlds", worldsList);
             saveData();
         }
     }
 
-    private void removeFromData() {
-        List<String> worlds = instance.dataCfg.getStringList("worlds");
-        worlds.remove(name);
-        instance.dataCfg.set("worlds", worlds);
-        saveData();
+    public void removeFromData() {
+        instance.worldsMap.remove(name);
     }
 
     private void saveData() {

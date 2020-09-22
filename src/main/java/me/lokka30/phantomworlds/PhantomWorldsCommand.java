@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -193,6 +192,7 @@ public class PhantomWorldsCommand implements TabExecutor {
                                         .replace("%world%", args[1]));
 
                                 WorldCreator worldCreator = new WorldCreator(args[1]);
+
                                 if (seed != -1) {
                                     worldCreator.seed(seed);
                                 }
@@ -202,9 +202,11 @@ public class PhantomWorldsCommand implements TabExecutor {
                                 if (worldType != null) {
                                     worldCreator.type(worldType);
                                 }
+
                                 worldCreator.generateStructures(generateStructures);
                                 worldCreator.environment(environment);
                                 Bukkit.createWorld(worldCreator);
+                                new PhantomWorld(instance, args[1]).addToData();
 
                                 sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.process.done"))
                                         .replace("%prefix%", prefix))
@@ -220,27 +222,23 @@ public class PhantomWorldsCommand implements TabExecutor {
                                 .replace("%prefix%", prefix)));
                     }
                     break;
-                case "delete":
-                    if (sender.hasPermission("phantomworlds.delete")) {
+                case "unload":
+                    if (sender.hasPermission("phantomworlds.unload")) {
                         if (args.length == 2) {
                             if (instance.worldsMap.containsKey(args[1])) {
                                 PhantomWorld phantomWorld = instance.worldsMap.get(args[1]);
-                                try {
-                                    phantomWorld.deleteWorld();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                phantomWorld.unloadWorld();
 
-                                //Make sure the player is still online (they might have been in the deleted world)
+                                //Make sure the player is still online (they might have been in the unloaded world)
                                 if (sender instanceof Player) {
                                     Player player = (Player) sender;
                                     if (player.isOnline()) {
-                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("delete.success"))
+                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.success"))
                                                 .replace("%prefix%", prefix)
                                                 .replace("%world%", phantomWorld.getName())));
                                     }
                                 } else {
-                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("delete.success"))
+                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.success"))
                                             .replace("%prefix%", prefix)
                                             .replace("%world%", phantomWorld.getName())));
                                 }
@@ -250,7 +248,7 @@ public class PhantomWorldsCommand implements TabExecutor {
                                         .replace("%world%", args[1]));
                             }
                         } else {
-                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("delete.usage"))
+                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.usage"))
                                     .replace("%prefix%", prefix)
                                     .replace("%label%", label)));
                         }

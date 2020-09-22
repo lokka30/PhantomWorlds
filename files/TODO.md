@@ -1,9 +1,9 @@
 # PhantomWorlds To-do List
 Ordered from first to last to be completed:
-* Files reload subcommand
 * Testing
 * Release on SpigotMC
 * Update `README.md`
+* Files reload subcommand
 * Vanish compatibility
     * don't send 'by' messages unless the sender is not a player / target can see the (player) sender
     * add vanish compatibility to 'teleport' subcommand

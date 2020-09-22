@@ -35,11 +35,13 @@
 ### v1.0.6-ALPHA b6
 * Fixed `loadWorlds()`.
 
-### v1.0.7-ALPHA b9
+### v1.0.7-ALPHA b12
 * **[IMPORTANT]** `messages.yml` updated to version `4`!
+* **[IMPORTANT]** Changed subcommand `delete` to `unload`.
 * Save data cfg on `loadWorlds()` after currently loaded worlds are dumped in.
 * Save data cfg on `PhantomWorld#createWorld()` and `PhantomWorld#deleteWorld()`.
 * Fixed missing `%` in a message.
 * Removed comments in `data.yml`.
 * Fixed duplicate entries in `data.yml`.
 * Handful of other changes in `loadWorlds()`.
+* Fixed data save issue with `create` subcommand.
