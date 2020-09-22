@@ -1,10 +1,9 @@
 # PhantomWorlds To-do List
 Ordered from first to last to be completed:
-* Create `CHANGELOG.md` and `README.md`
-* Release on GitHub
 * Add AGPLv3 license to repo
 * Testing
 * Release on SpigotMC
+* Update `README.md`
 * Vanish compatibility
     * don't send 'by' messages unless the sender is not a player / target can see the (player) sender
     * add vanish compatibility to 'teleport' subcommand
