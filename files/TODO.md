@@ -1,6 +1,5 @@
 # PhantomWorlds To-do List
 Ordered from first to last to be completed:
-* Add AGPLv3 license to repo
 * Testing
 * Release on SpigotMC
 * Update `README.md`

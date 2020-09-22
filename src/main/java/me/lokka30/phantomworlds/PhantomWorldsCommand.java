@@ -103,82 +103,84 @@ public class PhantomWorldsCommand implements TabExecutor {
                                 WorldType worldType = null;
                                 boolean generateStructures = true;
 
-                                for (int i = 3; i <= args.length + 1; i++) {
-                                    if (args[i].toLowerCase().startsWith("-s:")) {
-                                        if (args[i].length() > 3) {
-                                            try {
-                                                seed = Long.parseLong(args[i].substring(3));
-                                            } catch (NumberFormatException exception) {
+                                if (args.length > 3) {
+                                    for (int i = 3; i <= args.length; i++) {
+                                        if (args[i].toLowerCase().startsWith("-s:")) {
+                                            if (args[i].length() > 3) {
+                                                try {
+                                                    seed = Long.parseLong(args[i].substring(3));
+                                                } catch (NumberFormatException exception) {
+                                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-s"))
+                                                            .replace("%prefix%", prefix)));
+                                                    return true;
+                                                }
+                                            } else {
                                                 sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-s"))
                                                         .replace("%prefix%", prefix)));
                                                 return true;
                                             }
+                                        } else if (args[i].toLowerCase().startsWith("-g:")) {
+                                            if (args[i].length() > 3) {
+                                                generatorId = args[i].substring(3);
+                                            } else {
+                                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-g"))
+                                                        .replace("%prefix%", prefix)));
+                                            }
+                                        } else if (args[i].toLowerCase().startsWith("-t:")) {
+                                            if (args[i].length() > 3) {
+                                                String worldTypeStr = args[i].substring(3);
+                                                switch (worldTypeStr.toUpperCase()) {
+                                                    case "NORMAL":
+                                                        worldType = WorldType.NORMAL;
+                                                        break;
+                                                    case "FLAT":
+                                                    case "SUPERFLAT":
+                                                    case "SUPER_FLAT":
+                                                        worldType = WorldType.FLAT;
+                                                        break;
+                                                    case "LARGE_BIOMES":
+                                                    case "LARGEBIOMES":
+                                                        worldType = WorldType.LARGE_BIOMES;
+                                                        break;
+                                                    case "AMPLIFIED":
+                                                        worldType = WorldType.AMPLIFIED;
+                                                        break;
+                                                    default:
+                                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-t"))
+                                                                .replace("%prefix%", prefix)));
+                                                        return true;
+                                                }
+                                            } else {
+                                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-t"))
+                                                        .replace("%prefix%", prefix)));
+                                            }
+                                        } else if (args[i].toLowerCase().startsWith("-gs:")) {
+                                            if (args[i].length() > 3) {
+                                                switch (args[i].substring(3).toLowerCase()) {
+                                                    case "true":
+                                                    case "t":
+                                                    case "yes":
+                                                    case "y":
+                                                        generateStructures = true;
+                                                        break;
+                                                    case "false":
+                                                    case "f":
+                                                    case "no":
+                                                    case "n":
+                                                        generateStructures = false;
+                                                        break;
+                                                    default:
+                                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-gs"))
+                                                                .replace("%prefix%", prefix)));
+                                                        return true;
+                                                }
+                                            }
                                         } else {
-                                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-s"))
-                                                    .replace("%prefix%", prefix)));
+                                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting"))
+                                                    .replace("%prefix%", prefix))
+                                                    .replace("%setting%", args[i]));
                                             return true;
                                         }
-                                    } else if (args[i].toLowerCase().startsWith("-g:")) {
-                                        if (args[i].length() > 3) {
-                                            generatorId = args[i].substring(3);
-                                        } else {
-                                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-g"))
-                                                    .replace("%prefix%", prefix)));
-                                        }
-                                    } else if (args[i].toLowerCase().startsWith("-t:")) {
-                                        if (args[i].length() > 3) {
-                                            String worldTypeStr = args[i].substring(3);
-                                            switch (worldTypeStr.toUpperCase()) {
-                                                case "NORMAL":
-                                                    worldType = WorldType.NORMAL;
-                                                    break;
-                                                case "FLAT":
-                                                case "SUPERFLAT":
-                                                case "SUPER_FLAT":
-                                                    worldType = WorldType.FLAT;
-                                                    break;
-                                                case "LARGE_BIOMES":
-                                                case "LARGEBIOMES":
-                                                    worldType = WorldType.LARGE_BIOMES;
-                                                    break;
-                                                case "AMPLIFIED":
-                                                    worldType = WorldType.AMPLIFIED;
-                                                    break;
-                                                default:
-                                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-t"))
-                                                            .replace("%prefix%", prefix)));
-                                                    return true;
-                                            }
-                                        } else {
-                                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-t"))
-                                                    .replace("%prefix%", prefix)));
-                                        }
-                                    } else if (args[i].toLowerCase().startsWith("-gs:")) {
-                                        if (args[i].length() > 3) {
-                                            switch (args[i].substring(3).toLowerCase()) {
-                                                case "true":
-                                                case "t":
-                                                case "yes":
-                                                case "y":
-                                                    generateStructures = true;
-                                                    break;
-                                                case "false":
-                                                case "f":
-                                                case "no":
-                                                case "n":
-                                                    generateStructures = false;
-                                                    break;
-                                                default:
-                                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-gs"))
-                                                            .replace("%prefix%", prefix)));
-                                                    return true;
-                                            }
-                                        }
-                                    } else {
-                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting"))
-                                                .replace("%prefix%", prefix))
-                                                .replace("%setting%", args[i]));
-                                        return true;
                                     }
                                 }
 
@@ -421,7 +423,7 @@ public class PhantomWorldsCommand implements TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         List<String> suggestions = new ArrayList<>();
 
-        if (args.length == 0) {
+        if (args.length == 1) {
             if (sender.hasPermission("phantomworlds.create")) {
                 suggestions.add("create");
             }
@@ -441,7 +443,7 @@ public class PhantomWorldsCommand implements TabExecutor {
             if (sender.hasPermission("phantomworlds.setspawn")) {
                 suggestions.add("setspawn");
             }
-        } else if (args.length == 1) {
+        } else if (args.length == 2) {
             switch (args[0].toLowerCase()) {
                 case "create":
                 case "delete":
@@ -454,24 +456,18 @@ public class PhantomWorldsCommand implements TabExecutor {
                     //No suggestions.
                     break;
             }
-        } else if (args.length == 2) {
-            switch (args[0].toLowerCase()) {
-                case "create":
-                    suggestions.add("normal");
-                    suggestions.add("nether");
-                    suggestions.add("end");
-                    break;
-                case "teleport":
-                    suggestions.addAll(getPlayersCanSeeList(sender));
-                    break;
-                default:
-                    //No suggestions.
-                    break;
-            }
         } else if (args.length == 3) {
-            if ("create".equals(args[0].toLowerCase())) {
-                suggestions.add("-s:?");
-                suggestions.add("-g:?");
+            if (args[0].equalsIgnoreCase("create")) {
+                suggestions.add("normal");
+                suggestions.add("nether");
+                suggestions.add("end");
+            } else if (args[0].equalsIgnoreCase("teleport")) {
+                suggestions.addAll(getPlayersCanSeeList(sender));
+            }
+        } else if (args.length == 4) {
+            if (args[0].equalsIgnoreCase("create")) {
+                suggestions.add("-s:");
+                suggestions.add("-g:");
                 suggestions.add("-t:flat");
                 suggestions.add("-t:largebiomes");
                 suggestions.add("-t:amplified");
