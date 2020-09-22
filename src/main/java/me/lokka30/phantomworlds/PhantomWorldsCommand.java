@@ -155,8 +155,8 @@ public class PhantomWorldsCommand implements TabExecutor {
                                                         .replace("%prefix%", prefix)));
                                             }
                                         } else if (args[i].toLowerCase().startsWith("-gs:")) {
-                                            if (args[i].length() > 3) {
-                                                switch (args[i].substring(3).toLowerCase()) {
+                                            if (args[i].length() > 4) {
+                                                switch (args[i].substring(4).toLowerCase()) {
                                                     case "true":
                                                     case "t":
                                                     case "yes":
@@ -174,6 +174,10 @@ public class PhantomWorldsCommand implements TabExecutor {
                                                                 .replace("%prefix%", prefix)));
                                                         return true;
                                                 }
+                                            } else {
+                                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-gs"))
+                                                        .replace("%prefix%", prefix)));
+                                                return true;
                                             }
                                         } else {
                                             sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting"))
@@ -470,16 +474,14 @@ public class PhantomWorldsCommand implements TabExecutor {
             } else if (args[0].equalsIgnoreCase("teleport")) {
                 suggestions.addAll(getPlayersCanSeeList(sender));
             }
-        } else if (args.length == 4) {
-            if (args[0].equalsIgnoreCase("create")) {
-                suggestions.add("-s:");
-                suggestions.add("-g:");
-                suggestions.add("-t:flat");
-                suggestions.add("-t:largebiomes");
-                suggestions.add("-t:amplified");
-                suggestions.add("-gs:true");
-                suggestions.add("-gs:false");
-            }
+        } else if (args.length >= 4 && args[0].equalsIgnoreCase("create")) {
+            suggestions.add("-s:");
+            suggestions.add("-g:");
+            suggestions.add("-t:flat");
+            suggestions.add("-t:largebiomes");
+            suggestions.add("-t:amplified");
+            suggestions.add("-gs:true");
+            suggestions.add("-gs:false");
         }
 
         return suggestions;

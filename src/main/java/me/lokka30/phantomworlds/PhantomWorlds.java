@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class PhantomWorlds extends JavaPlugin {
@@ -122,7 +123,10 @@ public class PhantomWorlds extends JavaPlugin {
         worldsMap.clear();
 
         for (World world : Bukkit.getWorlds()) {
-            worldsMap.put(world.getName(), new PhantomWorld(this, world.getName()));
+            List<String> worldsData = dataCfg.getStringList("worlds");
+            if (!worldsData.contains(world.getName())) {
+                worldsData.add(world.getName());
+            }
         }
 
         for (String worldName : dataCfg.getStringList("worlds")) {
