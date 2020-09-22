@@ -127,6 +127,7 @@ public class PhantomWorlds extends JavaPlugin {
             if (!worldsData.contains(world.getName())) {
                 worldsData.add(world.getName());
             }
+            dataCfg.set("worlds", worldsData);
         }
 
         for (String worldName : dataCfg.getStringList("worlds")) {
@@ -134,7 +135,6 @@ public class PhantomWorlds extends JavaPlugin {
                 PhantomWorld phantomWorld = new PhantomWorld(this, worldName);
                 Bukkit.createWorld(new WorldCreator(worldName));
                 phantomWorld.createWorld();
-                worldsMap.put(worldName, phantomWorld);
             }
         }
     }

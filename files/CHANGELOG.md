@@ -28,6 +28,9 @@
 * Fixed `delete` subcommand's kick message not replacing the `%prefix%` placeholder.
 * Fixed `IndexOutOfBoundsException` in `create` subcommand when world settings are specified.
 
-## v1.0.5-ALPHA b5
+### v1.0.5-ALPHA b5
 * Fixed tab completion not occuring for `create` subcommand for when more than one world setting is specified.
 * Fixed `-gs` setting in subcommand `create` not checking the correct substring.
+
+### v1.0.6-ALPHA b6
+* Fixed `loadWorlds()`.
