@@ -1,0 +1,7 @@
+# Worlds data
+worlds:
+
+# Do not touch anything here unless you know what you are doing.
+advanced:
+  file-version: 1
+  generated-with: '${project.version}'

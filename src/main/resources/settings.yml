@@ -1,0 +1,10 @@
+# Asynchronously check for updates on startup?
+# I know update checkers can be annoying - this one isn't:
+# - Won't halt your server's startup or cause any fuss.
+# - Will only send a warning message to console once when a new update is available.
+run-update-checker: true
+
+# Do not touch anything here unless you know what you are doing.
+advanced:
+  file-version: 1
+  generated-with: '${project.version}'

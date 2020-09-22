@@ -1,0 +1,53 @@
+name: ${project.name}
+version: ${project.version}
+main: me.lokka30.phantomworlds.PhantomWorlds
+api-version: '1.13'
+author: lokka30
+description: ${project.description}
+website: 'https://www.spigotmc.org'
+depend: [MicroLib]
+
+commands:
+  phantomworlds:
+    description: Create, manage or teleport to worlds!
+    aliases: [pworlds, phantomworld, pworld]
+    usage: /<command> <create/delete/teleport/tp/list/spawn/setspawn>
+
+permissions:
+  phantomworlds.*:
+    description: All permissions.
+    default: op
+    children:
+      phantomworlds.create: true
+      phantomworlds.import: true
+      phantomworlds.delete: true
+      phantomworlds.teleport: true
+      phantomworlds.list: true
+      phantomworlds.spawn: true
+      phantomworlds.spawn.others: true
+      phantomworlds.setspawn: true
+      phantomworlds.vanishcheckbypass: true
+  phantomworlds.create:
+    default: op
+    description: create subcommand
+  phantomworlds.delete:
+    default: op
+    description: delete subcommand
+  phantomworlds.teleport:
+    default: op
+    description: teleport subcommand
+  phantomworlds.list:
+    default: op
+    description: list subcommand
+  phantomworlds.spawn:
+    default: op
+    description: spawn subcommand
+  phantomworlds.spawn.others:
+    default: op
+    description: teleport other players in spawn subcommand
+  phantomworlds.setspawn:
+    default: op
+    description: setspawn subcommand
+  phantomworlds.vanishbypass:
+    default: op
+    description: subcommands will not factor in if players with this permission can or can't see vanished players
