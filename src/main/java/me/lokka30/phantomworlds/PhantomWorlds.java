@@ -10,7 +10,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -22,7 +21,7 @@ public class PhantomWorlds extends JavaPlugin {
     public final File dataFile = new File(getDataFolder(), "data.yml");
     public YamlConfiguration settingsCfg, messagesCfg, dataCfg;
 
-    public final HashMap<String, PhantomWorld> worldsMap = new HashMap<>();
+    public HashMap<String, PhantomWorld> worldsMap = new HashMap<>();
 
     /**
      * Called by Bukkit when the plugin is being loaded up.
@@ -33,7 +32,7 @@ public class PhantomWorlds extends JavaPlugin {
 
         /* Loading Banner */
         logger.log(MicroLogger.LogLevel.INFO, "&8&m+-----------------------------------------------+");
-        logger.log(MicroLogger.LogLevel.INFO, "&b&lPhantomWorlds &fv" + getDescription().getVersion() + "&7, developed by lokka30");
+        logger.log(MicroLogger.LogLevel.INFO, "&b&lPhantomWorlds &fv" + getDescription().getVersion() + "&7 by lokka30");
         logger.log(MicroLogger.LogLevel.INFO, "&f(Loading Plugin)");
         logger.log(MicroLogger.LogLevel.INFO, "&8&m+-----------------------------------------------+");
 
@@ -75,7 +74,7 @@ public class PhantomWorlds extends JavaPlugin {
         /* Messages */
         createIfNotExists(messagesFile, "messages.yml");
         messagesCfg = YamlConfiguration.loadConfiguration(messagesFile);
-        checkFileVersion(messagesCfg, "messages.yml", 1);
+        checkFileVersion(messagesCfg, "messages.yml", 3);
 
         /* Data */
         createIfNotExists(dataFile, "data.yml");
@@ -130,11 +129,7 @@ public class PhantomWorlds extends JavaPlugin {
             if (!worldsMap.containsKey(worldName)) {
                 PhantomWorld phantomWorld = new PhantomWorld(this, worldName);
                 Bukkit.createWorld(new WorldCreator(worldName));
-                try {
-                    phantomWorld.createWorld();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                phantomWorld.createWorld();
                 worldsMap.put(worldName, phantomWorld);
             }
         }

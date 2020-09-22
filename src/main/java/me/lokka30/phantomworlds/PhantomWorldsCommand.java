@@ -104,7 +104,7 @@ public class PhantomWorldsCommand implements TabExecutor {
                                 boolean generateStructures = true;
 
                                 if (args.length > 3) {
-                                    for (int i = 3; i <= args.length; i++) {
+                                    for (int i = 3; i < args.length; i++) {
                                         if (args[i].toLowerCase().startsWith("-s:")) {
                                             if (args[i].length() > 3) {
                                                 try {
