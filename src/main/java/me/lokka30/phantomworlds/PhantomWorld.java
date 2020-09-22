@@ -1,6 +1,8 @@
 package me.lokka30.phantomworlds;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -19,6 +21,7 @@ public class PhantomWorld {
 
     public void createWorld() throws IOException {
         Bukkit.createWorld(new WorldCreator(name));
+        instance.worldsMap.put(name, this);
         instance.dataCfg.set("worlds", instance.dataCfg.getStringList("worlds").add(name));
         instance.dataCfg.save(instance.dataFile);
     }

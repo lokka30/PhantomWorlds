@@ -270,7 +270,6 @@ public class PhantomWorldsCommand implements TabExecutor {
                                             .replace("%world%", args[1]));
                                 } else {
                                     player.teleport(world.getSpawnLocation());
-                                    sender.sendMessage("You have been teleported to world '%world'%.");
                                     sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.self"))
                                             .replace("%prefix%", prefix)
                                             .replace("%world%", world.getName())));
@@ -311,10 +310,12 @@ public class PhantomWorldsCommand implements TabExecutor {
                                         target.teleport(world.getSpawnLocation());
                                         target.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.by"))
                                                 .replace("%prefix%", prefix)
-                                                .replace("%player%", sender.getName())));
+                                                .replace("%player%", sender.getName()
+                                                        .replace("%world%", world.getName()))));
                                         sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.other"))
                                                 .replace("%prefix%", prefix)
-                                                .replace("%player%", target.getName())));
+                                                .replace("%player%", target.getName())
+                                                .replace("%world%", world.getName())));
                                     }
                                 }
                             } else {
@@ -333,13 +334,19 @@ public class PhantomWorldsCommand implements TabExecutor {
                     break;
                 case "list":
                     if (sender.hasPermission("phantomworlds.list")) {
-                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.header"))
-                                .replace("%prefix%", prefix)
-                                .replace("%amount%", instance.worldsMap.size() + "")));
-                        for (String worldName : instance.worldsMap.keySet()) {
-                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.entry"))
+                        if (args.length == 1) {
+                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.header"))
                                     .replace("%prefix%", prefix)
-                                    .replace("%world%", worldName)));
+                                    .replace("%amount%", instance.worldsMap.size() + "")));
+                            for (String worldName : instance.worldsMap.keySet()) {
+                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.entry"))
+                                        .replace("%prefix%", prefix)
+                                        .replace("%world%", worldName)));
+                            }
+                        } else {
+                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.usage"))
+                                    .replace("%label%", label)
+                                    .replace("%prefix%", prefix)));
                         }
                     } else {
                         sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
@@ -445,7 +452,6 @@ public class PhantomWorldsCommand implements TabExecutor {
             }
         } else if (args.length == 2) {
             switch (args[0].toLowerCase()) {
-                case "create":
                 case "delete":
                 case "teleport":
                     suggestions.addAll(getWorldNamesList());

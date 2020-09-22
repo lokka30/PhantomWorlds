@@ -1,5 +1,6 @@
 # PhantomWorlds To-do List
 Ordered from first to last to be completed:
+* Files reload subcommand
 * Testing
 * Release on SpigotMC
 * Update `README.md`

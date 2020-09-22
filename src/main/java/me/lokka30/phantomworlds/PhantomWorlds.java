@@ -33,7 +33,7 @@ public class PhantomWorlds extends JavaPlugin {
 
         /* Loading Banner */
         logger.log(MicroLogger.LogLevel.INFO, "&8&m+-----------------------------------------------+");
-        logger.log(MicroLogger.LogLevel.INFO, "&b&lPhantomWorlds &bv" + getDescription().getVersion() + "&7, developed by lokka30");
+        logger.log(MicroLogger.LogLevel.INFO, "&b&lPhantomWorlds &fv" + getDescription().getVersion() + "&7, developed by lokka30");
         logger.log(MicroLogger.LogLevel.INFO, "&f(Loading Plugin)");
         logger.log(MicroLogger.LogLevel.INFO, "&8&m+-----------------------------------------------+");
 

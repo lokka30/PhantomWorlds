@@ -17,6 +17,7 @@ delete:
 list:
   entry: '&8 &m->&b %world%'
   header: '%prefix% Loaded worlds &8(&b%amount%&8)&7:'
+  usage: '%prefix% Usage: &b/%label% list'
 main:
   info:
     - ' '
@@ -56,5 +57,5 @@ world-not-loaded: '%prefix% World ''&b%world%&7'' is not loaded.'
 
 # Do not touch anything here unless you know what you are doing.
 advanced:
-  file-version: 1
+  file-version: 2
   generated-with: '${project.version}'
