@@ -53,13 +53,25 @@ public class PhantomWorld {
 
     private void addToData() {
         List<String> worlds = instance.dataCfg.getStringList("worlds");
-        worlds.add(name);
-        instance.dataCfg.set("worlds", worlds);
+        if (!worlds.contains(name)) {
+            worlds.add(name);
+            instance.dataCfg.set("worlds", worlds);
+            saveData();
+        }
     }
 
     private void removeFromData() {
         List<String> worlds = instance.dataCfg.getStringList("worlds");
         worlds.remove(name);
         instance.dataCfg.set("worlds", worlds);
+        saveData();
+    }
+
+    private void saveData() {
+        try {
+            instance.dataCfg.save(instance.dataFile);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 }

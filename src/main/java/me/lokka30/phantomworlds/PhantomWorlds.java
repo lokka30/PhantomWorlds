@@ -5,11 +5,11 @@ import me.lokka30.microlib.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -75,7 +75,7 @@ public class PhantomWorlds extends JavaPlugin {
         /* Messages */
         createIfNotExists(messagesFile, "messages.yml");
         messagesCfg = YamlConfiguration.loadConfiguration(messagesFile);
-        checkFileVersion(messagesCfg, "messages.yml", 3);
+        checkFileVersion(messagesCfg, "messages.yml", 4);
 
         /* Data */
         createIfNotExists(dataFile, "data.yml");
@@ -122,18 +122,24 @@ public class PhantomWorlds extends JavaPlugin {
     public void loadWorlds() {
         worldsMap.clear();
 
+        List<String> worldsData = dataCfg.getStringList("worlds");
         for (World world : Bukkit.getWorlds()) {
-            List<String> worldsData = dataCfg.getStringList("worlds");
             if (!worldsData.contains(world.getName())) {
                 worldsData.add(world.getName());
             }
-            dataCfg.set("worlds", worldsData);
+        }
+        dataCfg.set("worlds", worldsData);
+
+        try {
+            dataCfg.save(dataFile);
+        } catch (IOException exception) {
+            logger.log(MicroLogger.LogLevel.ERROR, "Couldn't save data file. Stack trace:");
+            exception.printStackTrace();
         }
 
         for (String worldName : dataCfg.getStringList("worlds")) {
             if (!worldsMap.containsKey(worldName)) {
                 PhantomWorld phantomWorld = new PhantomWorld(this, worldName);
-                Bukkit.createWorld(new WorldCreator(worldName));
                 phantomWorld.createWorld();
             }
         }

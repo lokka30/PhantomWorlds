@@ -47,7 +47,7 @@ spawn:
   usage: '%prefix% Usage: &b/%label% spawn [player]'
   usage-console: '%prefix% Usage (console): &b/%label% spawn <player>'
 teleport:
-  by: '%prefix% Whoosh! &r%player%&7 teleported you to world ''&b%world&7''.'
+  by: '%prefix% Whoosh! &r%player%&7 teleported you to world ''&b%world%&7''.'
   other: '%prefix% Teleported &r%player%&7 to world ''&b%world%&7''.'
   self: '%prefix% Whoosh! Teleported to the world ''&b%world%&7''.'
   usage: '%prefix% Usage: &b/%label% teleport [player]'
@@ -56,5 +56,5 @@ world-not-loaded: '%prefix% World ''&b%world%&7'' is not loaded.'
 
 # Do not touch anything here unless you know what you are doing.
 advanced:
-  file-version: 3
+  file-version: 4
   generated-with: '${project.version}'
