@@ -45,3 +45,6 @@
 * Fixed duplicate entries in `data.yml`.
 * Handful of other changes in `loadWorlds()`.
 * Fixed data save issue with `create` subcommand.
+
+### v1.0.8-ALPHA b13
+* Fixed tab completions including `delete` when it should have been `unload`. Thanks to UltimaOath for reporting this!

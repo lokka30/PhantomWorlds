@@ -436,8 +436,8 @@ public class PhantomWorldsCommand implements TabExecutor {
             if (sender.hasPermission("phantomworlds.create")) {
                 suggestions.add("create");
             }
-            if (sender.hasPermission("phantomworlds.delete")) {
-                suggestions.add("delete");
+            if (sender.hasPermission("phantomworlds.unload")) {
+                suggestions.add("unload");
             }
             if (sender.hasPermission("phantomworlds.teleport")) {
                 suggestions.add("teleport");
@@ -454,7 +454,7 @@ public class PhantomWorldsCommand implements TabExecutor {
             }
         } else if (args.length == 2) {
             switch (args[0].toLowerCase()) {
-                case "delete":
+                case "unload":
                 case "teleport":
                     suggestions.addAll(getWorldNamesList());
                     break;
