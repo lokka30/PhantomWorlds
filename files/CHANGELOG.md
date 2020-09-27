@@ -48,3 +48,7 @@
 
 ### v1.0.8-ALPHA b13
 * Fixed tab completions including `delete` when it should have been `unload`. Thanks to UltimaOath for reporting this!
+
+### v1.0.14
+* Fixed the untranslated `%world%` placeholder when being teleported to a world by another player via the `teleport` subcommand.
+* Updated `README.md`

@@ -312,8 +312,8 @@ public class PhantomWorldsCommand implements TabExecutor {
                                         target.teleport(world.getSpawnLocation());
                                         target.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.by"))
                                                 .replace("%prefix%", prefix)
-                                                .replace("%player%", sender.getName()
-                                                        .replace("%world%", world.getName()))));
+                                                .replace("%player%", sender.getName())
+                                                .replace("%world%", world.getName())));
                                         sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.other"))
                                                 .replace("%prefix%", prefix)
                                                 .replace("%player%", target.getName())
