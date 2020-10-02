@@ -6,7 +6,7 @@
 
     <groupId>me.lokka30</groupId>
     <artifactId>PhantomWorlds</artifactId>
-    <version>1.0.14</version>
+    <version>1.1.0</version>
 
     <name>PhantomWorlds</name>
     <description>A SpigotMC plugin which allows administrators to create, manage and teleport to whatever worlds they wish.</description>
