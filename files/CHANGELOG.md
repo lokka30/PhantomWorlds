@@ -52,3 +52,9 @@
 ### v1.0.14
 * Fixed the untranslated `%world%` placeholder when being teleported to a world by another player via the `teleport` subcommand.
 * Updated `README.md`
+
+### v1.1.0
+* **You no longer need MicroLib in your plugins folder to run PhantomWorlds.** It is embedded inside PhantomWorld's plugin file now. **You must uninstall MicroLib v1 from your plugins folder, or errors will occur.**
+* Updated MicroLib dependency to v2.0.0.
+* Removed the startup banner from your console logs :)
+* Few code improvements revolving around the dependency update.

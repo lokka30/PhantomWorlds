@@ -39,15 +39,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.lokka30</groupId>
+            <artifactId>MicroLib</artifactId>
+            <version>af1a8eac3a</version>
+        </dependency>
+        <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>1.7</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.lokka30</groupId>
-            <artifactId>MicroLib</artifactId>
-            <version>1.0.7-ALPHA</version>
         </dependency>
     </dependencies>
 
@@ -68,6 +68,10 @@
                 <version>3.1.0</version>
                 <configuration>
                     <relocations>
+                        <relocation>
+                            <pattern>me.lokka30.microlib</pattern>
+                            <shadedPattern>me.lokka30.phantomworlds.microlib</shadedPattern>
+                        </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>me.lokka30.phantomworlds.bStats</shadedPattern>

@@ -1,6 +1,10 @@
 package me.lokka30.phantomworlds;
 
-import org.bukkit.*;
+import me.lokka30.microlib.MicroUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -47,15 +51,11 @@ public class PhantomWorldsCommand implements TabExecutor {
         return suggestions;
     }
 
-    private String colorize(String msg) {
-        return ChatColor.translateAlternateColorCodes('&', msg);
-    }
-
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 0) {
             for (String message : instance.messagesCfg.getStringList("main.info")) {
-                sender.sendMessage(colorize(message
+                sender.sendMessage(MicroUtils.colorize(message
                         .replace("%prefix%", prefix)
                         .replace("%label%", label)
                         .replace("%version%", instance.getDescription().getVersion())));
@@ -66,7 +66,7 @@ public class PhantomWorldsCommand implements TabExecutor {
                     if (sender.hasPermission("phantomworlds.create")) {
                         if (args.length >= 3) {
                             if (instance.worldsMap.containsKey(args[1])) {
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.world-already-exists"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.world-already-exists"))
                                         .replace("%prefix%", prefix))
                                         .replace("%world%", args[1]));
                             } else {
@@ -91,7 +91,7 @@ public class PhantomWorldsCommand implements TabExecutor {
                                         environment = World.Environment.THE_END;
                                         break;
                                     default:
-                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-environment"))
+                                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-environment"))
                                                 .replace("%prefix%", prefix))
                                                 .replace("%environment%", args[2]));
                                         return true;
@@ -109,12 +109,12 @@ public class PhantomWorldsCommand implements TabExecutor {
                                                 try {
                                                     seed = Long.parseLong(args[i].substring(3));
                                                 } catch (NumberFormatException exception) {
-                                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-s"))
+                                                    sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-s"))
                                                             .replace("%prefix%", prefix)));
                                                     return true;
                                                 }
                                             } else {
-                                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-s"))
+                                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-s"))
                                                         .replace("%prefix%", prefix)));
                                                 return true;
                                             }
@@ -122,7 +122,7 @@ public class PhantomWorldsCommand implements TabExecutor {
                                             if (args[i].length() > 3) {
                                                 generatorId = args[i].substring(3);
                                             } else {
-                                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-g"))
+                                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-g"))
                                                         .replace("%prefix%", prefix)));
                                             }
                                         } else if (args[i].toLowerCase().startsWith("-t:")) {
@@ -145,12 +145,12 @@ public class PhantomWorldsCommand implements TabExecutor {
                                                         worldType = WorldType.AMPLIFIED;
                                                         break;
                                                     default:
-                                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-t"))
+                                                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-t"))
                                                                 .replace("%prefix%", prefix)));
                                                         return true;
                                                 }
                                             } else {
-                                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-t"))
+                                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-t"))
                                                         .replace("%prefix%", prefix)));
                                             }
                                         } else if (args[i].toLowerCase().startsWith("-gs:")) {
@@ -169,17 +169,17 @@ public class PhantomWorldsCommand implements TabExecutor {
                                                         generateStructures = false;
                                                         break;
                                                     default:
-                                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-gs"))
+                                                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-gs"))
                                                                 .replace("%prefix%", prefix)));
                                                         return true;
                                                 }
                                             } else {
-                                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-gs"))
+                                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting-gs"))
                                                         .replace("%prefix%", prefix)));
                                                 return true;
                                             }
                                         } else {
-                                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting"))
+                                            sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.invalid-setting"))
                                                     .replace("%prefix%", prefix))
                                                     .replace("%setting%", args[i]));
                                             return true;
@@ -187,7 +187,7 @@ public class PhantomWorldsCommand implements TabExecutor {
                                     }
                                 }
 
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.process.start"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.process.start"))
                                         .replace("%prefix%", prefix))
                                         .replace("%world%", args[1]));
 
@@ -208,17 +208,17 @@ public class PhantomWorldsCommand implements TabExecutor {
                                 Bukkit.createWorld(worldCreator);
                                 new PhantomWorld(instance, args[1]).addToData();
 
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.process.done"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.process.done"))
                                         .replace("%prefix%", prefix))
                                         .replace("%world%", args[1]));
                             }
                         } else {
-                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.usage"))
+                            sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("create.usage"))
                                     .replace("%prefix%", prefix)
                                     .replace("%label%", label)));
                         }
                     } else {
-                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
+                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
                                 .replace("%prefix%", prefix)));
                     }
                     break;
@@ -233,27 +233,27 @@ public class PhantomWorldsCommand implements TabExecutor {
                                 if (sender instanceof Player) {
                                     Player player = (Player) sender;
                                     if (player.isOnline()) {
-                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.success"))
+                                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.success"))
                                                 .replace("%prefix%", prefix)
                                                 .replace("%world%", phantomWorld.getName())));
                                     }
                                 } else {
-                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.success"))
+                                    sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.success"))
                                             .replace("%prefix%", prefix)
                                             .replace("%world%", phantomWorld.getName())));
                                 }
                             } else {
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("world-not-loaded"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("world-not-loaded"))
                                         .replace("%prefix%", prefix))
                                         .replace("%world%", args[1]));
                             }
                         } else {
-                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.usage"))
+                            sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.usage"))
                                     .replace("%prefix%", prefix)
                                     .replace("%label%", label)));
                         }
                     } else {
-                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
+                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
                                 .replace("%prefix%", prefix)));
                     }
                     break;
@@ -267,17 +267,17 @@ public class PhantomWorldsCommand implements TabExecutor {
                                 World world = Bukkit.getWorld(args[1]);
 
                                 if (world == null) {
-                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("world-not-loaded"))
+                                    sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("world-not-loaded"))
                                             .replace("%prefix%", prefix))
                                             .replace("%world%", args[1]));
                                 } else {
                                     player.teleport(world.getSpawnLocation());
-                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.self"))
+                                    sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.self"))
                                             .replace("%prefix%", prefix)
                                             .replace("%world%", world.getName())));
                                 }
                             } else {
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.usage-console"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.usage-console"))
                                         .replace("%prefix%", prefix)
                                         .replace("%label%", label)));
                             }
@@ -286,14 +286,14 @@ public class PhantomWorldsCommand implements TabExecutor {
                                 World world = Bukkit.getWorld(args[1]);
 
                                 if (world == null) {
-                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("world-not-loaded"))
+                                    sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("world-not-loaded"))
                                             .replace("%prefix%", prefix))
                                             .replace("%world%", args[1]));
                                 } else {
                                     Player target = Bukkit.getPlayer(args[2]);
 
                                     if (target == null) {
-                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("player-offline"))
+                                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("player-offline"))
                                                 .replace("%prefix%", prefix)
                                                 .replace("%player%", args[2])));
                                     } else {
@@ -302,7 +302,7 @@ public class PhantomWorldsCommand implements TabExecutor {
                                         if (!sender.hasPermission("phantomworlds.vanishbypass") && sender instanceof Player) {
                                             Player player = (Player) sender;
                                             if (!player.canSee(target)) {
-                                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("player-offline"))
+                                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("player-offline"))
                                                         .replace("%prefix%", prefix)
                                                         .replace("%player%", args[2])));
                                                 return true;
@@ -310,48 +310,48 @@ public class PhantomWorldsCommand implements TabExecutor {
                                         }
 
                                         target.teleport(world.getSpawnLocation());
-                                        target.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.by"))
+                                        target.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.by"))
                                                 .replace("%prefix%", prefix)
                                                 .replace("%player%", sender.getName())
                                                 .replace("%world%", world.getName())));
-                                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.other"))
+                                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.other"))
                                                 .replace("%prefix%", prefix)
                                                 .replace("%player%", target.getName())
                                                 .replace("%world%", world.getName())));
                                     }
                                 }
                             } else {
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
                                         .replace("%prefix%", prefix)));
                             }
                         } else {
-                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.usage"))
+                            sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("teleport.usage"))
                                     .replace("%prefix%", prefix)
                                     .replace("%label%", label)));
                         }
                     } else {
-                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
+                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
                                 .replace("%prefix%", prefix)));
                     }
                     break;
                 case "list":
                     if (sender.hasPermission("phantomworlds.list")) {
                         if (args.length == 1) {
-                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.header"))
+                            sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.header"))
                                     .replace("%prefix%", prefix)
                                     .replace("%amount%", instance.worldsMap.size() + "")));
                             for (String worldName : instance.worldsMap.keySet()) {
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.entry"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.entry"))
                                         .replace("%prefix%", prefix)
                                         .replace("%world%", worldName)));
                             }
                         } else {
-                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.usage"))
+                            sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("list.usage"))
                                     .replace("%label%", label)
                                     .replace("%prefix%", prefix)));
                         }
                     } else {
-                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
+                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
                                 .replace("%prefix%", prefix)));
                     }
                     break;
@@ -361,38 +361,38 @@ public class PhantomWorldsCommand implements TabExecutor {
                             if (sender instanceof Player) {
                                 Player player = (Player) sender;
                                 player.teleport(player.getWorld().getSpawnLocation());
-                                player.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("spawn.self"))
+                                player.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("spawn.self"))
                                         .replace("%prefix%", prefix)));
                             } else {
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("spawn.usage-console"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("spawn.usage-console"))
                                         .replace("%prefix%", prefix)));
                             }
                         } else if (args.length == 2) {
                             if (sender.hasPermission("phantomworlds.spawn.others")) {
                                 Player target = Bukkit.getPlayer(args[1]);
                                 if (target == null) {
-                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("player-offline"))
+                                    sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("player-offline"))
                                             .replace("%prefix%", prefix))
                                             .replace("%player%", args[1]));
                                 } else {
                                     target.teleport(target.getWorld().getSpawnLocation());
-                                    target.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("spawn.by"))
+                                    target.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("spawn.by"))
                                             .replace("%prefix%", prefix)
                                             .replace("%player%", sender.getName())));
-                                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("spawn.other"))
+                                    sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("spawn.other"))
                                             .replace("%prefix%", prefix)
                                             .replace("%player%", target.getName())));
                                 }
                             } else {
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
                                         .replace("%prefix%", prefix)));
                             }
                         } else {
-                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("spawn.usage"))
+                            sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("spawn.usage"))
                                     .replace("%prefix%", prefix)));
                         }
                     } else {
-                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
+                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
                                 .replace("%prefix%", prefix)));
                     }
                     break;
@@ -402,24 +402,24 @@ public class PhantomWorldsCommand implements TabExecutor {
                             if (sender instanceof Player) {
                                 Player player = (Player) sender;
                                 player.getWorld().setSpawnLocation(player.getLocation());
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("setspawn.success"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("setspawn.success"))
                                         .replace("%prefix%", prefix)));
                             } else {
-                                sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("players-only"))
+                                sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("players-only"))
                                         .replace("%prefix%", prefix)));
                             }
                         } else {
-                            sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("setspawn.usage"))
+                            sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("setspawn.usage"))
                                     .replace("%prefix%", prefix)
                                     .replace("%label%", label)));
                         }
                     } else {
-                        sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
+                        sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("no-permission"))
                                 .replace("%prefix%", prefix)));
                     }
                     break;
                 default:
-                    sender.sendMessage(colorize(Objects.requireNonNull(instance.messagesCfg.getString("main.usage"))
+                    sender.sendMessage(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("main.usage"))
                             .replace("%prefix%", prefix)
                             .replace("%label%", label)));
                     break;

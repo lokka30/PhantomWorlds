@@ -31,33 +31,27 @@ public class PhantomWorlds extends JavaPlugin {
     public void onEnable() {
         long timerStart = System.currentTimeMillis();
 
-        /* Loading Banner */
-        logger.log(MicroLogger.LogLevel.INFO, "&8&m+-----------------------------------------------+");
-        logger.log(MicroLogger.LogLevel.INFO, "&b&lPhantomWorlds &fv" + getDescription().getVersion() + "&7 by lokka30");
-        logger.log(MicroLogger.LogLevel.INFO, "&f(Loading Plugin)");
-        logger.log(MicroLogger.LogLevel.INFO, "&8&m+-----------------------------------------------+");
-
         /* Load files */
-        logger.log(MicroLogger.LogLevel.INFO, "Loading files...");
+        logger.info("Loading files...");
         loadFiles();
 
         /* Loading worlds */
-        logger.log(MicroLogger.LogLevel.INFO, "Loading worlds...");
+        logger.info("Loading worlds...");
         loadWorlds();
 
         /* Register commands */
-        logger.log(MicroLogger.LogLevel.INFO, "Registering commands...");
+        logger.info("Registering commands...");
         registerCommands();
 
         /* Start metrics */
-        logger.log(MicroLogger.LogLevel.INFO, "Starting bStats metrics...");
+        logger.info("Starting bStats metrics...");
         new Metrics(this, 8916);
 
         /* Check for updates */
         //checkForUpdates(); //TODO disabled as resource id needs to be changed in the method.
 
         long timerDuration = System.currentTimeMillis() - timerStart;
-        logger.log(MicroLogger.LogLevel.INFO, "Loading complete! &8(&7took &b" + timerDuration + "ms&8)");
+        logger.info("Loading complete! &8(&7took &b" + timerDuration + "ms&8)");
     }
 
     /**
@@ -94,7 +88,7 @@ public class PhantomWorlds extends JavaPlugin {
      */
     private void createIfNotExists(File file, String name) {
         if (!file.exists()) {
-            logger.log(MicroLogger.LogLevel.INFO, "File '&b" + name + "&7' didn't exist, creating it.");
+            logger.info("File '&b" + name + "&7' didn't exist, creating it...");
             saveResource(name, false);
         }
     }
@@ -110,9 +104,9 @@ public class PhantomWorlds extends JavaPlugin {
         int installedVersion = cfg.getInt("advanced.file-version");
 
         if (installedVersion > currentVersion) {
-            logger.log(MicroLogger.LogLevel.WARNING, "File '&b" + name + "&7' seems to be newer than the plugin's default file's version. Please use the older file, version &b" + currentVersion + "&7.");
+            logger.warning("File '&b" + name + "&7' seems to be newer than the plugin's default file's version. Please use the older file, version &b" + currentVersion + "&7.");
         } else if (installedVersion < currentVersion) {
-            logger.log(MicroLogger.LogLevel.WARNING, "File '&b" + name + "&7' is outdated. Please use the new file, version &b" + currentVersion + "&7 - you must merge or replace your current file's changes.");
+            logger.warning("File '&b" + name + "&7' is outdated. Please use the new file, version &b" + currentVersion + "&7 - you must merge or replace your current file's changes.");
         }
     }
 
@@ -133,7 +127,7 @@ public class PhantomWorlds extends JavaPlugin {
         try {
             dataCfg.save(dataFile);
         } catch (IOException exception) {
-            logger.log(MicroLogger.LogLevel.ERROR, "Couldn't save data file. Stack trace:");
+            logger.error("Couldn't save data file. Stack trace:");
             exception.printStackTrace();
         }
 
@@ -163,7 +157,7 @@ public class PhantomWorlds extends JavaPlugin {
             String latestVersion = updateChecker.getLatestVersion();
 
             if (!currentVersion.equals(latestVersion)) {
-                logger.log(MicroLogger.LogLevel.WARNING, "A new update is available on SpigotMC! Latest version is '&b" + latestVersion + "&7', you're running '&b" + currentVersion + "&7'.");
+                logger.warning("A new update is available on SpigotMC! Latest version is '&b" + latestVersion + "&7', you're running '&b" + currentVersion + "&7'.");
             }
         }
     }

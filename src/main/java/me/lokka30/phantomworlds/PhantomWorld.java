@@ -1,7 +1,7 @@
 package me.lokka30.phantomworlds;
 
+import me.lokka30.microlib.MicroUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 
@@ -26,7 +26,7 @@ public class PhantomWorld {
 
     public void unloadWorld() {
         for (Player player : Objects.requireNonNull(Bukkit.getWorld(name)).getPlayers()) {
-            player.kickPlayer(colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.kick"))
+            player.kickPlayer(MicroUtils.colorize(Objects.requireNonNull(instance.messagesCfg.getString("unload.kick"))
                     .replace("%prefix%", Objects.requireNonNull(instance.messagesCfg.getString("prefix")))));
         }
 
@@ -37,10 +37,6 @@ public class PhantomWorld {
 
     public String getName() {
         return name;
-    }
-
-    private String colorize(String msg) {
-        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 
     public void addToData() {
