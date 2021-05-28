@@ -1,6 +1,4 @@
-worlds-to-load:
-
 # Do not touch anything here unless you know what you are doing.
 advanced:
-  file-version: 2
+  file-version: 1
   generated-with: '${project.version}'

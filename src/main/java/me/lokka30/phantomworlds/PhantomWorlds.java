@@ -1,164 +1,112 @@
 package me.lokka30.phantomworlds;
 
-import me.lokka30.microlib.MicroLogger;
+import me.lokka30.microlib.QuickTimer;
 import me.lokka30.microlib.UpdateChecker;
+import me.lokka30.microlib.YamlConfigFile;
+import me.lokka30.phantomworlds.commands.PhantomWorldsCommand;
+import me.lokka30.phantomworlds.managers.FileManager;
+import me.lokka30.phantomworlds.managers.WorldManager;
+import me.lokka30.phantomworlds.misc.UpdateCheckerResult;
+import me.lokka30.phantomworlds.misc.Utils;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 
 public class PhantomWorlds extends JavaPlugin {
 
-    public final MicroLogger logger = new MicroLogger("&b&lPhantomWorlds: &7");
-    public final File settingsFile = new File(getDataFolder(), "settings.yml");
-    public final File messagesFile = new File(getDataFolder(), "messages.yml");
-    public final File dataFile = new File(getDataFolder(), "data.yml");
-    public YamlConfiguration settingsCfg, messagesCfg, dataCfg;
-
-    public HashMap<String, PhantomWorld> worldsMap = new HashMap<>();
-
-    /**
-     * Called by Bukkit when the plugin is being loaded up.
+    /*TODO Check if removeable
+    private static PhantomWorlds INSTANCE;
+    public static PhantomWorlds getInstance() { return INSTANCE; }
      */
+
+    public final FileManager fileManager = new FileManager(this);
+    public final WorldManager worldManager = new WorldManager(this);
+
+    public UpdateCheckerResult updateCheckerResult = null;
+
+    public YamlConfigFile settings = new YamlConfigFile(this, new File(getDataFolder(), "settings.yml"));
+    public YamlConfigFile advancedSettings = new YamlConfigFile(this, new File(getDataFolder(), "advancedSettings.yml"));
+    public YamlConfigFile messages = new YamlConfigFile(this, new File(getDataFolder(), "messages.yml"));
+    public YamlConfigFile data = new YamlConfigFile(this, new File(getDataFolder(), "data.yml"));
+
+
+    /*TODO Check if removeable
+    @Override
+    public void onLoad() {
+        INSTANCE = this;
+    }
+    */
+
     @Override
     public void onEnable() {
-        long timerStart = System.currentTimeMillis();
+        final QuickTimer timer = new QuickTimer();
 
-        /* Load files */
-        logger.info("Loading files...");
         loadFiles();
-
-        /* Loading worlds */
-        logger.info("Loading worlds...");
         loadWorlds();
-
-        /* Register commands */
-        logger.info("Registering commands...");
         registerCommands();
+        registerListeners();
+        miscStartupProcedures();
 
-        /* Start metrics */
-        logger.info("Starting bStats metrics...");
+        Utils.LOGGER.info("&f~ Start-up complete. &7Took &b" + timer.getTimer() + "ms");
+    }
+
+    @Override
+    public void onDisable() {
+        final QuickTimer timer = new QuickTimer();
+
+        /* ... any on-disable content should be put here. nothing for now */
+
+        Utils.LOGGER.info("&f~ Shut-down complete. &7Took &b" + timer.getTimer() + "ms");
+    }
+
+    void loadFiles() {
+        Utils.LOGGER.info("Loading files...");
+        for (FileManager.PWFile pwFile : FileManager.PWFile.values()) {
+            fileManager.init(pwFile);
+        }
+    }
+
+    void loadWorlds() {
+        Utils.LOGGER.info("Loading worlds...");
+        worldManager.loadManagedWorlds();
+    }
+
+    void registerCommands() {
+        Utils.LOGGER.info("Registering commands...");
+        Utils.registerCommand(this, new PhantomWorldsCommand(this), "phantomworlds");
+    }
+
+    void registerListeners() {
+        Utils.LOGGER.info("Registering listeners...");
+        //TODO: Register any listeners here.
+    }
+
+    void miscStartupProcedures() {
+        Utils.LOGGER.info("Running misc startup procedures...");
+
+        /* bStats Metrics */
         new Metrics(this, 8916);
 
-        /* Check for updates */
-        //checkForUpdates(); //TODO disabled as resource id needs to be changed in the method.
+        /* Update Checker */
+        if (settings.getConfig().getBoolean("run-update-checker", true)) {
+            final UpdateChecker updateChecker = new UpdateChecker(this, 84017);
+            updateChecker.getLatestVersion(latestVersion -> {
+                updateCheckerResult = new UpdateCheckerResult(
+                        !latestVersion.equals(updateChecker.getCurrentVersion()),
+                        updateChecker.getCurrentVersion(),
+                        latestVersion
+                );
 
-        long timerDuration = System.currentTimeMillis() - timerStart;
-        logger.info("Loading complete! &8(&7took &b" + timerDuration + "ms&8)");
-    }
+                if (updateCheckerResult.isOutdated()) {
+                    if (!messages.getConfig().getBoolean("update-checker.console.enabled", true)) return;
 
-    /**
-     * Do all the things for creating and loading the resource files.
-     * <p>
-     * Contrary to most other enabling methods here, this method has 'public' visibility,
-     * as it is accessed by the command for when a reload is called.
-     */
-    public void loadFiles() {
-        /* Settings */
-        createIfNotExists(settingsFile, "settings.yml");
-        settingsCfg = YamlConfiguration.loadConfiguration(settingsFile);
-        checkFileVersion(settingsCfg, "settings.yml", 1);
-
-        /* Messages */
-        createIfNotExists(messagesFile, "messages.yml");
-        messagesCfg = YamlConfiguration.loadConfiguration(messagesFile);
-        checkFileVersion(messagesCfg, "messages.yml", 4);
-
-        /* Data */
-        createIfNotExists(dataFile, "data.yml");
-        dataCfg = YamlConfiguration.loadConfiguration(dataFile);
-        checkFileVersion(dataCfg, "data.yml", 1);
-
-        /* License Notice */
-        createIfNotExists(new File(getDataFolder(), "license.txt"), "license.txt");
-    }
-
-    /**
-     * If the file doesn't exist, then create it.
-     *
-     * @param file the file to check if exists or not
-     * @param name the name of the file in the 'resources' folder
-     */
-    private void createIfNotExists(File file, String name) {
-        if (!file.exists()) {
-            logger.info("File '&b" + name + "&7' didn't exist, creating it...");
-            saveResource(name, false);
-        }
-    }
-
-    /**
-     * Check if the configuration file is running the correct version - if not, alert the console.
-     *
-     * @param cfg            the configuration file to check.
-     * @param name           the name of the configuration file.
-     * @param currentVersion the version that the configuration file should be running.
-     */
-    private void checkFileVersion(YamlConfiguration cfg, String name, int currentVersion) {
-        int installedVersion = cfg.getInt("advanced.file-version");
-
-        if (installedVersion > currentVersion) {
-            logger.warning("File '&b" + name + "&7' seems to be newer than the plugin's default file's version. Please use the older file, version &b" + currentVersion + "&7.");
-        } else if (installedVersion < currentVersion) {
-            logger.warning("File '&b" + name + "&7' is outdated. Please use the new file, version &b" + currentVersion + "&7 - you must merge or replace your current file's changes.");
-        }
-    }
-
-    /**
-     *
-     */
-    public void loadWorlds() {
-        worldsMap.clear();
-
-        List<String> worldsData = dataCfg.getStringList("worlds");
-        for (World world : Bukkit.getWorlds()) {
-            if (!worldsData.contains(world.getName())) {
-                worldsData.add(world.getName());
-            }
-        }
-        dataCfg.set("worlds", worldsData);
-
-        try {
-            dataCfg.save(dataFile);
-        } catch (IOException exception) {
-            logger.error("Couldn't save data file. Stack trace:");
-            exception.printStackTrace();
-        }
-
-        for (String worldName : dataCfg.getStringList("worlds")) {
-            if (!worldsMap.containsKey(worldName)) {
-                PhantomWorld phantomWorld = new PhantomWorld(this, worldName);
-                phantomWorld.createWorld();
-            }
-        }
-    }
-
-    /**
-     * Register commands.
-     */
-    private void registerCommands() {
-        Objects.requireNonNull(getCommand("phantomworlds")).setExecutor(new PhantomWorldsCommand(this));
-    }
-
-    /**
-     * Asynchronously check for updates, if enabled in the settings configuration.
-     */
-    @SuppressWarnings("unused") //TODO Remove the warning suppression and change the resourceId below.
-    private void checkForUpdates() {
-        if (settingsCfg.getBoolean("run-update-checker")) {
-            UpdateChecker updateChecker = new UpdateChecker(this, 12345);
-            String currentVersion = updateChecker.getCurrentVersion();
-            String latestVersion = updateChecker.getLatestVersion();
-
-            if (!currentVersion.equals(latestVersion)) {
-                logger.warning("A new update is available on SpigotMC! Latest version is '&b" + latestVersion + "&7', you're running '&b" + currentVersion + "&7'.");
-            }
+                    messages.getConfig().getStringList("update-checker.console.text").forEach(message -> Utils.LOGGER.info(message
+                            .replace("%currentVersion%", updateCheckerResult.getCurrentVersion())
+                            .replace("%latestVersion%", updateCheckerResult.getLatestVersion())
+                    ));
+                }
+            });
         }
     }
 }

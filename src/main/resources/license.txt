@@ -1,5 +1,5 @@
 PhantomWorlds: A SpigotMC plugin which allows administrators to create, manage and teleport to whatever worlds they wish.
-Copyright (C) 2020  Lachlan Adamson
+Copyright (C) 2021  lokka30
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
