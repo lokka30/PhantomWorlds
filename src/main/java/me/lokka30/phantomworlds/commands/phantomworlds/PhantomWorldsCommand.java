@@ -26,6 +26,8 @@ public class PhantomWorldsCommand implements TabExecutor {
     final SpawnSubcommand spawnSubcommand = new SpawnSubcommand();
     final SetSpawnSubcommand setSpawnSubcommand = new SetSpawnSubcommand();
     final InfoSubcommand infoSubcommand = new InfoSubcommand();
+    final DebugSubcommand debugSubcommand = new DebugSubcommand();
+    final CompatibilitySubcommand compatibilitySubcommand = new CompatibilitySubcommand();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -53,6 +55,12 @@ public class PhantomWorldsCommand implements TabExecutor {
                 case "info":
                     infoSubcommand.parseCommand(main, sender, cmd, label, args);
                     break;
+                case "debug":
+                    debugSubcommand.parseCommand(main, sender, cmd, label, args);
+                    break;
+                case "compatibility":
+                    compatibilitySubcommand.parseCommand(main, sender, cmd, label, args);
+                    break;
                 default:
                     sender.sendMessage("Invalid subcommand."); //TODO MSG
                     sendAvailableSubcommands(sender, label);
@@ -69,7 +77,7 @@ public class PhantomWorldsCommand implements TabExecutor {
      * @param sender commandsender of the command
      */
     void sendAvailableSubcommands(CommandSender sender, String label) {
-        sender.sendMessage("/" + label + " create/info/list/setspawn/spawn/teleport/unload ..."); //TODO MSG
+        sender.sendMessage("/" + label + " create/list/setspawn/spawn/teleport/unload/info/compatibility/debug ..."); //TODO MSG
     }
 
     @Override
@@ -90,10 +98,14 @@ public class PhantomWorldsCommand implements TabExecutor {
                     return teleportSubcommand.parseTabCompletion(main, sender, cmd, label, args);
                 case "unload":
                     return unloadSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+                case "debug":
+                    return debugSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+                case "compatibility":
+                    return compatibilitySubcommand.parseTabCompletion(main, sender, cmd, label, args);
                 default:
                     break;
             }
         }
-        return new ArrayList<>(); //no suggestions available.
+        return new ArrayList<>(); //no suggestions available. returning 'null' may have issues so just going with the safe route
     }
 }

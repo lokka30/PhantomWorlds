@@ -4,57 +4,23 @@
 # |     |'   ` |    | |    |  |    |    | |   |   | |  /\   /  |    | |   '  |   ,'   |  `--.
 # /     /    | `.__/| /    |  \__/  `._.' /   '   / |,'  \,'    `._.' /     /\__ `___,' \___.'
 
-name: PhantomWorlds
-version: ${project.version}
-description: ${project.description}
+name: 'PhantomWorlds'
+version: '${project.version}'
+description: '${project.description}'
 authors: [ 'lokka30' ]
-
-main: me.lokka30.phantomworlds.PhantomWorlds
-api-version: '1.13'
-
 website: 'https://www.spigotmc.org'
+
+main: 'me.lokka30.phantomworlds.PhantomWorlds'
+api-version: '1.13'
+load: 'STARTUP'
 
 commands:
   phantomworlds:
-    description: Create, manage or teleport to worlds!
-    aliases: [ pworlds, phantomworld, pworld, pw ]
-    usage: /<command> <create/unload/teleport/tp/list/spawn/setspawn>
+    description: 'Create, manage or teleport to worlds.'
+    aliases: [ 'pworlds', 'phantomworld', 'pworld', 'pw' ]
+    usage: '/<command> <create/unload/teleport/tp/list/spawn/setspawn/info/debug>'
 
 permissions:
-  phantomworlds.*:
-    description: All permissions.
-    default: op
-    children:
-      phantomworlds.create: true
-      phantomworlds.import: true
-      phantomworlds.unload: true
-      phantomworlds.teleport: true
-      phantomworlds.list: true
-      phantomworlds.spawn: true
-      phantomworlds.spawn.others: true
-      phantomworlds.setspawn: true
-      phantomworlds.vanishcheckbypass: true
-  phantomworlds.create:
-    default: op
-    description: create subcommand
-  phantomworlds.unload:
-    default: op
-    description: unload subcommand
-  phantomworlds.teleport:
-    default: op
-    description: teleport subcommand
-  phantomworlds.list:
-    default: op
-    description: list subcommand
-  phantomworlds.spawn:
-    default: op
-    description: spawn subcommand
-  phantomworlds.spawn.others:
-    default: op
-    description: teleport other players in spawn subcommand
-  phantomworlds.setspawn:
-    default: op
-    description: setspawn subcommand
-  phantomworlds.vanishbypass:
-    default: op
-    description: subcommands will not factor in if players with this permission can or can't see vanished players
+  phantomworlds.command.see_vanished_users:
+    default: 'op'
+    description: 'subcommands will not factor in if players with this permission can or can''t see vanished players'
