@@ -1,60 +1,9 @@
-create:
-  invalid-environment: '%prefix% Invalid environment ''&b%environment%&7'', valid environments are ''&bnormal&7'', ''&bnether&7'' and &b''end&7''.'
-  invalid-setting: '%prefix% Invalid setting ''&b%setting%&7'', valid settings are &b-s:&8(seedNumber)&7, &b-g:&8(generatorId)&7, &b-t:&8(worldType)&7 and &b-gs:&8(generateStructures)&7.'
-  invalid-setting-g: '%prefix% Generator ID for Generator setting &8(&b-g:&8) &7is invalid. Correct usage examples: ''&b-g:exampleGenerator&7'', ''&b-g:void-generator&7'', ''&b-g:Realistic_World&7'', etc.'
-  invalid-setting-gs: '%prefix% Boolean for Generate Structures setting &8(&b-gs:&8)&7 is invalid. Correct usages: ''&b-gs:true&7'' or ''&b-gs:false&7''.'
-  invalid-setting-s: '%prefix% Seed for Seed setting &8(&b-s:&8) &7is invalid (this setting only accepts numbers). Correct usage examples: ''&b-s:123456&7'', ''&b-s:375196731987&7'', etc.'
-  invalid-setting-t: '%prefix% Type for World Type setting &8(&b-t:&8)&7 is invalid. Correct usages: ''&b-t:normal&7'', ''&b-t:flat&7'', ''&b-t:largebiomes&7'' or ''&b-t:amplified&7'' (if supported).'
-  process:
-    start: '%prefix% Started creation of world ''&b%world%&7''...'
-    done: '%prefix% World ''&b%world%&7'' created successfully.'
-  usage: '%prefix% Usage: &b/%label% create <name> <normal/nether/end> [settings ... t, s, g, gs]'
-  world-already-exists: '%prefix% World ''&b%world%&7'' already exists.'
-unload:
-  kick: '%prefix% The world you were playing on was unloaded. Please re-connect.'
-  success: '%prefix% World ''&b%world%&7'' unloaded.'
-  usage: '%prefix% Usage: &b/%label% unload <world>'
-list:
-  entry: '&8 &m->&b %world%'
-  header: '%prefix% Loaded worlds &8(&b%amount%&8)&7:'
-  usage: '%prefix% Usage: &b/%label% list'
-main:
-  info:
-    - ' '
-    - '&f&nAbout'
-    - '&8 &m->&7 Running &b&lPhantomWorlds &bv%version% &7by lokka30'
-    - ' '
-    - '&f&nAvailable Commands'
-    - '&8 &m->&b /%label% create <world>'
-    - '&8 &m->&b /%label% unload <world>'
-    - '&8 &m->&b /%label% teleport/tp <world> [player]'
-    - '&8 &m->&b /%label% list'
-    - '&8 &m->&b /%label% spawn [player]'
-    - '&8 &m->&b /%label% setspawn'
-    - ' '
-  usage: '%prefix% Usage: &b/%label% <create/import/unload/teleport/tp/list/spawn/setspawn>'
-no-permission: '%prefix% You don''t have access to that.'
-player-offline: '%prefix% &r%player%&7 is offline.'
-players-only: '%prefix% Only players may access this command.'
-prefix: '&b&lPhantomWorlds:&7'
-setspawn:
-  success: '%prefix% Spawn set to your location.'
-  usage: '%prefix% Usage: &b/%label% setspawn'
-spawn:
-  by: '%prefix% Whoosh! &r%player%&7 teleported you to your current world''s spawn point.'
-  other: '%prefix% Teleported &r%player%&7 to their current world''s spawn point.'
-  self: '%prefix% Whoosh! Teleported to your current world''s spawn point.'
-  usage: '%prefix% Usage: &b/%label% spawn [player]'
-  usage-console: '%prefix% Usage (console): &b/%label% spawn <player>'
-teleport:
-  by: '%prefix% Whoosh! &r%player%&7 teleported you to world ''&b%world%&7''.'
-  other: '%prefix% Teleported &r%player%&7 to world ''&b%world%&7''.'
-  self: '%prefix% Whoosh! Teleported to the world ''&b%world%&7''.'
-  usage: '%prefix% Usage: &b/%label% teleport [player]'
-  usage-console: '%prefix% Usage: &b/%label% teleport <player>'
-world-not-loaded: '%prefix% World ''&b%world%&7'' is not loaded.'
+# .___  _                     .                     .       __               .        _
+# /   \ /        ___  , __   _/_     __.  , _ , _   /       |    __.  .___   |     ___/   ____
+# |,_-' |,---.  /   ` |'  `.  |    .'   \ |' `|' `. |       |  .'   \ /   \  |    /   |  (
+# |     |'   ` |    | |    |  |    |    | |   |   | |  /\   /  |    | |   '  |   ,'   |  `--.
+# /     /    | `.__/| /    |  \__/  `._.' /   '   / |,'  \,'    `._.' /     /\__ `___,' \___.'
 
-# Do not touch anything here unless you know what you are doing.
-advanced:
-  file-version: 4
-  generated-with: '${project.version}'
+#TODO
+
+prefix: '&b&lPhantomWorlds:&7'

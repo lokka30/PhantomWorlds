@@ -3,7 +3,7 @@ package me.lokka30.phantomworlds;
 import me.lokka30.microlib.QuickTimer;
 import me.lokka30.microlib.UpdateChecker;
 import me.lokka30.microlib.YamlConfigFile;
-import me.lokka30.phantomworlds.commands.PhantomWorldsCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
 import me.lokka30.phantomworlds.managers.FileManager;
 import me.lokka30.phantomworlds.managers.WorldManager;
 import me.lokka30.phantomworlds.misc.UpdateCheckerResult;
@@ -15,11 +15,6 @@ import java.io.File;
 
 public class PhantomWorlds extends JavaPlugin {
 
-    /*TODO Check if removeable
-    private static PhantomWorlds INSTANCE;
-    public static PhantomWorlds getInstance() { return INSTANCE; }
-     */
-
     public final FileManager fileManager = new FileManager(this);
     public final WorldManager worldManager = new WorldManager(this);
 
@@ -29,14 +24,6 @@ public class PhantomWorlds extends JavaPlugin {
     public YamlConfigFile advancedSettings = new YamlConfigFile(this, new File(getDataFolder(), "advancedSettings.yml"));
     public YamlConfigFile messages = new YamlConfigFile(this, new File(getDataFolder(), "messages.yml"));
     public YamlConfigFile data = new YamlConfigFile(this, new File(getDataFolder(), "data.yml"));
-
-
-    /*TODO Check if removeable
-    @Override
-    public void onLoad() {
-        INSTANCE = this;
-    }
-    */
 
     @Override
     public void onEnable() {
@@ -79,7 +66,7 @@ public class PhantomWorlds extends JavaPlugin {
 
     void registerListeners() {
         Utils.LOGGER.info("Registering listeners...");
-        //TODO: Register any listeners here.
+        /* Register any listeners here. */
     }
 
     void miscStartupProcedures() {

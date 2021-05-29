@@ -1,7 +1,11 @@
-# Asynchronously check for updates on startup?
-# I know update checkers can be annoying - this one isn't:
-# - Won't halt your server's startup or cause any fuss.
-# - Will only send a warning message to console once when a new update is available.
+# .___  _                     .                     .       __               .        _
+# /   \ /        ___  , __   _/_     __.  , _ , _   /       |    __.  .___   |     ___/   ____
+# |,_-' |,---.  /   ` |'  `.  |    .'   \ |' `|' `. |       |  .'   \ /   \  |    /   |  (
+# |     |'   ` |    | |    |  |    |    | |   |   | |  /\   /  |    | |   '  |   ,'   |  `--.
+# /     /    | `.__/| /    |  \__/  `._.' /   '   / |,'  \,'    `._.' /     /\__ `___,' \___.'
+
+# Should PW check for updates from the Spigot page on startup?
+# Runs async (won't freeze server), and only runs once. :)
 run-update-checker: true
 
 # Do not touch anything here unless you know what you are doing.
