@@ -27,7 +27,7 @@ public class SpawnSubcommand implements ISubcommand {
 
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
-        //TODO
+        sender.sendMessage("Work in progress.");
     }
 
     @Override

@@ -2,18 +2,18 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
+import me.lokka30.phantomworlds.misc.CompatibilityChecker;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompatibilitySubcommand implements ISubcommand {
 
     /*
     TODO:
-    - Create command
-    - Create tab completion
     - Test
     - Messages.yml
     - Test
@@ -21,11 +21,38 @@ public class CompatibilitySubcommand implements ISubcommand {
 
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds.compatibility")) {
+            sender.sendMessage("No permission");
+            return;
+        }
 
+        if (args.length != 1) {
+            sender.sendMessage("Invalid usage. Try '/" + label + " compatibility'");
+            return;
+        }
+
+        sender.sendMessage("Running compatibility checker...");
+        main.compatibilityChecker.checkAll();
+
+        if (main.compatibilityChecker.incompatibilities.isEmpty()) {
+            sender.sendMessage("No incompatibilities were found.");
+            return;
+        }
+
+        sender.sendMessage(main.compatibilityChecker.incompatibilities.size() + " incompatibilities were found:");
+
+        for (int i = 0; i < main.compatibilityChecker.incompatibilities.size(); i++) {
+            CompatibilityChecker.Incompatibility incompatibility = main.compatibilityChecker.incompatibilities.get(i);
+
+            sender.sendMessage("#" + (i + 1) + " (Type: " + incompatibility.type + "):");
+            sender.sendMessage(" -> Reason: " + incompatibility.reason);
+            sender.sendMessage(" -> Recommendation: " + incompatibility.recommendation);
+            sender.sendMessage(" ");
+        }
     }
 
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
-        return null;
+        return new ArrayList<>();
     }
 }

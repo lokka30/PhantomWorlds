@@ -22,6 +22,16 @@ public class InfoSubcommand implements ISubcommand {
 
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds.info")) {
+            sender.sendMessage("No permission");
+            return;
+        }
+
+        if (args.length != 1) {
+            sender.sendMessage("Invalid usage. Try '/" + label + " info'");
+            return;
+        }
+
         sender.sendMessage("Running PhantomWorlds v" + main.getDescription().getVersion());
         sender.sendMessage("Authors: " + String.join(", ", main.getDescription().getAuthors()));
         sender.sendMessage("Contributors: " + String.join(", ", main.contributors));
