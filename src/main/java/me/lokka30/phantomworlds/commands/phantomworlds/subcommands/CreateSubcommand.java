@@ -20,9 +20,11 @@ public class CreateSubcommand implements ISubcommand {
 
     /*
     TODO:
-    - test
     - tab completion
+    - test
+    - permissions.yml
     - messages.yml
+    - test
      */
 
     @Override

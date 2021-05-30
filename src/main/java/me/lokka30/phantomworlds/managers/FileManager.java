@@ -2,6 +2,7 @@ package me.lokka30.phantomworlds.managers;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.misc.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import java.io.IOException;
@@ -85,6 +86,7 @@ public class FileManager {
             case DATA:
                 if (currentVersion == PWFile.DATA.latestFileVersion) return;
 
+                //Switch below is for future-proofing the code, in case more data versions are added.
                 //noinspection SwitchStatementWithTooFewBranches
                 switch (currentVersion) {
                     case 1:
@@ -93,7 +95,10 @@ public class FileManager {
                         if (!main.data.getConfig().contains("worlds")) return;
 
                         for (String worldName : main.data.getConfig().getStringList("worlds")) {
-                            main.data.getConfig().set("managed-worlds." + worldName + ".environment", World.Environment.NORMAL.toString());
+                            if (Bukkit.getWorld(worldName) != null)
+                                continue; // Don't add worlds that are already loaded (most likely by Bukkit).
+
+                            main.data.getConfig().set("worlds-to-load." + worldName + ".environment", World.Environment.NORMAL.toString());
                         }
 
                         main.data.getConfig().set("worlds", null);

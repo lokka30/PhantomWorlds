@@ -8,8 +8,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-//TODO
 public class CompatibilitySubcommand implements ISubcommand {
+
+    /*
+    TODO:
+    - Create command
+    - Create tab completion
+    - Test
+    - Messages.yml
+    - Test
+     */
 
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
