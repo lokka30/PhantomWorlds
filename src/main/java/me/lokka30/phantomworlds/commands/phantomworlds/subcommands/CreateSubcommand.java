@@ -79,6 +79,10 @@ public class CreateSubcommand implements ISubcommand {
                 String option = split[0];
                 String value = split[1];
 
+                if (option.startsWith("-")) {
+                    option = option.substring(1);
+                } // remove - character if present, those switching from PW v1 may still use it by accident.
+
                 switch (option) {
                     case "generateStructures":
                     case "genstructures":
