@@ -19,8 +19,8 @@ public class InfoSubcommand implements ISubcommand {
         and supported server versions of this version of PhantomWorlds.
          */
         sender.sendMessage("Running PhantomWorlds v" + main.getDescription().getVersion());
-        sender.sendMessage("Authors: " + String.join(",", main.getDescription().getAuthors()));
-        sender.sendMessage("Contributors: " + String.join(",", main.contributors));
+        sender.sendMessage("Authors: " + String.join(", ", main.getDescription().getAuthors()));
+        sender.sendMessage("Contributors: " + String.join(", ", main.contributors));
         sender.sendMessage("Supported server versions: " + main.supportedServerVersions);
     }
 

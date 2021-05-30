@@ -67,4 +67,12 @@ public class Utils {
 
         return suggestions;
     }
+
+    public static List<String> getStringsOfEnumValues(Object[] values) {
+        List<String> strings = new ArrayList<>();
+        for (Object value : values) {
+            strings.add(value.toString());
+        }
+        return strings;
+    }
 }
