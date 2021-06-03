@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -254,6 +255,7 @@ public class CreateSubcommand implements ISubcommand {
 
         sender.sendMessage("Starting creation of world '" + worldName + "'...");
 
+        sender.sendMessage("[" + worldName + "'- 1/2]: Saving world data...");
         main.data.getConfig().set("worlds-to-load." + worldName + ".environment", environment.toString());
         main.data.getConfig().set("worlds-to-load." + worldName + ".generateStructures", generateStructures);
         main.data.getConfig().set("worlds-to-load." + worldName + ".generator", generator);
@@ -273,6 +275,7 @@ public class CreateSubcommand implements ISubcommand {
             ex.printStackTrace();
         }
 
+        sender.sendMessage("[" + worldName + "'- 2/2]: Creating world... (the server may freeze temporarily)");
         pworld.create();
 
         sender.sendMessage("World '" + worldName + "' has been created. Teleport to it using '/pw tp " + worldName + "'.");
@@ -280,6 +283,10 @@ public class CreateSubcommand implements ISubcommand {
 
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds.create")) {
+            return new ArrayList<>();
+        }
+
         //TODO
         return null;
     }

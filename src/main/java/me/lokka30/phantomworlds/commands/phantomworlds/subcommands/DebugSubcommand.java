@@ -49,5 +49,10 @@ public class DebugSubcommand implements ISubcommand {
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         return new ArrayList<>();
+        /*
+        Purposely, no tab-complete suggestions are given.
+        This command is intended as a feature described to users by the support / development team.
+        Users may mess with the command with unintended effects if they use it unguidedly.
+         */
     }
 }

@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UnloadSubcommand implements ISubcommand {
@@ -27,6 +28,10 @@ public class UnloadSubcommand implements ISubcommand {
 
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds.unload")) {
+            return new ArrayList<>();
+        }
+
         //TODO
         return null;
     }

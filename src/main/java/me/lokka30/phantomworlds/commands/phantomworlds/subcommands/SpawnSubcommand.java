@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SpawnSubcommand implements ISubcommand {
@@ -32,6 +33,10 @@ public class SpawnSubcommand implements ISubcommand {
 
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds.spawn")) {
+            return new ArrayList<>();
+        }
+
         //TODO
         return null;
     }
