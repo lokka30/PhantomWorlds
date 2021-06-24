@@ -17,7 +17,7 @@ load: 'STARTUP'
 commands:
   phantomworlds:
     description: 'Create, manage or teleport to worlds.'
-    aliases: [ 'pworlds', 'phantomworld', 'pworld', 'pw' ]
+    aliases: [ 'pw', 'world' ]
     usage: '/<command> <create/unload/teleport/tp/list/spawn/setspawn/info/debug>'
 
 permissions:
