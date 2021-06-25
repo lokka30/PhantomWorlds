@@ -13,16 +13,42 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * This class contains Utility methods which are public & static
+ * which are used by multiple classes. If a method is only used by
+ * one class then it is advised to keep it in the class to avoid
+ * bloating this class.
+ *
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class Utils {
 
     public static final MicroLogger LOGGER = new MicroLogger("&b&lPhantomWorlds: &7");
 
-    public static HashSet<String> getLoadedWorlds() {
+    /**
+     * This method returns a list of the names of worlds that are loaded on the server.
+     * Used in tab completion, for example.
+     *
+     * @return list of world names
+     * @author lokka30
+     * @since v2.0.0
+     */
+    public static HashSet<String> getLoadedWorldsNameList() {
         final HashSet<String> loadedWorlds = new HashSet<>();
         Bukkit.getWorlds().forEach(world -> loadedWorlds.add(world.getName()));
         return loadedWorlds;
     }
 
+    /**
+     * Attempts to register specified command. Sends status to console as logs.
+     *
+     * @param main    PhantomWorlds main class
+     * @param clazz   CommandExecutor to be registered
+     * @param command Name of the command as stated in plugin.yml
+     * @author lokka30
+     * @since v2.0.0
+     */
     public static void registerCommand(@NotNull PhantomWorlds main, @NotNull CommandExecutor clazz, @NotNull String command) {
         if (main.getCommand(command) == null) {
             Utils.LOGGER.error("&3Commands: &7Unable to register command '&b/" + command + "&7' - PluginCommand is null.");
@@ -33,8 +59,20 @@ public class Utils {
         }
     }
 
+    /**
+     * Tells the server to unload specified world so it can be deleted. Additionally:
+     * -> Kicks all players from it before unloading.
+     * -> It does not transfer users to other worlds for security purposes.
+     * This may be changed in the future.
+     *
+     * @param main  PhantomWorlds main class
+     * @param world World to be unloaded
+     * @author lokka30
+     * @since v2.0.0
+     */
     public static void unloadWorld(@NotNull PhantomWorlds main, @NotNull World world) {
         final ArrayList<Player> players = (ArrayList<Player>) world.getPlayers();
+        // Copying the world.getPlayers value to avoid a possible (untested) ConcurrentModificationException
         players.forEach(player -> player.kickPlayer(main.messages.getConfig().getString("ABC", "ABC"))); //todo change msg
 
         Bukkit.unloadWorld(world, true);
@@ -48,6 +86,8 @@ public class Utils {
      *
      * @param sender commandsender to check. if console, all players are visible.
      * @return list of usernames
+     * @author lokka30
+     * @since v2.0.0
      */
     public static List<String> getPlayersCanSeeList(@NotNull CommandSender sender) {
         List<String> suggestions = new ArrayList<>();
@@ -68,6 +108,12 @@ public class Utils {
         return suggestions;
     }
 
+    /**
+     * @param values Enum#values() call
+     * @return a list of string conversions of each enum value
+     * @author lokka30
+     * @since v2.0.0
+     */
     public static List<String> getStringsOfEnumValues(Object[] values) {
         List<String> strings = new ArrayList<>();
         for (Object value : values) {

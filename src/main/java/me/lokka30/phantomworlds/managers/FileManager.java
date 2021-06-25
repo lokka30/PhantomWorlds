@@ -81,7 +81,7 @@ public class FileManager {
             case MESSAGES:
                 if (currentVersion == PWFile.SETTINGS.latestFileVersion) return;
 
-                Utils.LOGGER.error("&3File Manager: &7You are running the incorrect &b" + pwFile + "&7 version! Please back it up and allow the plugin to generate a new file.");
+                Utils.LOGGER.error("&3File Manager: &7You are running the incorrect version of the file &b" + pwFile + "&7! Please back it up and allow the plugin to generate a new file, or you will most likely experience errors.");
                 break;
             case DATA:
                 if (currentVersion == PWFile.DATA.latestFileVersion) return;
@@ -103,6 +103,8 @@ public class FileManager {
 
                         main.data.getConfig().set("worlds", null);
 
+                        main.data.getConfig().set("advanced.file-version", 2);
+
                         Utils.LOGGER.info("&3File Manager: &7The &b" + pwFile + "&7 file has been migrated.");
                         break;
                     default:
@@ -119,9 +121,9 @@ public class FileManager {
         ADVANCED_SETTINGS(1),
         MESSAGES(4),
         DATA(2),
-        LICENSE(-1); // -1 = 'do not migrate me!'
+        LICENSE(-1);
 
-        public final int latestFileVersion;
+        public final int latestFileVersion; // If == -1: 'do not migrate me!'
 
         PWFile(int latestFileVersion) {
             this.latestFileVersion = latestFileVersion;

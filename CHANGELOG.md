@@ -11,7 +11,7 @@
 
 ### Significant Changes
 
-* Re-programmed this plugin from the ground up
+* Re-programmed this plugin from the ground up. Improved code quality.
 * Fixed a crucial bug where PW didn't know how to load nether & end worlds properly
 * Added file migration methods that try to automatically update files if PhantomWorlds updates
 * Added a collection of new customisable world options in `/pw create`: `generatorSettings`, `hardcore`, `spawnMobs`
