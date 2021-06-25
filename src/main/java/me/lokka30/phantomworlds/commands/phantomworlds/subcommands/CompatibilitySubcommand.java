@@ -10,6 +10,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class CompatibilitySubcommand implements ISubcommand {
 
     /*
@@ -19,6 +23,10 @@ public class CompatibilitySubcommand implements ISubcommand {
     - Test
      */
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.compatibility")) {
@@ -51,6 +59,10 @@ public class CompatibilitySubcommand implements ISubcommand {
         }
     }
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         return new ArrayList<>();

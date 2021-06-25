@@ -12,6 +12,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class SetSpawnSubcommand implements ISubcommand {
 
     /*
@@ -27,6 +31,10 @@ public class SetSpawnSubcommand implements ISubcommand {
     // len       0        1   2   3   4       5     6       7
     // arg       -        0   1   2   3       4     5       6
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.setspawn")) {
@@ -134,6 +142,10 @@ public class SetSpawnSubcommand implements ISubcommand {
         sender.sendMessage("Spawn location set for world '" + worldName + "' at x=" + x + ", y=" + y + ", z=" + z + ", with yaw=" + yaw + " and pitch=" + pitch + ".");
     }
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.setspawn")) {

@@ -1,5 +1,9 @@
 package me.lokka30.phantomworlds.misc;
 
+/**
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class UpdateCheckerResult {
 
     private final boolean outdated;

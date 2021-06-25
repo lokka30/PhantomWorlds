@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class CreateSubcommand implements ISubcommand {
 
     /*
@@ -28,6 +32,10 @@ public class CreateSubcommand implements ISubcommand {
     - test
      */
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.create")) {
@@ -281,6 +289,10 @@ public class CreateSubcommand implements ISubcommand {
         sender.sendMessage("World '" + worldName + "' has been created. Teleport to it using '/pw tp " + worldName + "'.");
     }
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.create")) {

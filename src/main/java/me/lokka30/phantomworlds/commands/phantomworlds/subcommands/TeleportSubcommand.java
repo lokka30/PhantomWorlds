@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class TeleportSubcommand implements ISubcommand {
 
     /*
@@ -21,6 +25,10 @@ public class TeleportSubcommand implements ISubcommand {
     - Test
      */
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.teleport")) {
@@ -31,6 +39,10 @@ public class TeleportSubcommand implements ISubcommand {
         sender.sendMessage("Work in progress.");
     }
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.teleport")) {

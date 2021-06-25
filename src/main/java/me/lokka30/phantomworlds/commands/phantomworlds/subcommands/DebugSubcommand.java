@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class DebugSubcommand implements ISubcommand {
 
     /*
@@ -20,6 +24,10 @@ public class DebugSubcommand implements ISubcommand {
     - Test
      */
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.debug")) {
@@ -46,6 +54,10 @@ public class DebugSubcommand implements ISubcommand {
         }
     }
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         return new ArrayList<>();

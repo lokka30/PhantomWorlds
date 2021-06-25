@@ -2,30 +2,41 @@ package me.lokka30.phantomworlds.misc;
 
 import java.util.ArrayList;
 
+/**
+ * Handles various checks that attempt to warn administrators about
+ * potential compatibility issues with their server configuration.
+ *
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class CompatibilityChecker {
 
     public final ArrayList<Incompatibility> incompatibilities = new ArrayList<>();
 
+    /**
+     * Run all PW compatibility checks.
+     *
+     * @author lokka30
+     * @since v2.0.0
+     */
     public void checkAll() {
         incompatibilities.clear();
 
-        checkServerSoftware();
         //checkPlugins();
     }
 
-    public void checkServerSoftware() {
-        // Warn console if the server is not running Spigot - required for MicroLib's message methods
-        try {
-            Class.forName("org.bukkit.entity.Player.Spigot");
-        } catch (ClassNotFoundException ex) {
-            incompatibilities.add(new Incompatibility(IncompatibilityType.SERVER_SOFTWARE, "The plugin requires code only present in SpigotMC and its derivatives such as Paper and Tuinity.", "Use PaperMC or SpigotMC."));
-        }
-    }
-
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     public enum IncompatibilityType {
-        SERVER_SOFTWARE//, PLUGIN
+        //PLUGIN
     }
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     public static class Incompatibility {
         public final IncompatibilityType type;
         public final String reason;

@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class SpawnSubcommand implements ISubcommand {
 
     /*
@@ -26,11 +30,19 @@ public class SpawnSubcommand implements ISubcommand {
     /pw spawn [world]
      */
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         sender.sendMessage("Work in progress.");
     }
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.spawn")) {

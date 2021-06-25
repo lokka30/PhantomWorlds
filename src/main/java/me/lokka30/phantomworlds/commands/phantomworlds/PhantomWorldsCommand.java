@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Command: /phantomworlds
+ *
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class PhantomWorldsCommand implements TabExecutor {
 
     private final PhantomWorlds main;
@@ -31,6 +37,10 @@ public class PhantomWorldsCommand implements TabExecutor {
     final ConfirmSubcommand confirmSubcommand = new ConfirmSubcommand();
     final ToggleConfirmSubcommand toggleConfirmSubcommand = new ToggleConfirmSubcommand();
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 0) {
@@ -83,11 +93,17 @@ public class PhantomWorldsCommand implements TabExecutor {
      *
      * @param label  label of the command (alias used).
      * @param sender commandsender of the command
+     * @author lokka30
+     * @since v2.0.0
      */
     void sendAvailableSubcommands(CommandSender sender, String label) {
         sender.sendMessage("/" + label + " create/list/setspawn/spawn/teleport/unload/confirm/toggleconfirm/info/compatibility/debug ..."); //TODO MSG
     }
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length == 1) {

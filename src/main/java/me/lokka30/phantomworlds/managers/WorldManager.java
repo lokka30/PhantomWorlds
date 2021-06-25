@@ -6,6 +6,13 @@ import org.bukkit.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Contains an assortment of methods to
+ * handle world management in PW.
+ *
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class WorldManager {
 
     private final PhantomWorlds main;
@@ -17,6 +24,9 @@ public class WorldManager {
     /**
      * For all worlds listed in PW's data file, if they aren't already loaded by Bukkit,
      * then tell Bukkit to load them
+     *
+     * @author lokka30
+     * @since v2.0.0
      */
     public void loadManagedWorlds() {
         Utils.LOGGER.info("&3World Manager: &7Loading managed worlds...");
@@ -32,6 +42,11 @@ public class WorldManager {
         }
     }
 
+    /**
+     * @author lokka30
+     * @since v2.0.0
+     */
+    //TODO Cleanup.
     public PhantomWorld getPhantomWorldFromData(PhantomWorlds main, String name) {
         World.Environment environment = World.Environment.valueOf(main.data.getConfig().getString("worlds-to-load." + name + ".environment", "NORMAL"));
         boolean generateStructures = main.data.getConfig().getBoolean("worlds-to-load." + name + ".generateStructures", true);
@@ -49,6 +64,13 @@ public class WorldManager {
         return new PhantomWorld(name, environment, generateStructures, generator, generatorSettings, hardcore, seed, worldType, spawnMobs, spawnAnimals, keepSpawnInMemory, allowPvP, difficulty);
     }
 
+    /**
+     * PhantomWorld object to make it easier to work with
+     * PW-managed worlds.
+     *
+     * @author lokka30
+     * @since v2.0.0
+     */
     public static class PhantomWorld {
         public final String name;
         public final World.Environment environment;
@@ -92,6 +114,12 @@ public class WorldManager {
             this.difficulty = difficulty;
         }
 
+        /**
+         * Create/import the world with specified settings.
+         *
+         * @author lokka30
+         * @since v2.0.0
+         */
         public void create() {
             final WorldCreator worldCreator = new WorldCreator(name);
 

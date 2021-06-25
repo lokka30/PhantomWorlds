@@ -7,6 +7,12 @@ import org.bukkit.World;
 
 import java.io.IOException;
 
+/**
+ * Contains methods that concern the loading of PW's data/config files.
+ *
+ * @author lokka30
+ * @since v2.0.0
+ */
 public class FileManager {
 
     private final PhantomWorlds main;
@@ -16,10 +22,11 @@ public class FileManager {
     }
 
     /**
-     * Run all loading sequences for a file
-     * from this method
+     * Run all loading sequences for a file from this method.
      *
      * @param pwFile file to load
+     * @author lokka30
+     * @since v2.0.0
      */
     public void init(PWFile pwFile) {
         Utils.LOGGER.info("&3File Manager: &7Loading file &b" + pwFile + "&7...");
@@ -49,6 +56,13 @@ public class FileManager {
         }
     }
 
+    /**
+     * Run MicroLib's YamlConfigFile load sequence for each file.
+     * The license file is simply replaced.
+     *
+     * @author lokka30
+     * @since v2.0.0
+     */
     private void load(PWFile pwFile) throws IOException {
         switch (pwFile) {
             case SETTINGS:
@@ -71,6 +85,12 @@ public class FileManager {
         }
     }
 
+    /**
+     * Attempt to update outdated files automatically.
+     *
+     * @author lokka30
+     * @since v2.0.0
+     */
     private void migrate(PWFile pwFile, int currentVersion) {
         // Values of -1 indicate that it is not to be migrated
         if (pwFile.latestFileVersion == -1) return;
@@ -116,6 +136,12 @@ public class FileManager {
         }
     }
 
+    /**
+     * Each data/config file and their latest (current) version are mapped here.
+     *
+     * @author lokka30
+     * @since v2.0.0
+     */
     public enum PWFile {
         SETTINGS(1),
         ADVANCED_SETTINGS(1),
