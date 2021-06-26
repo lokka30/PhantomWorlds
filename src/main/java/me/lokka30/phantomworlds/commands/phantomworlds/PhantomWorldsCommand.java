@@ -34,8 +34,6 @@ public class PhantomWorldsCommand implements TabExecutor {
     final InfoSubcommand infoSubcommand = new InfoSubcommand();
     final DebugSubcommand debugSubcommand = new DebugSubcommand();
     final CompatibilitySubcommand compatibilitySubcommand = new CompatibilitySubcommand();
-    final ConfirmSubcommand confirmSubcommand = new ConfirmSubcommand();
-    final ToggleConfirmSubcommand toggleConfirmSubcommand = new ToggleConfirmSubcommand();
 
     /**
      * @author lokka30
@@ -73,12 +71,6 @@ public class PhantomWorldsCommand implements TabExecutor {
                 case "compatibility":
                     compatibilitySubcommand.parseCommand(main, sender, cmd, label, args);
                     break;
-                case "confirm":
-                    confirmSubcommand.parseCommand(main, sender, cmd, label, args);
-                    break;
-                case "toggleconfirm":
-                    toggleConfirmSubcommand.parseCommand(main, sender, cmd, label, args);
-                    break;
                 default:
                     sender.sendMessage("Invalid subcommand '" + args[0] + "'."); //TODO MSG
                     sendAvailableSubcommands(sender, label);
@@ -97,7 +89,7 @@ public class PhantomWorldsCommand implements TabExecutor {
      * @since v2.0.0
      */
     void sendAvailableSubcommands(CommandSender sender, String label) {
-        sender.sendMessage("/" + label + " create/list/setspawn/spawn/teleport/unload/confirm/toggleconfirm/info/compatibility/debug ..."); //TODO MSG
+        sender.sendMessage("/" + label + " create/list/setspawn/spawn/teleport/unload/info/compatibility/debug ..."); //TODO MSG
     }
 
     /**
@@ -126,10 +118,6 @@ public class PhantomWorldsCommand implements TabExecutor {
                     return debugSubcommand.parseTabCompletion(main, sender, cmd, label, args);
                 case "compatibility":
                     return compatibilitySubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "confirm":
-                    return confirmSubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "toggleconfirm":
-                    return toggleConfirmSubcommand.parseTabCompletion(main, sender, cmd, label, args);
                 default:
                     break;
             }
