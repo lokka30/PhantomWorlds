@@ -1,1 +1,0 @@
-Currently N/A. Please contact lokka30 if you plan on contributing. :)
