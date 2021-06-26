@@ -92,7 +92,7 @@ public class Utils {
     public static List<String> getPlayersCanSeeList(@NotNull CommandSender sender) {
         List<String> suggestions = new ArrayList<>();
 
-        if (!sender.hasPermission("phantomworlds.command.see_vanished_users") && sender instanceof Player) {
+        if (!sender.hasPermission("phantomworlds.knows-vanished-users") && sender instanceof Player) {
             Player player = (Player) sender;
             for (Player listedPlayer : Bukkit.getOnlinePlayers()) {
                 if (player.canSee(listedPlayer)) {

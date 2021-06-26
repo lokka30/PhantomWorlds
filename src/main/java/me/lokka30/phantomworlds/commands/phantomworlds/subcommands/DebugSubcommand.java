@@ -44,7 +44,7 @@ public class DebugSubcommand implements ISubcommand {
         switch (args[1].toLowerCase(Locale.ROOT)) {
             case "dump":
                 /*
-                Planned: dump a bunch of useful information (server version, software, PW version, configs in pastebin, ...) to a file 'dump.txt'.
+                TODO Planned: dump a bunch of useful information (server version, software, PW version, configs in pastebin, ...) to a file 'dump.txt'.
                  */
                 sender.sendMessage("Work in Progress.");
                 break;

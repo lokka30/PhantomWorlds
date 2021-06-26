@@ -41,6 +41,11 @@ public class PhantomWorldsCommand implements TabExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds")) {
+            sender.sendMessage("No permission");
+            return true;
+        }
+
         if (args.length > 0) {
             switch (args[0].toLowerCase()) {
                 case "create":

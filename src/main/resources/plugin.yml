@@ -20,8 +20,69 @@ commands:
     aliases: [ 'pw', 'world' ]
     usage: '/<command>'
 
-#TODO
 permissions:
-  phantomworlds.command.see_vanished_users:
-    default: 'op'
-    description: 'subcommands will not factor in if players with this permission can or can''t see vanished players'
+  phantomworlds.*:
+    default: op
+    description: 'All PhantomWorlds permissions, ideally given to administrators.'
+    children:
+      phantomworlds.knows-vanished-users: true
+      phantomworlds.command.phantomworlds.*: true
+
+  phantomworlds.knows-vanished-users:
+    default: op
+    description: 'Users with this permission will ignore the status of vanished players when using commands from PhantomWorlds, such as in tab-completion suggestions.'
+
+  phantomworlds.command.phantomworlds.*:
+    default: op
+    description: 'Ability to run all /pw commands.'
+    children:
+      phantomworlds.command.phantomworlds: true
+      phantomworlds.command.phantomworlds.compatibility: true
+      phantomworlds.command.phantomworlds.create: true
+      phantomworlds.command.phantomworlds.debug: true
+      phantomworlds.command.phantomworlds.info: true
+      phantomworlds.command.phantomworlds.list: true
+      phantomworlds.command.phantomworlds.setspawn: true
+      phantomworlds.command.phantomworlds.spawn: true
+      phantomworlds.command.phantomworlds.teleport: true
+      phantomworlds.command.phantomworlds.unload: true
+
+  phantomworlds.command.phantomworlds:
+    default: op
+    description: 'Ability to run /pw'
+
+  phantomworlds.command.phantomworlds.compatibility:
+    default: op
+    description: 'Ability to run /pw compatibility'
+
+  phantomworlds.command.phantomworlds.debug:
+    default: op
+    description: 'Ability to run /pw debug'
+
+  phantomworlds.command.phantomworlds.create:
+    default: op
+    description: 'Ability to run /pw create'
+
+  phantomworlds.command.phantomworlds.info:
+    default: true
+    description: 'Ability to run /pw info'
+
+  phantomworlds.command.phantomworlds.list:
+    default: op
+    description: 'Ability to run /pw list'
+
+  phantomworlds.command.phantomworlds.setspawn:
+    default: op
+    description: 'Ability to run /pw setspawn'
+
+  phantomworlds.command.phantomworlds.spawn:
+    default: op
+    description: 'Ability to run /pw spawn'
+
+  phantomworlds.command.phantomworlds.teleport:
+    default: op
+    description: 'Ability to run /pw teleport'
+
+  phantomworlds.command.phantomworlds.unload:
+    default: op
+    description: 'Ability to run /pw unload'

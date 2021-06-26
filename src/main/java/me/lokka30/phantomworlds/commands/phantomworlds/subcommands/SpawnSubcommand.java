@@ -36,6 +36,11 @@ public class SpawnSubcommand implements ISubcommand {
      */
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds.spawn")) {
+            sender.sendMessage("No permission.");
+            return;
+        }
+
         sender.sendMessage("Work in progress.");
     }
 
