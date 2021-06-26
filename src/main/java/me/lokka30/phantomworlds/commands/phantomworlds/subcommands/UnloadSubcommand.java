@@ -36,6 +36,11 @@ public class UnloadSubcommand implements ISubcommand {
             return;
         }
 
+        if (args.length != 1) {
+            sender.sendMessage("Usage: /" + label + " unload");
+            return;
+        }
+
         sender.sendMessage("Work in progress.");
     }
 

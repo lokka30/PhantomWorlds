@@ -36,6 +36,11 @@ public class TeleportSubcommand implements ISubcommand {
             return;
         }
 
+        if (args.length < 2 || args.length > 3) {
+            sender.sendMessage("Usage: /" + label + " teleport <world> [player]");
+            return;
+        }
+
         sender.sendMessage("Work in progress.");
     }
 

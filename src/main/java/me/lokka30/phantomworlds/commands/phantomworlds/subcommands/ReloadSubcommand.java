@@ -13,21 +13,15 @@ import java.util.List;
  * @author lokka30
  * @since v2.0.0
  */
-public class SpawnSubcommand implements ISubcommand {
+public class ReloadSubcommand implements ISubcommand {
 
     /*
     TODO
     - Command
-    - Tab completion
     - Test
     - Messages.yml
     - Permissions.yml
     - Test
-     */
-
-    /*
-    Syntax:
-    /pw spawn [world]
      */
 
     /**
@@ -36,13 +30,13 @@ public class SpawnSubcommand implements ISubcommand {
      */
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("phantomworlds.command.phantomworlds.spawn")) {
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds.reload")) {
             sender.sendMessage("No permission.");
             return;
         }
 
-        if (args.length < 1 || args.length > 2) {
-            sender.sendMessage("Usage: /" + label + " spawn [world]");
+        if (args.length != 1) {
+            sender.sendMessage("Usage: /" + label + " reload");
             return;
         }
 
@@ -55,11 +49,6 @@ public class SpawnSubcommand implements ISubcommand {
      */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("phantomworlds.command.phantomworlds.spawn")) {
-            return new ArrayList<>();
-        }
-
-        //TODO
-        return null;
+        return new ArrayList<>();
     }
 }

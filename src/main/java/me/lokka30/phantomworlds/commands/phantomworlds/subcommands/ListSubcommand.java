@@ -35,6 +35,11 @@ public class ListSubcommand implements ISubcommand {
             return;
         }
 
+        if (args.length != 1) {
+            sender.sendMessage("Usage: /" + label + " list");
+            return;
+        }
+
         sender.sendMessage("Worlds loaded (" + Bukkit.getWorlds().size() + "):");
         Bukkit.getWorlds().forEach(world -> sender.sendMessage(" -> " + world.getName()));
     }

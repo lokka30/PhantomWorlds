@@ -46,10 +46,11 @@ public class DebugSubcommand implements ISubcommand {
                 /*
                 TODO Planned: dump a bunch of useful information (server version, software, PW version, configs in pastebin, ...) to a file 'dump.txt'.
                  */
-                sender.sendMessage("Work in Progress.");
+                sender.sendMessage("Work in progress.");
                 break;
             default:
                 sender.sendMessage("Invalid debug system '" + args[1] + "'.");
+                sender.sendMessage("Note: Please do not run this subcommand unless you are sure you are meant to be doing so.");
                 break;
         }
     }

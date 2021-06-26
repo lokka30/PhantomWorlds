@@ -31,6 +31,7 @@ public class PhantomWorldsCommand implements TabExecutor {
     final ListSubcommand listSubcommand = new ListSubcommand();
     final SpawnSubcommand spawnSubcommand = new SpawnSubcommand();
     final SetSpawnSubcommand setSpawnSubcommand = new SetSpawnSubcommand();
+    final ReloadSubcommand reloadSubcommand = new ReloadSubcommand();
     final InfoSubcommand infoSubcommand = new InfoSubcommand();
     final DebugSubcommand debugSubcommand = new DebugSubcommand();
     final CompatibilitySubcommand compatibilitySubcommand = new CompatibilitySubcommand();
@@ -67,6 +68,9 @@ public class PhantomWorldsCommand implements TabExecutor {
                 case "setspawn":
                     setSpawnSubcommand.parseCommand(main, sender, cmd, label, args);
                     break;
+                case "reload":
+                    reloadSubcommand.parseCommand(main, sender, cmd, label, args);
+                    break;
                 case "info":
                     infoSubcommand.parseCommand(main, sender, cmd, label, args);
                     break;
@@ -81,6 +85,8 @@ public class PhantomWorldsCommand implements TabExecutor {
                     sendAvailableSubcommands(sender, label);
                     break;
             }
+        } else {
+            sendAvailableSubcommands(sender, label);
         }
         return true;
     }
@@ -94,7 +100,7 @@ public class PhantomWorldsCommand implements TabExecutor {
      * @since v2.0.0
      */
     void sendAvailableSubcommands(CommandSender sender, String label) {
-        sender.sendMessage("/" + label + " create/list/setspawn/spawn/teleport/unload/info/compatibility/debug ..."); //TODO MSG
+        sender.sendMessage("/" + label + " create/list/setspawn/spawn/teleport/reload/unload/info/compatibility/debug ..."); //TODO MSG
     }
 
     /**
@@ -115,6 +121,8 @@ public class PhantomWorldsCommand implements TabExecutor {
                     return setSpawnSubcommand.parseTabCompletion(main, sender, cmd, label, args);
                 case "spawn":
                     return spawnSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+                case "reload":
+                    return reloadSubcommand.parseTabCompletion(main, sender, cmd, label, args);
                 case "teleport":
                     return teleportSubcommand.parseTabCompletion(main, sender, cmd, label, args);
                 case "unload":

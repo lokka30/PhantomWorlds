@@ -7,3 +7,8 @@
 #TODO
 
 prefix: '&b&lPhantomWorlds:&7'
+
+# Do not touch anything here unless you know what you are doing.
+advanced:
+  file-version: 1 #TODO Change this.
+  generated-with: '${project.version}'
