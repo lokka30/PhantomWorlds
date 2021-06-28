@@ -8,6 +8,7 @@ import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -109,32 +110,33 @@ public class PhantomWorldsCommand implements TabExecutor {
      */
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (args.length == 1) {
-            switch (args[0].toLowerCase(Locale.ROOT)) {
-                case "create":
-                    return createSubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "info":
-                    return infoSubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "list":
-                    return listSubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "setspawn":
-                    return setSpawnSubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "spawn":
-                    return spawnSubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "reload":
-                    return reloadSubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "teleport":
-                    return teleportSubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "unload":
-                    return unloadSubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "debug":
-                    return debugSubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                case "compatibility":
-                    return compatibilitySubcommand.parseTabCompletion(main, sender, cmd, label, args);
-                default:
-                    break;
-            }
+        if (args.length == 0) {
+            return Arrays.asList("create", "info", "list", "setspawn", "spawn", "reload", "teleport", "unload", "debug", "compatibility");
         }
-        return new ArrayList<>(); //no suggestions available. returning 'null' may have issues so just going with the safe route
+
+        switch (args[0].toLowerCase(Locale.ROOT)) {
+            case "create":
+                return createSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+            case "info":
+                return infoSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+            case "list":
+                return listSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+            case "setspawn":
+                return setSpawnSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+            case "spawn":
+                return spawnSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+            case "reload":
+                return reloadSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+            case "teleport":
+                return teleportSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+            case "unload":
+                return unloadSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+            case "debug":
+                return debugSubcommand.parseTabCompletion(main, sender, cmd, label, args);
+            case "compatibility":
+                return compatibilitySubcommand.parseTabCompletion(main, sender, cmd, label, args);
+            default:
+                return new ArrayList<>();
+        }
     }
 }
