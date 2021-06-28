@@ -20,16 +20,18 @@ public class SetSpawnSubcommand implements ISubcommand {
 
     /*
     TODO
-    - Tab Completion
-    - Test
-    - Messages.yml
-    - Permissions.yml
-    - Test
+     - Tab Completion
+     - Test
+     - Messages.yml
+     - Permissions.yml
+     - Test
      */
 
-    // syntax  /pw setSpawn [x] [y] [z] [world] [yaw] [pitch]
-    // len       0        1   2   3   4       5     6       7
-    // arg       -        0   1   2   3       4     5       6
+    /*
+    cmd: /pw setSpawn [x] [y] [z] [world] [yaw] [pitch]
+    arg:   -        0   1   2   3       4     5       6
+    len:   0        1   2   3   4       5     6       7
+     */
 
     /**
      * @author lokka30

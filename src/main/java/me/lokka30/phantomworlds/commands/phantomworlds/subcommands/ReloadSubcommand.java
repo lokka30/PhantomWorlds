@@ -17,11 +17,17 @@ public class ReloadSubcommand implements ISubcommand {
 
     /*
     TODO
-    - Command
-    - Test
-    - Messages.yml
-    - Permissions.yml
-    - Test
+     - Command
+     - Test
+     - Messages.yml
+     - Permissions.yml
+     - Test
+     */
+
+    /*
+    cmd: /pw reload
+    arg:   -      0
+    len:   0      1
      */
 
     /**

@@ -2,8 +2,11 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
+import me.lokka30.phantomworlds.misc.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,12 +20,17 @@ public class TeleportSubcommand implements ISubcommand {
 
     /*
     TODO
-    - Command
-    - Tab completion
-    - Test
-    - Messages.yml
-    - Permissions.yml
-    - Test
+     - Test
+     - Messages.yml
+     - Permissions.yml
+     - Test
+     */
+
+
+    /*
+    cmd: /pw teleport <world> [player]
+    arg:   -        0       1        2
+    len:   0        1       2        3
      */
 
     /**
@@ -41,7 +49,33 @@ public class TeleportSubcommand implements ISubcommand {
             return;
         }
 
-        sender.sendMessage("Work in progress.");
+        if (Bukkit.getWorld(args[1]) == null) {
+            sender.sendMessage("Invalid world '" + args[1] + "'.");
+            return;
+        }
+
+        Player target;
+        if (args.length == 3) {
+            target = Bukkit.getPlayer(args[2]);
+
+            // If the target is offline or invisible to the sender, then stop
+            if (target == null || !Utils.getPlayersCanSeeList(sender).contains(target.getName())) {
+                sender.sendMessage("'" + args[2] + "' is not online.");
+                return;
+            }
+        } else {
+            if (sender instanceof Player) {
+                target = (Player) sender;
+            } else {
+                sender.sendMessage("Usage (console): /pw teleport <world> <player>");
+                return;
+            }
+        }
+
+        //noinspection ConstantConditions
+        target.teleport(Bukkit.getWorld(args[1]).getSpawnLocation());
+
+        sender.sendMessage("Teleported '" + target.getName() + "' to the spawn point of world '" + args[1] + "'.");
     }
 
     /**
@@ -54,7 +88,13 @@ public class TeleportSubcommand implements ISubcommand {
             return new ArrayList<>();
         }
 
-        //TODO
-        return null;
+        switch (args.length) {
+            case 1:
+                return new ArrayList<>(Utils.getLoadedWorldsNameList());
+            case 2:
+                return Utils.getPlayersCanSeeList(sender);
+            default:
+                return new ArrayList<>();
+        }
     }
 }

@@ -26,13 +26,13 @@ public class PhantomWorlds extends JavaPlugin {
 
     /*
     TODO:
-     * Translate backslash character in world names as a space so world names with a space can be used in the plugin
-     * Vanish compatibility
-     *  don't send 'by' messages unless the sender is not a player / target can see the (player) sender
-     *  add vanish compatibility to 'teleport' subcommand
-     *  add ability to toggle vanish compatibility
-     * log in console (LogLevel:INFO) when a command is prevented due to a target player seemingly being vanished to the command sender.
-     * Consider creating a world management GUI.
+     * 1. Complete each subcommand's own to-do list.
+     * 2. Translate backslash character in world names as a space so world names with a space can be used in the plugin
+     * 3. Vanish compatibility
+     *  a. don't send 'by' messages unless the sender is not a player / target can see the (player) sender
+     *  b. add vanish compatibility to 'teleport' subcommand
+     *  c. add ability to toggle vanish compatibility
+     * d. log in console (LogLevel:INFO) when a command is prevented due to a target player seemingly being vanished to the command sender.
      */
 
     /**

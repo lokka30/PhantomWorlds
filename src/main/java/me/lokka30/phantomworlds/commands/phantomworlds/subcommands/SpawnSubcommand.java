@@ -17,17 +17,18 @@ public class SpawnSubcommand implements ISubcommand {
 
     /*
     TODO
-    - Command
-    - Tab completion
-    - Test
-    - Messages.yml
-    - Permissions.yml
-    - Test
+     - Command
+     - Tab completion
+     - Test
+     - Messages.yml
+     - Permissions.yml
+     - Test
      */
 
     /*
-    Syntax:
-    /pw spawn [world]
+    cmd: /pw spawn [world]
+    arg:   -     0       1
+    len:   0     1       2
      */
 
     /**

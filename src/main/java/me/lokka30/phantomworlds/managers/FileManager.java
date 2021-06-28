@@ -25,6 +25,7 @@ public class FileManager {
      * Run all loading sequences for a file from this method.
      *
      * @param pwFile file to load
+     *
      * @author lokka30
      * @since v2.0.0
      */

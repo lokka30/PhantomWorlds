@@ -2,8 +2,11 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
+import me.lokka30.phantomworlds.misc.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,12 +20,16 @@ public class UnloadSubcommand implements ISubcommand {
 
     /*
     TODO
-    - Command
-    - Tab completion
-    - Test
-    - Messages.yml
-    - Permissions.yml
-    - Test
+     - Test
+     - Messages.yml
+     - Permissions.yml
+     - Test
+     */
+
+    /*
+    cmd: /pw unload <world>
+    arg:   -      0       1
+    len:   0      1       2
      */
 
     /**
@@ -36,12 +43,28 @@ public class UnloadSubcommand implements ISubcommand {
             return;
         }
 
-        if (args.length != 1) {
-            sender.sendMessage("Usage: /" + label + " unload");
+        if (args.length != 2) {
+            sender.sendMessage("Usage: /" + label + " unload <world>");
             return;
         }
 
-        sender.sendMessage("Work in progress.");
+        if (Bukkit.getWorld(args[1]) == null) {
+            sender.sendMessage("World '" + args[1] + "' is not loaded.");
+            return;
+        }
+
+        if (sender instanceof Player) {
+            //noinspection ConstantConditions
+            if (Bukkit.getWorld(args[1]).getPlayers().contains((Player) sender)) {
+                sender.sendMessage("You can't unload a world that you are currently in.");
+                return;
+            }
+        }
+
+        //noinspection ConstantConditions
+        Utils.unloadWorld(main, Bukkit.getWorld(args[1]));
+
+        sender.sendMessage("World '" + args[1] + "' has been unloaded.");
     }
 
     /**
@@ -54,7 +77,10 @@ public class UnloadSubcommand implements ISubcommand {
             return new ArrayList<>();
         }
 
-        //TODO
-        return null;
+        if (args.length == 2) {
+            return new ArrayList<>(Utils.getLoadedWorldsNameList());
+        } else {
+            return new ArrayList<>();
+        }
     }
 }

@@ -17,10 +17,16 @@ public class InfoSubcommand implements ISubcommand {
 
     /*
     TODO
-    - Test
-    - Messages.yml
-    - Permissions.yml
-    - Test
+     - Test
+     - Messages.yml
+     - Permissions.yml
+     - Test
+     */
+
+    /*
+    cmd: /pw info
+    arg:   -    0
+    len:   0    1
      */
 
     /**

@@ -26,14 +26,22 @@ public class CompatibilityChecker {
     }
 
     /**
+     * Enum storing the different types of incompatibility detections.
+     *
      * @author lokka30
      * @since v2.0.0
      */
+    @SuppressWarnings("unused")
     public enum IncompatibilityType {
-        //PLUGIN
+        MISSING_DEPENDENCY, // A dependency required for an operation is missing.
+        INCOMPATIBLE_PLUGIN, // Another plugin is installed on the server which may be incompatible.
+        SERVER_SOFTWARE, // The server software (e.g. Paper/Spigot/Tuinity) is incompatible.
+        JAVA_VERSION // The server's version of Java is outdated.
     }
 
     /**
+     * This class is used as an object to store each incompatibility that is detected.
+     *
      * @author lokka30
      * @since v2.0.0
      */

@@ -18,9 +18,8 @@ public class CompatibilitySubcommand implements ISubcommand {
 
     /*
     TODO:
-    - Test
-    - Messages.yml
-    - Test
+     - Messages.yml
+     - Test
      */
 
     /**

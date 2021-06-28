@@ -25,11 +25,18 @@ public class CreateSubcommand implements ISubcommand {
 
     /*
     TODO:
-    - tab completion
-    - test
-    - permissions.yml
-    - messages.yml
-    - test
+     - test
+     - tab completion
+     - test
+     - permissions.yml
+     - messages.yml
+     - test
+     */
+
+    /*
+    cmd: /pw create <world> <environment> [options...]
+    arg:   -      0       1             2           3+
+    len:   0      1       2             3           4+
      */
 
     /**

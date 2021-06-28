@@ -18,10 +18,15 @@ public class DebugSubcommand implements ISubcommand {
 
     /*
     TODO
-    - Test
-    - Messages.yml
-    - Permissions.yml
-    - Test
+     - Messages.yml
+     - Permissions.yml
+     - Test
+     */
+
+    /*
+    cmd: /pw debug ...
+    arg:   -     0  1+
+    len:   0     1  2+
      */
 
     /**

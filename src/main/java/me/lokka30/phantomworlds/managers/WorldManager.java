@@ -43,25 +43,30 @@ public class WorldManager {
     }
 
     /**
+     * This creates a PhantomWorld object by scanning the data file by the specified name.
+     * Developers are expected to make sure the specified world exists prior to retrieving it.
+     *
      * @author lokka30
      * @since v2.0.0
      */
-    //TODO Cleanup.
     public PhantomWorld getPhantomWorldFromData(PhantomWorlds main, String name) {
-        World.Environment environment = World.Environment.valueOf(main.data.getConfig().getString("worlds-to-load." + name + ".environment", "NORMAL"));
-        boolean generateStructures = main.data.getConfig().getBoolean("worlds-to-load." + name + ".generateStructures", true);
-        String generator = main.data.getConfig().getString("worlds-to-load." + name + ".generator", null);
-        String generatorSettings = main.data.getConfig().getString("worlds-to-load." + name + ".generatorSettings", null);
-        boolean hardcore = main.data.getConfig().getBoolean("worlds-to-load." + name + ".hardcore", false);
-        long seed = main.data.getConfig().getLong("worlds-to-load." + name + ".seed", 0);
-        WorldType worldType = WorldType.valueOf(main.data.getConfig().getString("worlds-to-load." + name + ".worldType", "NORMAL"));
-        boolean spawnMobs = main.data.getConfig().getBoolean("worlds-to-load." + name + ".spawnMobs", true);
-        boolean spawnAnimals = main.data.getConfig().getBoolean("worlds-to-load." + name + ".spawnAnimals", true);
-        boolean keepSpawnInMemory = main.data.getConfig().getBoolean("worlds-to-load." + name + ".keepSpawnInMemory", false);
-        boolean allowPvP = main.data.getConfig().getBoolean("worlds-to-load." + name + ".allowPvP", true);
-        Difficulty difficulty = Difficulty.valueOf(main.data.getConfig().getString("worlds-to-load." + name + ".difficulty", null));
+        final String cfgPath = "worlds-to-load." + name + ".";
 
-        return new PhantomWorld(name, environment, generateStructures, generator, generatorSettings, hardcore, seed, worldType, spawnMobs, spawnAnimals, keepSpawnInMemory, allowPvP, difficulty);
+        return new PhantomWorld(
+                name,
+                World.Environment.valueOf(main.data.getConfig().getString(cfgPath + "environment", "NORMAL")),
+                main.data.getConfig().getBoolean(cfgPath + "generateStructures", true),
+                main.data.getConfig().getString(cfgPath + "generator", null),
+                main.data.getConfig().getString(cfgPath + "generatorSettings", null),
+                main.data.getConfig().getBoolean(cfgPath + "hardcore", false),
+                main.data.getConfig().getLong(cfgPath + "seed", 0),
+                WorldType.valueOf(main.data.getConfig().getString(cfgPath + "worldType", "NORMAL")),
+                main.data.getConfig().getBoolean(cfgPath + "spawnMobs", true),
+                main.data.getConfig().getBoolean(cfgPath + "spawnAnimals", true),
+                main.data.getConfig().getBoolean(cfgPath + "keepSpawnInMemory", false),
+                main.data.getConfig().getBoolean(cfgPath + "allowPvP", true),
+                Difficulty.valueOf(main.data.getConfig().getString(cfgPath + "difficulty", null))
+        );
     }
 
     /**
@@ -72,6 +77,9 @@ public class WorldManager {
      * @since v2.0.0
      */
     public static class PhantomWorld {
+
+        // Here comes the jungle!
+
         public final String name;
         public final World.Environment environment;
         public final boolean generateStructures;

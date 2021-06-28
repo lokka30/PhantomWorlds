@@ -18,10 +18,16 @@ public class ListSubcommand implements ISubcommand {
 
     /*
     TODO
-    - Test
-    - Messages.yml
-    - Permissions.yml
-    - Test
+     - Test
+     - Messages.yml
+     - Permissions.yml
+     - Test
+     */
+
+    /*
+    cmd: /pw list
+    arg:   -    0
+    len:   0    1
      */
 
     /**
