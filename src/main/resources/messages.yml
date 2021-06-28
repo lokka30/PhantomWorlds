@@ -4,9 +4,42 @@
 # |     |'   ` |    | |    |  |    |    | |   |   | |  /\   /  |    | |   '  |   ,'   |  `--.
 # /     /    | `.__/| /    |  \__/  `._.' /   '   / |,'  \,'    `._.' /     /\__ `___,' \___.'
 
-#TODO
+common:
 
-prefix: '&b&lPhantomWorlds:&7'
+  prefix: '&b&lPhantomWorlds:&7'
+
+  no-permission: '%prefix% You don''t have access to that. &8(%permission%)'
+
+command:
+
+  phantomworlds:
+
+    subcommands:
+
+      compatibility:
+
+        start:
+          - '%prefix% Starting compatibility checker...'
+
+        found-none:
+          - '%prefix% Compatibility check finished with no incompatibilities detected.'
+
+        found:
+          - '%prefix% Compatibility check finished with &b%amount%&7 detections:'
+
+        entry:
+          - '&8| &3#%index% &8(&7Type: &b%type%&8)&7:'
+          - '&8| &m->&f Reason: &7%reason%'
+          - '&8| &m->&f Recommendation: &7%recommendation%'
+          - ' '
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% compatibility&7''.'
+
+      info:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% info&7''.'
 
 # Do not touch anything here unless you know what you are doing.
 advanced:

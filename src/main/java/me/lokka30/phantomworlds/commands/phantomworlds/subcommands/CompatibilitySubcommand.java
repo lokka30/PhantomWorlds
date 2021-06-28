@@ -3,11 +3,14 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
 import me.lokka30.phantomworlds.misc.CompatibilityChecker;
+import me.lokka30.phantomworlds.misc.MultiMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,12 +19,6 @@ import java.util.List;
  */
 public class CompatibilitySubcommand implements ISubcommand {
 
-    /*
-    TODO:
-     - Messages.yml
-     - Test
-     */
-
     /**
      * @author lokka30
      * @since v2.0.0
@@ -29,32 +26,55 @@ public class CompatibilitySubcommand implements ISubcommand {
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.compatibility")) {
-            sender.sendMessage("No permission");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("common.no-permission"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("permission", "phantomworlds.command.phantomworlds.compatibility", false)
+            ))).send(sender);
             return;
         }
 
         if (args.length != 1) {
-            sender.sendMessage("Invalid usage. Try '/" + label + " compatibility'");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.compatibility.usage"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("label", label, false)
+            ))).send(sender);
             return;
         }
 
-        sender.sendMessage("Running compatibility checker...");
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.compatibility.start"), Collections.singletonList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true)
+        ))).send(sender);
+
         main.compatibilityChecker.checkAll();
 
         if (main.compatibilityChecker.incompatibilities.isEmpty()) {
-            sender.sendMessage("No incompatibilities were found.");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.compatibility.found-none"), Collections.singletonList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true)
+            ))).send(sender);
             return;
         }
 
-        sender.sendMessage(main.compatibilityChecker.incompatibilities.size() + " incompatibilities were found:");
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.compatibility.found"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("amount", main.compatibilityChecker.incompatibilities.size() + "", false)
+        ))).send(sender);
 
         for (int i = 0; i < main.compatibilityChecker.incompatibilities.size(); i++) {
             CompatibilityChecker.Incompatibility incompatibility = main.compatibilityChecker.incompatibilities.get(i);
 
-            sender.sendMessage("#" + (i + 1) + " (Type: " + incompatibility.type + "):");
-            sender.sendMessage(" -> Reason: " + incompatibility.reason);
-            sender.sendMessage(" -> Recommendation: " + incompatibility.recommendation);
-            sender.sendMessage(" ");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.compatibility.entry"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("index", (i + 1) + "", false),
+                    new MultiMessage.Placeholder("type", incompatibility.type.toString(), false),
+                    new MultiMessage.Placeholder("reason", incompatibility.reason, true),
+                    new MultiMessage.Placeholder("recommendation", incompatibility.recommendation, true)
+            ))).send(sender);
         }
     }
 
