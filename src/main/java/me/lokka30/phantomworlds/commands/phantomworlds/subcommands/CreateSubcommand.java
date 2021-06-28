@@ -1,5 +1,6 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
+import me.lokka30.microlib.QuickTimer;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
 import me.lokka30.phantomworlds.managers.WorldManager;
@@ -25,12 +26,11 @@ public class CreateSubcommand implements ISubcommand {
 
     /*
     TODO:
-     - test
      - tab completion
      - test
      - permissions.yml
      - messages.yml
-     - test
+     - test thoroughly
      */
 
     /*
@@ -268,21 +268,23 @@ public class CreateSubcommand implements ISubcommand {
                 spawnAnimals, keepSpawnInMemory, allowPvP, difficulty
         );
 
+        final QuickTimer quickTimer = new QuickTimer();
         sender.sendMessage("Starting creation of world '" + worldName + "'...");
 
-        sender.sendMessage("[" + worldName + "'- 1/2]: Saving world data...");
-        main.data.getConfig().set("worlds-to-load." + worldName + ".environment", environment.toString());
-        main.data.getConfig().set("worlds-to-load." + worldName + ".generateStructures", generateStructures);
-        main.data.getConfig().set("worlds-to-load." + worldName + ".generator", generator);
-        main.data.getConfig().set("worlds-to-load." + worldName + ".generatorSettings", generatorSettings);
-        main.data.getConfig().set("worlds-to-load." + worldName + ".hardcore", hardcore);
-        main.data.getConfig().set("worlds-to-load." + worldName + ".seed", seed);
-        main.data.getConfig().set("worlds-to-load." + worldName + ".worldType", worldType);
-        main.data.getConfig().set("worlds-to-load." + worldName + ".spawnMobs", spawnMobs);
-        main.data.getConfig().set("worlds-to-load." + worldName + ".spawnAnimals", spawnAnimals);
-        main.data.getConfig().set("worlds-to-load." + worldName + ".keepSpawnInMemory", keepSpawnInMemory);
-        main.data.getConfig().set("worlds-to-load." + worldName + ".allowPvP", allowPvP);
-        main.data.getConfig().set("worlds-to-load." + worldName + ".difficulty", difficulty.toString());
+        sender.sendMessage("[" + worldName + ": 1/2]: Saving world data...");
+        final String cfgPath = "worlds-to-load." + worldName + ".";
+        main.data.getConfig().set(cfgPath + "environment", environment.toString());
+        main.data.getConfig().set(cfgPath + "generateStructures", generateStructures);
+        main.data.getConfig().set(cfgPath + "generator", generator);
+        main.data.getConfig().set(cfgPath + "generatorSettings", generatorSettings);
+        main.data.getConfig().set(cfgPath + "hardcore", hardcore);
+        main.data.getConfig().set(cfgPath + "seed", seed);
+        main.data.getConfig().set(cfgPath + "worldType", worldType.toString());
+        main.data.getConfig().set(cfgPath + "spawnMobs", spawnMobs);
+        main.data.getConfig().set(cfgPath + "spawnAnimals", spawnAnimals);
+        main.data.getConfig().set(cfgPath + "keepSpawnInMemory", keepSpawnInMemory);
+        main.data.getConfig().set(cfgPath + "allowPvP", allowPvP);
+        main.data.getConfig().set(cfgPath + "difficulty", difficulty.toString());
 
         try {
             main.data.save();
@@ -290,10 +292,10 @@ public class CreateSubcommand implements ISubcommand {
             ex.printStackTrace();
         }
 
-        sender.sendMessage("[" + worldName + "'- 2/2]: Creating world... (the server may freeze temporarily)");
+        sender.sendMessage("[" + worldName + ": 2/2]: Creating the world... (The server may briefly freeze)");
         pworld.create();
 
-        sender.sendMessage("World '" + worldName + "' has been created. Teleport to it using '/pw tp " + worldName + "'.");
+        sender.sendMessage("World '" + worldName + "' has been created (took " + quickTimer.getTimer() + "ms). Teleport to it using '/pw tp " + worldName + "'.");
     }
 
     /**

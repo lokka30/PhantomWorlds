@@ -6,6 +6,9 @@ import org.bukkit.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+import java.util.HashSet;
+
 /**
  * Contains an assortment of methods to
  * handle world management in PW.
@@ -33,12 +36,33 @@ public class WorldManager {
 
         if (!main.data.getConfig().contains("worlds-to-load")) return;
 
+        final HashSet<String> worldsToDiscardFromDataFile = new HashSet<>();
+
         //noinspection ConstantConditions
         for (String worldName : main.data.getConfig().getConfigurationSection("worlds-to-load").getKeys(false)) {
             if (Bukkit.getWorld(worldName) != null) continue;
 
+            final File worldContainer = Bukkit.getWorldContainer();
+            final File worldFolder = new File(worldContainer.getAbsolutePath() + File.separator + worldName);
+
+            if (!worldContainer.exists()) {
+                Utils.LOGGER.error("World container doesn't exist!");
+                return;
+            }
+
+            if (!worldFolder.exists()) {
+                // The world was deleted/moved by the user so it must be re-imported. PW should no longer attempt to load that world.
+                Utils.LOGGER.info("Discarding world '&b" + worldName + "&7' from PhantomWorlds' data file as it no longer exists on the server.");
+                worldsToDiscardFromDataFile.add(worldName);
+                continue;
+            }
+
             Utils.LOGGER.info("Loading world '&b" + worldName + "&7'...");
             getPhantomWorldFromData(main, worldName).create();
+        }
+
+        for (String worldName : worldsToDiscardFromDataFile) {
+            main.data.getConfig().set("worlds-to-load." + worldName, null);
         }
     }
 

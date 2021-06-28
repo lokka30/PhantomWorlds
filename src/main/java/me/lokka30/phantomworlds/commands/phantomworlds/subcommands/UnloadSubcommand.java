@@ -64,7 +64,7 @@ public class UnloadSubcommand implements ISubcommand {
         //noinspection ConstantConditions
         Utils.unloadWorld(main, Bukkit.getWorld(args[1]));
 
-        sender.sendMessage("World '" + args[1] + "' has been unloaded.");
+        sender.sendMessage("World '" + args[1] + "' has been unloaded. If the world's folder is still present next restart/reload, PhantomWorlds will load it again.");
     }
 
     /**
