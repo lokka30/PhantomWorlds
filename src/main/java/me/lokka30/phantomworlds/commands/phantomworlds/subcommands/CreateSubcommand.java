@@ -63,7 +63,7 @@ public class CreateSubcommand implements ISubcommand {
 
         World.Environment environment;
         try {
-            environment = World.Environment.valueOf(args[2]);
+            environment = World.Environment.valueOf(args[2].toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException ex) {
             sender.sendMessage("Environment type '" + args[2] + "' does not exist. Valid environment types: " + String.join(", ", Utils.getStringsOfEnumValues(World.Environment.values())));
             return;
@@ -84,23 +84,23 @@ public class CreateSubcommand implements ISubcommand {
 
         if (args.length > 3) {
             for (int index = 3; index < args.length; index++) {
-                String arg = args[index].toLowerCase(Locale.ROOT);
+                String arg = args[index];
 
-                if (!arg.contains(":")) {
+                String[] split = arg.split(":");
+                if (split.length != 2) {
                     sender.sendMessage("Invalid world option '" + args[index] + "'.");
                     return;
                 }
 
-                String[] split = arg.split(":");
-                String option = split[0];
-                String value = split[1];
+                String option = split[0].toLowerCase(Locale.ROOT);
+                String value = split[1].toLowerCase(Locale.ROOT);
 
                 if (option.startsWith("-")) {
                     option = option.substring(1);
                 } // remove - character if present, those switching from PW v1 may still use it by accident.
 
                 switch (option) {
-                    case "generateStructures":
+                    case "generatestructures":
                     case "genstructures":
                     case "structures":
                         switch (value) {
@@ -159,9 +159,9 @@ public class CreateSubcommand implements ISubcommand {
                     case "type":
                     case "worldtype":
                         try {
-                            worldType = WorldType.valueOf(value);
+                            worldType = WorldType.valueOf(value.toUpperCase(Locale.ROOT));
                         } catch (IllegalArgumentException ex) {
-                            sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': WorldType (" + String.join(", ", Utils.getStringsOfEnumValues(World.Environment.values())) + ") expected");
+                            sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': WorldType (" + String.join(", ", Utils.getStringsOfEnumValues(WorldType.values())) + ") expected");
                             return;
                         }
                         break;
@@ -248,7 +248,7 @@ public class CreateSubcommand implements ISubcommand {
                     case "difficulty":
                     case "diff":
                         try {
-                            difficulty = Difficulty.valueOf(value);
+                            difficulty = Difficulty.valueOf(value.toUpperCase(Locale.ROOT));
                         } catch (IllegalArgumentException ex) {
                             sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': Difficulty (" + String.join(", ", Utils.getStringsOfEnumValues(Difficulty.values())) + ") expected");
                             return;
