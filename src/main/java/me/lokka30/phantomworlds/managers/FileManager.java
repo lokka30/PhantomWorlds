@@ -146,7 +146,7 @@ public class FileManager {
     public enum PWFile {
         SETTINGS(1),
         ADVANCED_SETTINGS(1),
-        MESSAGES(4),
+        MESSAGES(5),
         DATA(2),
         LICENSE(-1);
 

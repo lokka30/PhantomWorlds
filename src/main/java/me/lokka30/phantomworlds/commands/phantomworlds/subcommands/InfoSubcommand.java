@@ -19,7 +19,6 @@ public class InfoSubcommand implements ISubcommand {
 
     /*
     TODO
-     - Messages.yml
      - Permissions.yml
      - Test
      */
@@ -54,10 +53,14 @@ public class InfoSubcommand implements ISubcommand {
             return;
         }
 
-        sender.sendMessage("Running PhantomWorlds v" + main.getDescription().getVersion());
-        sender.sendMessage("Authors: " + String.join(", ", main.getDescription().getAuthors()));
-        sender.sendMessage("Contributors: " + String.join(", ", main.contributors));
-        sender.sendMessage("Supported server versions: " + main.supportedServerVersions);
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.info.success"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("version", main.getDescription().getVersion(), false),
+                new MultiMessage.Placeholder("authors", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), main.getDescription().getAuthors()), false),
+                new MultiMessage.Placeholder("contributors", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), main.contributors), false),
+                new MultiMessage.Placeholder("supportedServerVersions", main.supportedServerVersions, false)
+        ))).send(sender);
     }
 
     /**

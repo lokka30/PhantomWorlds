@@ -4,6 +4,7 @@ import me.lokka30.microlib.QuickTimer;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
 import me.lokka30.phantomworlds.managers.WorldManager;
+import me.lokka30.phantomworlds.misc.MultiMessage;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,7 +31,6 @@ public class CreateSubcommand implements ISubcommand {
      - tab completion
      - test
      - permissions.yml
-     - messages.yml
      - test thoroughly
      */
 
@@ -46,18 +47,31 @@ public class CreateSubcommand implements ISubcommand {
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.create")) {
-            sender.sendMessage("No permission");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("common.no-permission"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("permission", "phantomworlds.command.phantomworlds.create", false)
+            ))).send(sender);
             return;
         }
 
         if (args.length < 3) {
-            sender.sendMessage("Incorrect usage. Try /pw create <WorldName> <Environment> [options...]");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.usage"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("label", label, false)
+            ))).send(sender);
             return;
         }
 
         final String worldName = args[1];
         if (Bukkit.getWorld(worldName) != null) {
-            sender.sendMessage("World '" + worldName + "' is already loaded - teleport to it using /pw tp.");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.already-loaded"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("world", worldName, false),
+                    new MultiMessage.Placeholder("label", label, false)
+            ))).send(sender);
             return;
         }
 
@@ -65,7 +79,12 @@ public class CreateSubcommand implements ISubcommand {
         try {
             environment = World.Environment.valueOf(args[2].toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException ex) {
-            sender.sendMessage("Environment type '" + args[2] + "' does not exist. Valid environment types: " + String.join(", ", Utils.getStringsOfEnumValues(World.Environment.values())));
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-environment"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("type", args[2], false),
+                    new MultiMessage.Placeholder("types", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.getStringsOfEnumValues(World.Environment.values())), true)
+            ))).send(sender);
             return;
         }
 
@@ -88,7 +107,14 @@ public class CreateSubcommand implements ISubcommand {
 
                 String[] split = arg.split(":");
                 if (split.length != 2) {
-                    sender.sendMessage("Invalid world option '" + args[index] + "'.");
+                    (new MultiMessage(
+                            main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-option"), Arrays.asList(
+                            new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                            new MultiMessage.Placeholder("option", args[index], false),
+                            new MultiMessage.Placeholder("options", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"),
+                                    Arrays.asList("genStructures", "gen", "genSettings", "hardcore", "seed", "type", "spawnMobs", "spawnAnimals", "keepSpawnInMemory", "allowPvP", "difficulty")
+                            ), false)
+                    ))).send(sender);
                     return;
                 }
 
@@ -117,7 +143,13 @@ public class CreateSubcommand implements ISubcommand {
                                 generateStructures = false;
                                 break;
                             default:
-                                sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "'.");
+                                (new MultiMessage(
+                                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
+                                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("option", option, false),
+                                        new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
+                                ))).send(sender);
                                 return;
                         }
                         break;
@@ -144,7 +176,13 @@ public class CreateSubcommand implements ISubcommand {
                                 hardcore = false;
                                 break;
                             default:
-                                sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': Boolean (true/false) expected");
+                                (new MultiMessage(
+                                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
+                                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("option", option, false),
+                                        new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
+                                ))).send(sender);
                                 return;
                         }
                         break;
@@ -152,7 +190,13 @@ public class CreateSubcommand implements ISubcommand {
                         try {
                             seed = Long.valueOf(value);
                         } catch (NumberFormatException ex) {
-                            sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': Long (decimal number) expected");
+                            (new MultiMessage(
+                                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
+                                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                                    new MultiMessage.Placeholder("value", value, false),
+                                    new MultiMessage.Placeholder("option", option, false),
+                                    new MultiMessage.Placeholder("expected", "Long (any number)", false)
+                            ))).send(sender);
                             return;
                         }
                         break;
@@ -161,7 +205,14 @@ public class CreateSubcommand implements ISubcommand {
                         try {
                             worldType = WorldType.valueOf(value.toUpperCase(Locale.ROOT));
                         } catch (IllegalArgumentException ex) {
-                            sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': WorldType (" + String.join(", ", Utils.getStringsOfEnumValues(WorldType.values())) + ") expected");
+                            (new MultiMessage(
+                                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value-list"), Arrays.asList(
+                                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                                    new MultiMessage.Placeholder("value", value, false),
+                                    new MultiMessage.Placeholder("option", option, false),
+                                    new MultiMessage.Placeholder("expected", "WorldType", false),
+                                    new MultiMessage.Placeholder("values", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.getStringsOfEnumValues(WorldType.values())), true)
+                            ))).send(sender);
                             return;
                         }
                         break;
@@ -181,7 +232,13 @@ public class CreateSubcommand implements ISubcommand {
                                 spawnMobs = false;
                                 break;
                             default:
-                                sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': Boolean (true/false) expected");
+                                (new MultiMessage(
+                                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
+                                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("option", option, false),
+                                        new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
+                                ))).send(sender);
                                 return;
                         }
                         break;
@@ -201,7 +258,13 @@ public class CreateSubcommand implements ISubcommand {
                                 spawnAnimals = false;
                                 break;
                             default:
-                                sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': Boolean (true/false) expected");
+                                (new MultiMessage(
+                                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
+                                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("option", option, false),
+                                        new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
+                                ))).send(sender);
                                 return;
                         }
                         break;
@@ -221,7 +284,13 @@ public class CreateSubcommand implements ISubcommand {
                                 keepSpawnInMemory = false;
                                 break;
                             default:
-                                sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': Boolean (true/false) expected");
+                                (new MultiMessage(
+                                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
+                                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("option", option, false),
+                                        new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
+                                ))).send(sender);
                                 return;
                         }
                         break;
@@ -241,7 +310,13 @@ public class CreateSubcommand implements ISubcommand {
                                 allowPvP = false;
                                 break;
                             default:
-                                sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': Boolean (true/false) expected");
+                                (new MultiMessage(
+                                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
+                                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("option", option, false),
+                                        new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
+                                ))).send(sender);
                                 return;
                         }
                         break;
@@ -250,13 +325,26 @@ public class CreateSubcommand implements ISubcommand {
                         try {
                             difficulty = Difficulty.valueOf(value.toUpperCase(Locale.ROOT));
                         } catch (IllegalArgumentException ex) {
-                            sender.sendMessage("Invalid world option value '" + value + "' for option '" + option + "': Difficulty (" + String.join(", ", Utils.getStringsOfEnumValues(Difficulty.values())) + ") expected");
+                            (new MultiMessage(
+                                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value-list"), Arrays.asList(
+                                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                                    new MultiMessage.Placeholder("value", value, false),
+                                    new MultiMessage.Placeholder("option", option, false),
+                                    new MultiMessage.Placeholder("expected", "Difficulty", false),
+                                    new MultiMessage.Placeholder("values", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.getStringsOfEnumValues(Difficulty.values())), true)
+                            ))).send(sender);
                             return;
                         }
                         break;
                     default:
-                        sender.sendMessage("Invalid world option '" + option + "'. Valid world options: generateStructures, generator, generatorSettings, hardcore, " +
-                                "seed, worldType, spawnMobs, spawnAnimals, keepSpawnInMemory, allowPvP, difficulty");
+                        (new MultiMessage(
+                                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-option"), Arrays.asList(
+                                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                                new MultiMessage.Placeholder("option", option, false),
+                                new MultiMessage.Placeholder("options", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"),
+                                        Arrays.asList("genStructures", "gen", "genSettings", "hardcore", "seed", "type", "spawnMobs", "spawnAnimals", "keepSpawnInMemory", "allowPvP", "difficulty")
+                                ), false)
+                        ))).send(sender);
                         break;
                 }
             }
@@ -269,9 +357,19 @@ public class CreateSubcommand implements ISubcommand {
         );
 
         final QuickTimer quickTimer = new QuickTimer();
-        sender.sendMessage("Starting creation of world '" + worldName + "'...");
 
-        sender.sendMessage("[" + worldName + ": 1/2]: Saving world data...");
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.creation.starting"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("world", worldName, false)
+        ))).send(sender);
+
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.creation.saving-world-data"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("world", worldName, false)
+        ))).send(sender);
+
         final String cfgPath = "worlds-to-load." + worldName + ".";
         main.data.getConfig().set(cfgPath + "environment", environment.toString());
         main.data.getConfig().set(cfgPath + "generateStructures", generateStructures);
@@ -292,10 +390,21 @@ public class CreateSubcommand implements ISubcommand {
             ex.printStackTrace();
         }
 
-        sender.sendMessage("[" + worldName + ": 2/2]: Creating the world... (The server may briefly freeze)");
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.creation.constructing-world"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("world", worldName, false)
+        ))).send(sender);
+
         pworld.create();
 
-        sender.sendMessage("World '" + worldName + "' has been created (took " + quickTimer.getTimer() + "ms). Teleport to it using '/pw tp " + worldName + "'.");
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.creation.complete"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("world", worldName, false),
+                new MultiMessage.Placeholder("time", quickTimer.getTimer() + "", false),
+                new MultiMessage.Placeholder("label", label, false)
+        ))).send(sender);
     }
 
     /**

@@ -10,9 +10,23 @@ common:
 
   no-permission: '%prefix% You don''t have access to that. &8(%permission%)'
 
+  list-delimiter: '&7, &b'
+
 command:
 
   phantomworlds:
+
+    usage:
+      - '%prefix% Available commands:'
+      - '&8 &m->&b /%label% create &8- &7create/import a world'
+      - '&8 &m->&b /%label% list &8- &7list loaded worlds'
+      - '&8 &m->&b /%label% teleport &8- &7teleport to a loaded world'
+      - '&8 &m->&b /%label% spawn &8- &7teleport to a world''s spawnpoint'
+      - '&8 &m->&b /%label% setspawn &8- &7set the spawnpoint of a world'
+      - '&8 &m->&b /%label% unload &8- &7unload a loaded world'
+      - '&8 &m->&b /%label% reload &8- &7reload all config & data files'
+      - '&8 &m->&b /%label% info &8- &7view info about the plugin'
+      - '&8 &m->&b /%label% compatibility &8- &7check for incompatibilities'
 
     subcommands:
 
@@ -36,12 +50,61 @@ command:
         usage:
           - '%prefix% Invalid usage, try ''&b/%label% compatibility&7''.'
 
-      info:
+      create:
+
+        already-loaded:
+          - '%prefix% World ''&b%world%&7'' is already loaded - you may teleport to it using ''&b/%label% tp %world%&7''.'
+
+        creation:
+
+          starting:
+            - '%prefix% Starting creation of world ''&b%world%&7''...'
+
+          saving-world-data:
+            - '%prefix% &8[%world%: 1/2]: &7Saving world data...'
+
+          constructing-world:
+            - '%prefix% &8[%world%: 2/2]: &7Constructing the world...'
+            - '%prefix% &8[%world%: 2/2]: &7(The server may briefly freeze)'
+
+          complete:
+            - '%prefix% World ''&b%world%&7'' created:'
+            - '&8 &m->&7 Took &b%time%ms&7.'
+            - '&8 &m->&7 You may teleport to it using ''&b/%label% tp %world%&7''.'
+
+        options:
+
+          invalid-option:
+            - '%prefix% Invalid world option ''&b%option%&7''.'
+            - '%prefix% Valid world options: &b%options%&7.'
+
+          invalid-value:
+            - '%prefix% Invalid world option value ''&b%value%&7'' for option ''&b%option%&7'', a &b%expected%&7 value was expected.'
+
+          invalid-value-list:
+            - '%prefix% Invalid world option value ''&b%value%&7'' for option ''&b%option%&7'', a valid &b%expected%&7 was expected.'
+            - '%prefix% Valid values: &b%values%&7.'
+
+          invalid-environment:
+            - '%prefix% Environment ''&b%type%&7'' doesn''t exist.'
+            - '%prefix% Valid environments: &b%types%&7.'
+
+        usage:
+          - '%prefeix% Invalid usage, try ''&b/%label% create <world> <environment> [options...]&7''.'
+
+      info: #TODO
+
+        success:
+          - '%prefix% Plugin information:'
+          - '&8| &7Running &bPhantomWorlds v%version%'
+          - '&8| &7Authors: &b%authors%'
+          - '&8| &7Contributors: &b%contributors%'
+          - '&8| &7Supported MC versions: &b%supportedServerVersions%'
 
         usage:
           - '%prefix% Invalid usage, try ''&b/%label% info&7''.'
 
 # Do not touch anything here unless you know what you are doing.
 advanced:
-  file-version: 1 #TODO Change this.
+  file-version: 5
   generated-with: '${project.version}'

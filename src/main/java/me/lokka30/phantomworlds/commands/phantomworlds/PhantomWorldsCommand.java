@@ -2,6 +2,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.*;
+import me.lokka30.phantomworlds.misc.MultiMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -44,7 +45,11 @@ public class PhantomWorldsCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds")) {
-            sender.sendMessage("No permission");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("common.no-permission"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("permission", "phantomworlds.command.phantomworlds", false)
+            ))).send(sender);
             return true;
         }
 
@@ -101,7 +106,11 @@ public class PhantomWorldsCommand implements TabExecutor {
      * @since v2.0.0
      */
     void sendAvailableSubcommands(CommandSender sender, String label) {
-        sender.sendMessage("/" + label + " create/list/setspawn/spawn/teleport/reload/unload/info/compatibility/debug ..."); //TODO MSG
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.usage"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("label", label, false)
+        ))).send(sender);
     }
 
     /**
