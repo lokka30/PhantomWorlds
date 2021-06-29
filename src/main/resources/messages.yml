@@ -92,7 +92,7 @@ command:
         usage:
           - '%prefeix% Invalid usage, try ''&b/%label% create <world> <environment> [options...]&7''.'
 
-      info: #TODO
+      info:
 
         success:
           - '%prefix% Plugin information:'
