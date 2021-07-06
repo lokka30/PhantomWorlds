@@ -1,12 +1,15 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
+import me.lokka30.microlib.MessageUtils;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
+import me.lokka30.phantomworlds.misc.MultiMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,7 +21,6 @@ public class DebugSubcommand implements ISubcommand {
 
     /*
     TODO
-     - Messages.yml
      - Permissions.yml
      - Test
      */
@@ -36,26 +38,30 @@ public class DebugSubcommand implements ISubcommand {
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.debug")) {
-            sender.sendMessage("No permission");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("common.no-permission"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("permission", "phantomworlds.command.phantomworlds.debug", false)
+            ))).send(sender);
             return;
         }
 
         if (args.length == 1) {
-            sender.sendMessage("Please specify a valid debug system to initialise.");
+            sender.sendMessage(MessageUtils.colorizeStandardCodes("&b&lPhantomWorlds: &7Usage: &b/" + label + " debug <method>"));
             return;
         }
 
         //noinspection SwitchStatementWithTooFewBranches
         switch (args[1].toLowerCase(Locale.ROOT)) {
             case "dump":
-                /*
-                TODO Planned: dump a bunch of useful information (server version, software, PW version, configs in pastebin, ...) to a file 'dump.txt'.
-                 */
-                sender.sendMessage("Work in progress.");
+                sender.sendMessage(MessageUtils.colorizeStandardCodes("&b&lPhantomWorlds: &7Incomplete."));
                 break;
             default:
-                sender.sendMessage("Invalid debug system '" + args[1] + "'.");
-                sender.sendMessage("Note: Please do not run this subcommand unless you are sure you are meant to be doing so.");
+                sender.sendMessage(MessageUtils.colorizeStandardCodes("&b&lPhantomWorlds: &7Invalid debug method '%method%'.")
+                        .replace("%method%", args[1])
+                );
+
+                sender.sendMessage(MessageUtils.colorizeStandardCodes("&b&lPhantomWorlds: &7Note: Please do not run this subcommand unless you are sure you are meant to be doing so."));
                 break;
         }
     }
