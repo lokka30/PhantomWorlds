@@ -30,8 +30,6 @@ public class CreateSubcommand implements ISubcommand {
     TODO:
      - tab completion
      - test
-     - permissions.yml
-     - test thoroughly
      */
 
     /*
