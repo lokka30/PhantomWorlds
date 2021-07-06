@@ -111,7 +111,7 @@ public class CreateSubcommand implements ISubcommand {
                             new MultiMessage.Placeholder("option", args[index], false),
                             new MultiMessage.Placeholder("options", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"),
                                     Arrays.asList("genStructures", "gen", "genSettings", "hardcore", "seed", "type", "spawnMobs", "spawnAnimals", "keepSpawnInMemory", "allowPvP", "difficulty")
-                            ), false)
+                            ), true)
                     ))).send(sender);
                     return;
                 }
@@ -341,9 +341,9 @@ public class CreateSubcommand implements ISubcommand {
                                 new MultiMessage.Placeholder("option", option, false),
                                 new MultiMessage.Placeholder("options", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"),
                                         Arrays.asList("genStructures", "gen", "genSettings", "hardcore", "seed", "type", "spawnMobs", "spawnAnimals", "keepSpawnInMemory", "allowPvP", "difficulty")
-                                ), false)
+                                ), true)
                         ))).send(sender);
-                        break;
+                        return;
                 }
             }
         }

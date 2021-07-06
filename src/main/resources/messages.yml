@@ -89,7 +89,7 @@ command:
             - '%prefix% Valid environments: &b%types%&7.'
 
         usage:
-          - '%prefeix% Invalid usage, try ''&b/%label% create <world> <environment> [options...]&7''.'
+          - '%prefix% Invalid usage, try ''&b/%label% create <world> <environment> [options...]&7''.'
 
       info:
 

@@ -98,11 +98,16 @@ public class FileManager {
 
         switch (pwFile) {
             case SETTINGS:
-            case ADVANCED_SETTINGS:
-            case MESSAGES:
                 if (currentVersion == PWFile.SETTINGS.latestFileVersion) return;
-
-                Utils.LOGGER.error("&3Files: &7You are running the incorrect version of the file &b" + pwFile + "&7! Please back it up and allow the plugin to generate a new file, or you will most likely experience errors.");
+                alertIncorrectVersion(pwFile);
+                break;
+            case ADVANCED_SETTINGS:
+                if (currentVersion == PWFile.ADVANCED_SETTINGS.latestFileVersion) return;
+                alertIncorrectVersion(pwFile);
+                break;
+            case MESSAGES:
+                if (currentVersion == PWFile.MESSAGES.latestFileVersion) return;
+                alertIncorrectVersion(pwFile);
                 break;
             case DATA:
                 if (currentVersion == PWFile.DATA.latestFileVersion) return;
@@ -129,12 +134,18 @@ public class FileManager {
                         Utils.LOGGER.info("&3Files: &7The &b" + pwFile + "&7 file has been migrated.");
                         break;
                     default:
+                        alertIncorrectVersion(pwFile);
                         break;
                 }
                 break;
             default:
                 throw new IllegalStateException("Unexpected value " + pwFile);
         }
+    }
+
+    void alertIncorrectVersion(PWFile pwFile) {
+        Utils.LOGGER.error("&3Files: &7You are running the incorrect version of the " +
+                "file &b" + pwFile + "&7! Please back it up and allow the plugin to generate a new file, or you will most likely experience errors.");
     }
 
     /**
