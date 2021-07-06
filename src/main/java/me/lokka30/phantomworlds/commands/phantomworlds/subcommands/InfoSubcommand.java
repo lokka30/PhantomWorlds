@@ -18,11 +18,6 @@ import java.util.List;
 public class InfoSubcommand implements ISubcommand {
 
     /*
-    TODO
-     - Test
-     */
-
-    /*
     cmd: /pw info
     arg:   -    0
     len:   0    1

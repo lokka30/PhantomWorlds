@@ -20,11 +20,6 @@ import java.util.Locale;
 public class DebugSubcommand implements ISubcommand {
 
     /*
-    TODO
-     - Test
-     */
-
-    /*
     cmd: /pw debug ...
     arg:   -     0  1+
     len:   0     1  2+
