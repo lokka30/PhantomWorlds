@@ -43,9 +43,9 @@ permissions:
       phantomworlds.command.phantomworlds.info: true
       phantomworlds.command.phantomworlds.list: true
       phantomworlds.command.phantomworlds.setspawn: true
-      phantomworlds.command.phantomworlds.spawn: true
       phantomworlds.command.phantomworlds.teleport: true
       phantomworlds.command.phantomworlds.unload: true
+      phantomworlds.command.phantomworlds.reload: true
 
   phantomworlds.command.phantomworlds:
     default: op
@@ -75,10 +75,6 @@ permissions:
     default: op
     description: 'Ability to run /pw setspawn'
 
-  phantomworlds.command.phantomworlds.spawn:
-    default: op
-    description: 'Ability to run /pw spawn'
-
   phantomworlds.command.phantomworlds.teleport:
     default: op
     description: 'Ability to run /pw teleport'
@@ -86,3 +82,7 @@ permissions:
   phantomworlds.command.phantomworlds.unload:
     default: op
     description: 'Ability to run /pw unload'
+
+  phantomworlds.command.phantomworlds.reload:
+    default: op
+    description: 'Ability to run /pw reload'

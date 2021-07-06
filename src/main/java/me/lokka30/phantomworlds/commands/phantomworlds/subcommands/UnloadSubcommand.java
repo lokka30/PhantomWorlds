@@ -21,7 +21,6 @@ public class UnloadSubcommand implements ISubcommand {
     /*
     TODO
      - Messages.yml
-     - Permissions.yml
      - Test
      */
 

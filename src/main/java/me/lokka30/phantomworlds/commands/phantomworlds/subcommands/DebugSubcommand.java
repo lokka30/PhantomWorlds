@@ -21,7 +21,6 @@ public class DebugSubcommand implements ISubcommand {
 
     /*
     TODO
-     - Permissions.yml
      - Test
      */
 

@@ -20,7 +20,6 @@ public class ReloadSubcommand implements ISubcommand {
      - Command
      - Test
      - Messages.yml
-     - Permissions.yml
      - Test
      */
 

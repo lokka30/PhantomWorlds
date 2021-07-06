@@ -19,7 +19,6 @@ public class ListSubcommand implements ISubcommand {
     /*
     TODO
      - Messages.yml
-     - Permissions.yml
      - Test
      */
 

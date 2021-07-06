@@ -21,7 +21,6 @@ public class TeleportSubcommand implements ISubcommand {
     /*
     TODO
      - Messages.yml
-     - Permissions.yml
      - Test
      */
 

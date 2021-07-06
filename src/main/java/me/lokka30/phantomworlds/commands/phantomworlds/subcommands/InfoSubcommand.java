@@ -19,7 +19,6 @@ public class InfoSubcommand implements ISubcommand {
 
     /*
     TODO
-     - Permissions.yml
      - Test
      */
 

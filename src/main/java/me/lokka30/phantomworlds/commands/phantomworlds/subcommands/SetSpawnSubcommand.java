@@ -24,7 +24,6 @@ public class SetSpawnSubcommand implements ISubcommand {
      - Tab Completion
      - Test
      - Messages.yml
-     - Permissions.yml
      - Test
      */
 
