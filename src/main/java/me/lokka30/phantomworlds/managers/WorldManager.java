@@ -32,7 +32,7 @@ public class WorldManager {
      * @since v2.0.0
      */
     public void loadManagedWorlds() {
-        Utils.LOGGER.info("&3World Manager: &7Loading managed worlds...");
+        Utils.LOGGER.info("&3Worlds: &7Loading managed worlds...");
 
         if (!main.data.getConfig().contains("worlds-to-load")) return;
 
@@ -46,18 +46,18 @@ public class WorldManager {
             final File worldFolder = new File(worldContainer.getAbsolutePath() + File.separator + worldName);
 
             if (!worldContainer.exists()) {
-                Utils.LOGGER.error("World container doesn't exist!");
+                Utils.LOGGER.error("&3Worlds: &7World container doesn't exist!");
                 return;
             }
 
             if (!worldFolder.exists()) {
                 // The world was deleted/moved by the user so it must be re-imported. PW should no longer attempt to load that world.
-                Utils.LOGGER.info("Discarding world '&b" + worldName + "&7' from PhantomWorlds' data file as it no longer exists on the server.");
+                Utils.LOGGER.info("&3Worlds: &7Discarding world '&b" + worldName + "&7' from PhantomWorlds' data file as it no longer exists on the server.");
                 worldsToDiscardFromDataFile.add(worldName);
                 continue;
             }
 
-            Utils.LOGGER.info("Loading world '&b" + worldName + "&7'...");
+            Utils.LOGGER.info("&3Worlds: &7Loading world '&b" + worldName + "&7'...");
             getPhantomWorldFromData(main, worldName).create();
         }
 

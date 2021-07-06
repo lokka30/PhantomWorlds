@@ -113,7 +113,7 @@ public class PhantomWorlds extends JavaPlugin {
      * @since v2.0.0
      */
     void checkCompatibility() {
-        Utils.LOGGER.info("Checking compatibility with server...");
+        Utils.LOGGER.info("&3Compatibility: &7Checking compatibility with server...");
 
         compatibilityChecker.checkAll();
 
@@ -136,7 +136,7 @@ public class PhantomWorlds extends JavaPlugin {
      * @since v2.0.0
      */
     void loadFiles() {
-        Utils.LOGGER.info("Loading files...");
+        Utils.LOGGER.info("&3Files: &7Loading files...");
         for (FileManager.PWFile pwFile : FileManager.PWFile.values()) {
             fileManager.init(pwFile);
         }
@@ -150,7 +150,7 @@ public class PhantomWorlds extends JavaPlugin {
      * @since v2.0.0
      */
     void loadWorlds() {
-        Utils.LOGGER.info("Loading worlds...");
+        Utils.LOGGER.info("&3Worlds: &7Loading worlds...");
         worldManager.loadManagedWorlds();
     }
 
@@ -162,7 +162,7 @@ public class PhantomWorlds extends JavaPlugin {
      * @since v2.0.0
      */
     void registerCommands() {
-        Utils.LOGGER.info("Registering commands...");
+        Utils.LOGGER.info("&3Commands: &7Registering commands...");
         Utils.registerCommand(this, new PhantomWorldsCommand(this), "phantomworlds");
     }
 
@@ -174,7 +174,7 @@ public class PhantomWorlds extends JavaPlugin {
      * @since v2.0.0
      */
     void registerListeners() {
-        Utils.LOGGER.info("Registering listeners...");
+        Utils.LOGGER.info("&3Listeners: &7Registering listeners...");
         /* Register any listeners here. */
     }
 
@@ -185,7 +185,7 @@ public class PhantomWorlds extends JavaPlugin {
      * @since v2.0.0
      */
     void miscStartupProcedures() {
-        Utils.LOGGER.info("Running misc startup procedures...");
+        Utils.LOGGER.info("&3Startup: &7Running misc startup procedures...");
 
         /* bStats Metrics */
         new Metrics(this, 8916);

@@ -30,7 +30,7 @@ public class FileManager {
      * @since v2.0.0
      */
     public void init(PWFile pwFile) {
-        Utils.LOGGER.info("&3File Manager: &7Loading file &b" + pwFile + "&7...");
+        Utils.LOGGER.info("&3Files: &7Loading file &b" + pwFile + "&7...");
 
         try {
             load(pwFile);
@@ -52,7 +52,7 @@ public class FileManager {
                     break;
             }
         } catch (IOException ex) {
-            Utils.LOGGER.error("&3File Manager: &7Unable to init file &b" + pwFile + "&7. Stack trace:");
+            Utils.LOGGER.error("&3Files: &7Unable to init file &b" + pwFile + "&7. Stack trace:");
             ex.printStackTrace();
         }
     }
@@ -102,7 +102,7 @@ public class FileManager {
             case MESSAGES:
                 if (currentVersion == PWFile.SETTINGS.latestFileVersion) return;
 
-                Utils.LOGGER.error("&3File Manager: &7You are running the incorrect version of the file &b" + pwFile + "&7! Please back it up and allow the plugin to generate a new file, or you will most likely experience errors.");
+                Utils.LOGGER.error("&3Files: &7You are running the incorrect version of the file &b" + pwFile + "&7! Please back it up and allow the plugin to generate a new file, or you will most likely experience errors.");
                 break;
             case DATA:
                 if (currentVersion == PWFile.DATA.latestFileVersion) return;
@@ -111,7 +111,7 @@ public class FileManager {
                 //noinspection SwitchStatementWithTooFewBranches
                 switch (currentVersion) {
                     case 1:
-                        Utils.LOGGER.info("&3File Manager: &7Automatically migrating the &b" + pwFile + "&7 file to the latest format (it was outdated).");
+                        Utils.LOGGER.info("&3Files: &7Automatically migrating the &b" + pwFile + "&7 file to the latest format (it was outdated).");
 
                         if (!main.data.getConfig().contains("worlds")) return;
 
@@ -126,7 +126,7 @@ public class FileManager {
 
                         main.data.getConfig().set("advanced.file-version", 2);
 
-                        Utils.LOGGER.info("&3File Manager: &7The &b" + pwFile + "&7 file has been migrated.");
+                        Utils.LOGGER.info("&3Files: &7The &b" + pwFile + "&7 file has been migrated.");
                         break;
                     default:
                         break;
