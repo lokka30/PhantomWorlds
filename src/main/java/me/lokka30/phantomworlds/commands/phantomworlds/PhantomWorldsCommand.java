@@ -115,7 +115,7 @@ public class PhantomWorldsCommand implements TabExecutor {
      */
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (args.length == 0) {
+        if (args.length == 1) {
             return Arrays.asList("create", "info", "list", "setspawn", "reload", "teleport", "unload", "debug", "compatibility");
         }
 
