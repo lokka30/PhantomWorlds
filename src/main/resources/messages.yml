@@ -103,6 +103,36 @@ command:
         usage:
           - '%prefix% Invalid usage, try ''&b/%label% info&7''.'
 
+      list:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% list&7''.'
+
+        header:
+          - '%prefix% Worlds loaded &8(&b%amount%&8)&7:'
+
+        entry:
+          - '&8 &m->&b %world%'
+
+      reload:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% reload&7''.'
+
+        reloading-files:
+          - '%prefix% &8[1/2] &7Reloading files...'
+
+        reloading-worlds:
+          - '%prefix% &8[2/2] &7Reloading worlds...'
+
+        reload-complete:
+          - '%prefix% Reload complete.'
+
+      setspawn:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% setspawn [x] [y] [z] [world] [yaw] [pitch]'
+
 # Do not touch anything here unless you know what you are doing.
 advanced:
   file-version: 5

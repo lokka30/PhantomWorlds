@@ -135,7 +135,7 @@ public class PhantomWorlds extends JavaPlugin {
      * @author lokka30
      * @since v2.0.0
      */
-    void loadFiles() {
+    public void loadFiles() {
         Utils.LOGGER.info("&3Files: &7Loading files...");
         for (FileManager.PWFile pwFile : FileManager.PWFile.values()) {
             fileManager.init(pwFile);
@@ -149,7 +149,7 @@ public class PhantomWorlds extends JavaPlugin {
      * @author lokka30
      * @since v2.0.0
      */
-    void loadWorlds() {
+    public void loadWorlds() {
         Utils.LOGGER.info("&3Worlds: &7Loading worlds...");
         worldManager.loadManagedWorlds();
     }

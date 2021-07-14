@@ -2,12 +2,15 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
+import me.lokka30.phantomworlds.misc.MultiMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,7 +21,6 @@ public class ListSubcommand implements ISubcommand {
 
     /*
     TODO
-     - Messages.yml
      - Test
      */
 
@@ -35,17 +37,36 @@ public class ListSubcommand implements ISubcommand {
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.list")) {
-            sender.sendMessage("No permission");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("common.no-permission"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("permission", "phantomworlds.command.phantomworlds.list", false)
+            ))).send(sender);
             return;
         }
 
         if (args.length != 1) {
-            sender.sendMessage("Usage: /" + label + " list");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.list.usage"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("label", label, false)
+            ))).send(sender);
             return;
         }
 
-        sender.sendMessage("Worlds loaded (" + Bukkit.getWorlds().size() + "):");
-        Bukkit.getWorlds().forEach(world -> sender.sendMessage(" -> " + world.getName()));
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.list.header"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("amount", Bukkit.getWorlds().size() + "", false)
+        ))).send(sender);
+
+        for (World world : Bukkit.getWorlds()) {
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.list.entry"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("world", world.getName(), false)
+            ))).send(sender);
+        }
     }
 
     /**
