@@ -83,7 +83,12 @@ public class PhantomWorldsCommand implements TabExecutor {
                     compatibilitySubcommand.parseCommand(main, sender, cmd, label, args);
                     break;
                 default:
-                    sender.sendMessage("Invalid subcommand '" + args[0] + "'."); //TODO MSG
+                    (new MultiMessage(
+                            main.messages.getConfig().getStringList("command.phantomworlds.invalid-subcommand"), Arrays.asList(
+                            new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                            new MultiMessage.Placeholder("arg", args[0], false)
+                    ))).send(sender);
+
                     sendAvailableSubcommands(sender, label);
                     break;
             }

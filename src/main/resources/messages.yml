@@ -27,7 +27,20 @@ command:
       - '&8 &m->&b /%label% info &8- &7view info about the plugin'
       - '&8 &m->&b /%label% compatibility &8- &7check for incompatibilities'
 
+    invalid-subcommand:
+      - '%prefix% Invalid subcommand ''&b%arg%&7''.'
+
     subcommands:
+
+      # Messages inside this 'common' branch are used
+      # among multiple subcommands.
+      common:
+
+        invalid-world:
+          - '%prefix% Invalid world ''&b%world&7''.'
+
+        player-offline:
+          - '%prefix% Player ''&b%player%&7'' is offline.'
 
       compatibility:
 
@@ -131,7 +144,19 @@ command:
       setspawn:
 
         usage:
-          - '%prefix% Invalid usage, try ''&b/%label% setspawn [x] [y] [z] [world] [yaw] [pitch]'
+          - '%prefix% Invalid usage, try ''&b/%label% setspawn [x] [y] [z] [world] [yaw] [pitch]&7''.'
+
+      teleport:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% teleport <world> [player]&7''.'
+
+        # Console specific, as console must specify a player.
+        usage-console:
+          - '%prefix% Invalid usage for console, try ''&b/%label% teleport <world> <player>&7''.'
+
+        success:
+          - '%prefix% Teleported player ''&b%player%&7'' to the spawn point of world ''&b%world%&7''.'
 
 # Do not touch anything here unless you know what you are doing.
 advanced:

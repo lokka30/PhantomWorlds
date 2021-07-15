@@ -19,11 +19,6 @@ import java.util.List;
 public class ReloadSubcommand implements ISubcommand {
 
     /*
-    TODO
-     - Test
-     */
-
-    /*
     cmd: /pw reload
     arg:   -      0
     len:   0      1

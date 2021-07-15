@@ -22,7 +22,6 @@ public class TeleportSubcommand implements ISubcommand {
 
     /*
     TODO
-     - Messages.yml
      - Test
      */
 
@@ -49,12 +48,20 @@ public class TeleportSubcommand implements ISubcommand {
         }
 
         if (args.length < 2 || args.length > 3) {
-            sender.sendMessage("Usage: /" + label + " teleport <world> [player]");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.teleport.usage"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("label", label, false)
+            ))).send(sender);
             return;
         }
 
         if (Bukkit.getWorld(args[1]) == null) {
-            sender.sendMessage("Invalid world '" + args[1] + "'.");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.common.invalid-world"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("world", args[1], false)
+            ))).send(sender);
             return;
         }
 
@@ -64,14 +71,22 @@ public class TeleportSubcommand implements ISubcommand {
 
             // If the target is offline or invisible to the sender, then stop
             if (target == null || !Utils.getPlayersCanSeeList(sender).contains(target.getName())) {
-                sender.sendMessage("'" + args[2] + "' is not online.");
+                (new MultiMessage(
+                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.common.player-offline"), Arrays.asList(
+                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                        new MultiMessage.Placeholder("player", args[2], false)
+                ))).send(sender);
                 return;
             }
         } else {
             if (sender instanceof Player) {
                 target = (Player) sender;
             } else {
-                sender.sendMessage("Usage (console): /pw teleport <world> <player>");
+                (new MultiMessage(
+                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.teleport.usage-console"), Arrays.asList(
+                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                        new MultiMessage.Placeholder("label", label, false)
+                ))).send(sender);
                 return;
             }
         }
@@ -79,7 +94,12 @@ public class TeleportSubcommand implements ISubcommand {
         //noinspection ConstantConditions
         target.teleport(Bukkit.getWorld(args[1]).getSpawnLocation());
 
-        sender.sendMessage("Teleported '" + target.getName() + "' to the spawn point of world '" + args[1] + "'.");
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.teleport.success"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("player", target.getName(), false),
+                new MultiMessage.Placeholder("world", args[1], false)
+        ))).send(sender);
     }
 
     /**

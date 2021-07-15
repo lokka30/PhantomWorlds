@@ -20,11 +20,6 @@ import java.util.List;
 public class ListSubcommand implements ISubcommand {
 
     /*
-    TODO
-     - Test
-     */
-
-    /*
     cmd: /pw list
     arg:   -    0
     len:   0    1
