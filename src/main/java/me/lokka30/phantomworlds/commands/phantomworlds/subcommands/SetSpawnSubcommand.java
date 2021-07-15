@@ -24,8 +24,8 @@ public class SetSpawnSubcommand implements ISubcommand {
     TODO
      - Messages.yml
      - Round coordinate decimals
-     - Tab Completion
      - Test
+     - Tab Completion
      - Test
      */
 
