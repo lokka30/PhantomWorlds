@@ -1,5 +1,6 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
+import me.lokka30.microlib.MessageUtils;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
 import me.lokka30.phantomworlds.misc.MultiMessage;
@@ -22,7 +23,6 @@ public class SetSpawnSubcommand implements ISubcommand {
 
     /*
     TODO
-     - Messages.yml
      - Round coordinate decimals
      - Test
      - Tab Completion
@@ -61,7 +61,11 @@ public class SetSpawnSubcommand implements ISubcommand {
 
         // console must specify x, y, z, and world
         if (!(sender instanceof Player) && args.length < 5) {
-            sender.sendMessage("Invalid usage for console. Try /pw setspawn <x> <y> <z> <world> [yaw] [pitch]");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.setspawn.usage-console"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("label", label, false)
+            ))).send(sender);
             return;
         }
 
@@ -74,7 +78,11 @@ public class SetSpawnSubcommand implements ISubcommand {
             worldName = ((Player) sender).getWorld().getName();
         }
         if (Bukkit.getWorld(worldName) == null) {
-            sender.sendMessage("World '" + worldName + "' is not loaded.");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.common.invalid-world"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("world", args[1], false)
+            ))).send(sender);
             return;
         }
 
@@ -90,7 +98,11 @@ public class SetSpawnSubcommand implements ISubcommand {
                 try {
                     val = Double.parseDouble(args[i]);
                 } catch (NumberFormatException ex) {
-                    sender.sendMessage("'" + args[i] + "' is not a valid number.");
+                    (new MultiMessage(
+                            main.messages.getConfig().getStringList("command.phantomworlds.subcommands.setspawn.invalid-number"), Arrays.asList(
+                            new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                            new MultiMessage.Placeholder("arg", args[i], false)
+                    ))).send(sender);
                     return;
                 }
 
@@ -105,6 +117,7 @@ public class SetSpawnSubcommand implements ISubcommand {
                         z = val;
                         break;
                     default:
+                        sender.sendMessage(MessageUtils.colorizeAll("&b&lPhantomWorlds: &7Encountered an issue whilst retrieving coordinate args. Please report this to the author."));
                         throw new IllegalArgumentException("Unexpected value: " + i);
                 }
             }
@@ -120,7 +133,11 @@ public class SetSpawnSubcommand implements ISubcommand {
             try {
                 yaw = Float.parseFloat(args[5]);
             } catch (NumberFormatException ex) {
-                sender.sendMessage("'" + args[5] + "' is not a valid number.");
+                (new MultiMessage(
+                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.setspawn.invalid-number"), Arrays.asList(
+                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                        new MultiMessage.Placeholder("arg", args[5], false)
+                ))).send(sender);
                 return;
             }
         } else {
@@ -136,7 +153,11 @@ public class SetSpawnSubcommand implements ISubcommand {
             try {
                 pitch = Float.parseFloat(args[6]);
             } catch (NumberFormatException ex) {
-                sender.sendMessage("'" + args[6] + "' is not a valid number.");
+                (new MultiMessage(
+                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.setspawn.invalid-number"), Arrays.asList(
+                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                        new MultiMessage.Placeholder("arg", args[6], false)
+                ))).send(sender);
                 return;
             }
         } else {
@@ -151,7 +172,16 @@ public class SetSpawnSubcommand implements ISubcommand {
         //noinspection ConstantConditions //This stop IntelliJ from complaining about the world being possibly null which we have already verified isn't the case.
         location.getWorld().setSpawnLocation(location);
 
-        sender.sendMessage("Spawn location set for world '" + worldName + "' at x=" + x + ", y=" + y + ", z=" + z + ", with yaw=" + yaw + " and pitch=" + pitch + ".");
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.setspawn.success"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("world", worldName, false),
+                new MultiMessage.Placeholder("x", x + "", false),
+                new MultiMessage.Placeholder("y", y + "", false),
+                new MultiMessage.Placeholder("z", z + "", false),
+                new MultiMessage.Placeholder("yaw", yaw + "", false),
+                new MultiMessage.Placeholder("pitch", pitch + "", false)
+        ))).send(sender);
     }
 
     /**
@@ -164,6 +194,6 @@ public class SetSpawnSubcommand implements ISubcommand {
             return new ArrayList<>();
         }
 
-        return null; //TODO
+        return new ArrayList<>(); //TODO add tab completion
     }
 }

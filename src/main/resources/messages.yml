@@ -37,7 +37,7 @@ command:
       common:
 
         invalid-world:
-          - '%prefix% Invalid world ''&b%world&7''.'
+          - '%prefix% World ''&b%world&7'' is not loaded.'
 
         player-offline:
           - '%prefix% Player ''&b%player%&7'' is offline.'
@@ -146,17 +146,39 @@ command:
         usage:
           - '%prefix% Invalid usage, try ''&b/%label% setspawn [x] [y] [z] [world] [yaw] [pitch]&7''.'
 
+        usage-console:
+          - '%prefix% Invalid usage for console, try ''&b/%label% setspawn <x> <y> <z> <world> [yaw] [pitch]&7''.'
+
+        invalid-number:
+          - '%prefix% ''&b%arg%&7'' isn''t a valid number.'
+
+        success:
+          - '%prefix% Spawn location set for world ''&b%world%&7''!'
+          - '&8 &m->&7 Coordinates: &b%x%&7, &b%y%&7, &b%z%'
+          - '&8 &m->&7 Yaw/Pitch: &b%yaw%&8/&b%pitch%'
+
       teleport:
 
         usage:
           - '%prefix% Invalid usage, try ''&b/%label% teleport <world> [player]&7''.'
 
-        # Console specific, as console must specify a player.
         usage-console:
           - '%prefix% Invalid usage for console, try ''&b/%label% teleport <world> <player>&7''.'
 
         success:
           - '%prefix% Teleported player ''&b%player%&7'' to the spawn point of world ''&b%world%&7''.'
+
+      unload:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% unload <world>&7''.'
+
+        in-specified-world:
+          - '%prefix% You can''t unload world ''&b%world%&7'' as you are currently in it.'
+
+        success:
+          - '%prefix% You have unloaded the world ''&b%world%&7''.'
+          - '%prefix% &eWarning: &7If the unloaded world''s folder is still present when you re-start your server, it will be loaded again. If you wish to prevent this, transfer the world''s directory elsewhere.'
 
 # Do not touch anything here unless you know what you are doing.
 advanced:

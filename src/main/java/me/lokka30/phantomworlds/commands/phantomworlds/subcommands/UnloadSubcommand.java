@@ -22,7 +22,6 @@ public class UnloadSubcommand implements ISubcommand {
 
     /*
     TODO
-     - Messages.yml
      - Test
      */
 
@@ -48,19 +47,31 @@ public class UnloadSubcommand implements ISubcommand {
         }
 
         if (args.length != 2) {
-            sender.sendMessage("Usage: /" + label + " unload <world>");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.unload.usage"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("label", label, false)
+            ))).send(sender);
             return;
         }
 
         if (Bukkit.getWorld(args[1]) == null) {
-            sender.sendMessage("World '" + args[1] + "' is not loaded.");
+            (new MultiMessage(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands.common.invalid-world"), Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("world", args[1], false)
+            ))).send(sender);
             return;
         }
 
         if (sender instanceof Player) {
             //noinspection ConstantConditions
             if (Bukkit.getWorld(args[1]).getPlayers().contains((Player) sender)) {
-                sender.sendMessage("You can't unload a world that you are currently in.");
+                (new MultiMessage(
+                        main.messages.getConfig().getStringList("command.phantomworlds.subcommands.unload.in-specified-world"), Arrays.asList(
+                        new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                        new MultiMessage.Placeholder("world", args[1], false)
+                ))).send(sender);
                 return;
             }
         }
@@ -68,7 +79,11 @@ public class UnloadSubcommand implements ISubcommand {
         //noinspection ConstantConditions
         Utils.unloadWorld(main, Bukkit.getWorld(args[1]));
 
-        sender.sendMessage("World '" + args[1] + "' has been unloaded. If the world's folder is still present next restart/reload, PhantomWorlds will load it again.");
+        (new MultiMessage(
+                main.messages.getConfig().getStringList("command.phantomworlds.subcommands.unload.success"), Arrays.asList(
+                new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                new MultiMessage.Placeholder("world", args[1], false)
+        ))).send(sender);
     }
 
     /**
