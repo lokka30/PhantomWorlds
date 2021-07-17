@@ -121,7 +121,7 @@ public class Utils {
      * @author lokka30
      * @since v2.0.0
      */
-    public static List<String> getStringsOfEnumValues(Object[] values) {
+    public static List<String> enumValuesToStringList(Object[] values) {
         List<String> strings = new ArrayList<>();
         for (Object value : values) {
             strings.add(value.toString());

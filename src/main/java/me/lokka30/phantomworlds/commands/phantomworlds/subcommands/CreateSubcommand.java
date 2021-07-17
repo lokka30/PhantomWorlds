@@ -15,10 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * @author lokka30
@@ -31,11 +28,6 @@ public class CreateSubcommand implements ISubcommand {
     public CreateSubcommand() {
         TAB_COMPLETIONS_FOR_OPTIONS_ARGS = generateOptionsTabCompletionList();
     }
-
-    /*
-    TODO:
-     - test
-     */
 
     /*
     cmd: /pw create <world> <environment> [options...]
@@ -86,7 +78,7 @@ public class CreateSubcommand implements ISubcommand {
                     main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-environment"), Arrays.asList(
                     new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
                     new MultiMessage.Placeholder("type", args[2], false),
-                    new MultiMessage.Placeholder("types", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.getStringsOfEnumValues(World.Environment.values())), true)
+                    new MultiMessage.Placeholder("types", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.enumValuesToStringList(World.Environment.values())), true)
             ))).send(sender);
             return;
         }
@@ -214,7 +206,7 @@ public class CreateSubcommand implements ISubcommand {
                                     new MultiMessage.Placeholder("value", value, false),
                                     new MultiMessage.Placeholder("option", option, false),
                                     new MultiMessage.Placeholder("expected", "WorldType", false),
-                                    new MultiMessage.Placeholder("values", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.getStringsOfEnumValues(WorldType.values())), true)
+                                    new MultiMessage.Placeholder("values", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.enumValuesToStringList(WorldType.values())), true)
                             ))).send(sender);
                             return;
                         }
@@ -334,7 +326,7 @@ public class CreateSubcommand implements ISubcommand {
                                     new MultiMessage.Placeholder("value", value, false),
                                     new MultiMessage.Placeholder("option", option, false),
                                     new MultiMessage.Placeholder("expected", "Difficulty", false),
-                                    new MultiMessage.Placeholder("values", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.getStringsOfEnumValues(Difficulty.values())), true)
+                                    new MultiMessage.Placeholder("values", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.enumValuesToStringList(Difficulty.values())), true)
                             ))).send(sender);
                             return;
                         }
@@ -420,18 +412,12 @@ public class CreateSubcommand implements ISubcommand {
             return new ArrayList<>();
         }
 
-        /*
-        cmd: /pw create <world> <environment> [options...]
-        arg:   -      0       1             2           3+
-        len:   0      1       2             3           4+
-         */
-
         if (args.length == 2) {
-            return new ArrayList<>(Utils.getLoadedWorldsNameList());
+            return Collections.singletonList("MyNewWorld");
         }
 
         if (args.length == 3) {
-            return Utils.getStringsOfEnumValues(World.Environment.values());
+            return Utils.enumValuesToStringList(World.Environment.values());
         }
 
         if (args.length > 3) {
