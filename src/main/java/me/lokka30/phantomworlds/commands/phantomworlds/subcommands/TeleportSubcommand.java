@@ -113,9 +113,9 @@ public class TeleportSubcommand implements ISubcommand {
         }
 
         switch (args.length) {
-            case 1:
-                return new ArrayList<>(Utils.getLoadedWorldsNameList());
             case 2:
+                return new ArrayList<>(Utils.getLoadedWorldsNameList());
+            case 3:
                 return Utils.getPlayersCanSeeList(sender);
             default:
                 return new ArrayList<>();

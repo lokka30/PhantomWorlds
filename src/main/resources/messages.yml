@@ -37,7 +37,7 @@ command:
       common:
 
         invalid-world:
-          - '%prefix% World ''&b%world&7'' is not loaded.'
+          - '%prefix% World ''&b%world%&7'' is not loaded.'
 
         player-offline:
           - '%prefix% Player ''&b%player%&7'' is offline.'
