@@ -19,6 +19,12 @@ import java.util.HashSet;
  */
 public class WorldManager {
 
+    /* TODO
+     * - Check if PW properly discards worlds
+     *   from its data file when the directory
+     *   is removed.
+     */
+
     private final PhantomWorlds main;
 
     public WorldManager(PhantomWorlds main) {

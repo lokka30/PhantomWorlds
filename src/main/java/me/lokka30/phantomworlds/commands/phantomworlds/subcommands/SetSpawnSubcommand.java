@@ -24,9 +24,9 @@ public class SetSpawnSubcommand implements ISubcommand {
 
     /*
     TODO
-     - Test
-     - Tab Completion
-     - Test
+     - Test if the usage message pops up when invalid args amounts are specified.
+     - Add tab completion
+     - Test if tab completion works
      */
 
     /*
@@ -50,7 +50,7 @@ public class SetSpawnSubcommand implements ISubcommand {
             return;
         }
 
-        if (args.length > 7) {
+        if (args.length > 7 || (args.length > 1 && args.length < 4)) {
             (new MultiMessage(
                     main.messages.getConfig().getStringList("command.phantomworlds.subcommands.setspawn.usage"), Arrays.asList(
                     new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
