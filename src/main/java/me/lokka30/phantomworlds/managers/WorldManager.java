@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 
 /**
@@ -63,6 +64,13 @@ public class WorldManager {
 
         for (String worldName : worldsToDiscardFromDataFile) {
             main.data.getConfig().set("worlds-to-load." + worldName, null);
+        }
+
+        try {
+            main.data.save();
+        } catch (IOException ex) {
+            Utils.LOGGER.error("Unable to save data file. Stack trace:");
+            ex.printStackTrace();
         }
     }
 
