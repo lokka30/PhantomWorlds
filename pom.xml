@@ -6,7 +6,7 @@
 
     <groupId>me.lokka30</groupId>
     <artifactId>PhantomWorlds</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0-dev</version>
 
     <name>PhantomWorlds</name>
     <description>A SpigotMC plugin which allows administrators to create, manage and teleport to whatever worlds they wish.</description>
@@ -35,19 +35,25 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.3-R0.1-SNAPSHOT</version>
+            <version>1.17-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.lokka30</groupId>
             <artifactId>MicroLib</artifactId>
-            <version>af1a8eac3a</version>
+            <version>2.3.1</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>1.7</version>
+            <version>2.2.1</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>21.0.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -74,7 +80,7 @@
                         </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>me.lokka30.phantomworlds.bStats</shadedPattern>
+                            <shadedPattern>me.lokka30.phantomworlds.bstats</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

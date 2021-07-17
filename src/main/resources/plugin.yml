@@ -1,52 +1,88 @@
-name: ${project.name}
-version: ${project.version}
-main: me.lokka30.phantomworlds.PhantomWorlds
+# .___  _                     .                     .       __               .        _
+# /   \ /        ___  , __   _/_     __.  , _ , _   /       |    __.  .___   |     ___/   ____
+# |,_-' |,---.  /   ` |'  `.  |    .'   \ |' `|' `. |       |  .'   \ /   \  |    /   |  (
+# |     |'   ` |    | |    |  |    |    | |   |   | |  /\   /  |    | |   '  |   ,'   |  `--.
+# /     /    | `.__/| /    |  \__/  `._.' /   '   / |,'  \,'    `._.' /     /\__ `___,' \___.'
+
+name: 'PhantomWorlds'
+version: '${project.version}'
+description: '${project.description}'
+author: 'lokka30'
+website: 'https://github.com/lokka30/PhantomWorlds'
+
+main: 'me.lokka30.phantomworlds.PhantomWorlds'
 api-version: '1.13'
-author: lokka30
-description: ${project.description}
-website: 'https://www.spigotmc.org'
+load: 'POSTWORLD'
 
 commands:
   phantomworlds:
-    description: Create, manage or teleport to worlds!
-    aliases: [pworlds, phantomworld, pworld, pw]
-    usage: /<command> <create/unload/teleport/tp/list/spawn/setspawn>
+    description: 'Create, manage or teleport to worlds.'
+    aliases: [ 'pw', 'world' ]
+    usage: '/<command>'
 
 permissions:
   phantomworlds.*:
-    description: All permissions.
     default: op
+    description: 'All PhantomWorlds permissions, ideally given to administrators.'
     children:
-      phantomworlds.create: true
-      phantomworlds.import: true
-      phantomworlds.unload: true
-      phantomworlds.teleport: true
-      phantomworlds.list: true
-      phantomworlds.spawn: true
-      phantomworlds.spawn.others: true
-      phantomworlds.setspawn: true
-      phantomworlds.vanishcheckbypass: true
-  phantomworlds.create:
+      phantomworlds.knows-vanished-users: true
+      phantomworlds.command.phantomworlds.*: true
+
+  phantomworlds.knows-vanished-users:
     default: op
-    description: create subcommand
-  phantomworlds.unload:
+    description: 'Users with this permission will ignore the status of vanished players when using commands from PhantomWorlds, such as in tab-completion suggestions.'
+
+  phantomworlds.command.phantomworlds.*:
     default: op
-    description: unload subcommand
-  phantomworlds.teleport:
+    description: 'Ability to run all /pw commands.'
+    children:
+      phantomworlds.command.phantomworlds: true
+      phantomworlds.command.phantomworlds.compatibility: true
+      phantomworlds.command.phantomworlds.create: true
+      phantomworlds.command.phantomworlds.debug: true
+      phantomworlds.command.phantomworlds.info: true
+      phantomworlds.command.phantomworlds.list: true
+      phantomworlds.command.phantomworlds.setspawn: true
+      phantomworlds.command.phantomworlds.teleport: true
+      phantomworlds.command.phantomworlds.unload: true
+      phantomworlds.command.phantomworlds.reload: true
+
+  phantomworlds.command.phantomworlds:
     default: op
-    description: teleport subcommand
-  phantomworlds.list:
+    description: 'Ability to run /pw'
+
+  phantomworlds.command.phantomworlds.compatibility:
     default: op
-    description: list subcommand
-  phantomworlds.spawn:
+    description: 'Ability to run /pw compatibility'
+
+  phantomworlds.command.phantomworlds.debug:
     default: op
-    description: spawn subcommand
-  phantomworlds.spawn.others:
+    description: 'Ability to run /pw debug'
+
+  phantomworlds.command.phantomworlds.create:
     default: op
-    description: teleport other players in spawn subcommand
-  phantomworlds.setspawn:
+    description: 'Ability to run /pw create'
+
+  phantomworlds.command.phantomworlds.info:
+    default: true
+    description: 'Ability to run /pw info'
+
+  phantomworlds.command.phantomworlds.list:
     default: op
-    description: setspawn subcommand
-  phantomworlds.vanishbypass:
+    description: 'Ability to run /pw list'
+
+  phantomworlds.command.phantomworlds.setspawn:
     default: op
-    description: subcommands will not factor in if players with this permission can or can't see vanished players
+    description: 'Ability to run /pw setspawn'
+
+  phantomworlds.command.phantomworlds.teleport:
+    default: op
+    description: 'Ability to run /pw teleport'
+
+  phantomworlds.command.phantomworlds.unload:
+    default: op
+    description: 'Ability to run /pw unload'
+
+  phantomworlds.command.phantomworlds.reload:
+    default: op
+    description: 'Ability to run /pw reload'
