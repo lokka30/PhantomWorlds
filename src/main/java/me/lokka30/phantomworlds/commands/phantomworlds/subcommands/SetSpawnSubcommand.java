@@ -23,13 +23,6 @@ import java.util.List;
 public class SetSpawnSubcommand implements ISubcommand {
 
     /*
-    TODO
-     - Test if the usage message pops up when invalid args amounts are specified.
-     - Add tab completion
-     - Test if tab completion works
-     */
-
-    /*
     cmd: /pw setSpawn [x] [y] [z] [world] [yaw] [pitch]
     arg:   -        0   1   2   3       4     5       6
     len:   0        1   2   3   4       5     6       7
@@ -194,6 +187,17 @@ public class SetSpawnSubcommand implements ISubcommand {
             return new ArrayList<>();
         }
 
-        return new ArrayList<>(); //TODO add tab completion
+        switch (args.length) {
+            case 2:
+            case 3:
+            case 4:
+            case 6:
+            case 7:
+                return Utils.ONE_TO_NINE;
+            case 5:
+                return new ArrayList<>(Utils.getLoadedWorldsNameList());
+            default:
+                return new ArrayList<>();
+        }
     }
 }

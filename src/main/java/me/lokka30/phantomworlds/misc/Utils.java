@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -25,6 +26,12 @@ import java.util.List;
 public class Utils {
 
     public static final MicroLogger LOGGER = new MicroLogger("&b&lPhantomWorlds: &7");
+
+    /**
+     * This is used for tab completion where numbers are expected,
+     * for example, coordinates in the setspawn subcommand.
+     */
+    public static List<String> ONE_TO_NINE = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9");
 
     /**
      * This method returns a list of the names of worlds that are loaded on the server.
