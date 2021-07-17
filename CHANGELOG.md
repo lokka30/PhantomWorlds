@@ -1,30 +1,13 @@
 ***
 
 # v2.0.0
-
-## Notes:
-
-* **Testing Status:** TBD
-* **File Updates:** data.yml - PhantomWorlds will automatically update this for you.
-
-## Changelog:
-
-### Significant Changes
-
-* Re-programmed this plugin from the ground up. Improved code quality.
-* Fixed a crucial bug where PW didn't know how to load nether & end worlds properly
-* Added file migration methods that try to automatically update files if PhantomWorlds updates
-* Added a collection of new customisable world options in `/pw create`: `generatorSettings`, `hardcore`, `spawnMobs`
-  , `spawnAnimals`, `keepSpawnInMemory`, `allowPvP` & `difficulty`.
-* Removed the requirement to have the character `-` before every world option specified in `create`. For
-  example, `/pw create helloworld normal -hello:true -g:void-generator`
-  becomes `/pw create helloworld normal hello:true g:void-generator`.
-
-### Insignificant Changes
-
-* Added compatibility checker to the plugin, this will warn servers that don't run Spigot on startup (PhantomWorlds
-  requires Spigot or a derivative such as Paper or Tuinity). It can also be triggered using the new `compatibility`
-  subcommand.
-* Added `info` subcommand to view generic information about the plugin.
-* Added `debug` subcommand, currently which serves no use, although will be updated in the future to assist with
-  providing users with technical support for the resource.
+* I was working pretty hard on this version so I forgot to keep track on most of the changes. Treat this as a new
+  iteration of the plugin. Not many features have changed on the surface, although under the hood, the plugin has been
+  completely re-programmed from the ground up. It has fixed a major bug reported by Cantibra. It will attempt to migrate
+  your old data file, although I have not tested if this actually works. Please note that a significant change that you
+  will experience is that the syntax for using the create comman's options (e.g. 'generate structures' and all that) is
+  different in PW 2 (easier to use now).
+* Hope you enjoy!
+* Any issues, questions, suggestions, bugs and whatnot - feel free
+  to [join the Discord](https://discord.io/arcaneplugins)
+  or [PM me](https://www.spigotmc.org/conversations/add?to=lokka30).
