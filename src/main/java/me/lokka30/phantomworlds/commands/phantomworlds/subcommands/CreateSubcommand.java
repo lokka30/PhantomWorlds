@@ -26,9 +26,14 @@ import java.util.Locale;
  */
 public class CreateSubcommand implements ISubcommand {
 
+    final ArrayList<String> TAB_COMPLETIONS_FOR_OPTIONS_ARGS;
+
+    public CreateSubcommand() {
+        TAB_COMPLETIONS_FOR_OPTIONS_ARGS = generateOptionsTabCompletionList();
+    }
+
     /*
     TODO:
-     - tab completion
      - test
      */
 
@@ -267,7 +272,7 @@ public class CreateSubcommand implements ISubcommand {
                         }
                         break;
                     case "keepspawninmemory":
-                    case "spawninmempry":
+                    case "spawninmemory":
                         switch (value) {
                             case "true":
                             case "t":
@@ -415,7 +420,73 @@ public class CreateSubcommand implements ISubcommand {
             return new ArrayList<>();
         }
 
-        //TODO
-        return null;
+        /*
+        cmd: /pw create <world> <environment> [options...]
+        arg:   -      0       1             2           3+
+        len:   0      1       2             3           4+
+         */
+
+        if (args.length == 2) {
+            return new ArrayList<>(Utils.getLoadedWorldsNameList());
+        }
+
+        if (args.length == 3) {
+            return Utils.getStringsOfEnumValues(World.Environment.values());
+        }
+
+        if (args.length > 3) {
+            return TAB_COMPLETIONS_FOR_OPTIONS_ARGS;
+        }
+
+        return new ArrayList<>();
+    }
+
+    ArrayList<String> generateOptionsTabCompletionList() {
+        ArrayList<String> suggestions = new ArrayList<>();
+
+        suggestions.addAll(addTrueFalseValues("generatestructures"));
+        suggestions.addAll(addTrueFalseValues("genstructures"));
+        suggestions.addAll(addTrueFalseValues("structures"));
+        suggestions.addAll(addTrueFalseValues("spawnmobs"));
+        suggestions.addAll(addTrueFalseValues("mobs"));
+        suggestions.addAll(addTrueFalseValues("spawnanimals"));
+        suggestions.addAll(addTrueFalseValues("animals"));
+        suggestions.addAll(addTrueFalseValues("keepspawninmemory"));
+        suggestions.addAll(addTrueFalseValues("spawninmemory"));
+        suggestions.addAll(addTrueFalseValues("hardcore"));
+        suggestions.addAll(addTrueFalseValues("allowpvp"));
+        suggestions.addAll(addTrueFalseValues("pvp"));
+        suggestions.addAll(addTrueFalseValues("difficulty"));
+        suggestions.addAll(addTrueFalseValues("diff"));
+
+        suggestions.add("generator:");
+        suggestions.add("gen:");
+
+        suggestions.add("generatorsettings:");
+        suggestions.add("gensettings:");
+
+        suggestions.add("seed:");
+
+        for (WorldType worldType : WorldType.values()) {
+            suggestions.add("type:" + worldType.toString());
+        }
+
+        return suggestions;
+    }
+
+    ArrayList<String> addTrueFalseValues(String option) {
+        ArrayList<String> list = new ArrayList<>();
+        option = option + ":";
+
+        list.add(option + "true");
+        list.add(option + "t");
+        list.add(option + "yes");
+        list.add(option + "y");
+        list.add(option + "false");
+        list.add(option + "f");
+        list.add(option + "no");
+        list.add(option + "n");
+
+        return list;
     }
 }
