@@ -4,6 +4,7 @@ import me.lokka30.microlib.MessageUtils;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
 import me.lokka30.phantomworlds.misc.MultiMessage;
+import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -23,7 +24,6 @@ public class SetSpawnSubcommand implements ISubcommand {
 
     /*
     TODO
-     - Round coordinate decimals
      - Test
      - Tab Completion
      - Test
@@ -123,9 +123,9 @@ public class SetSpawnSubcommand implements ISubcommand {
             }
         } else {
             // Impossible for non-player to access this condition. No need to check sender=player
-            x = ((Player) sender).getLocation().getX();
-            y = ((Player) sender).getLocation().getY();
-            z = ((Player) sender).getLocation().getZ();
+            x = Utils.roundTwoDecimalPlaces(((Player) sender).getLocation().getX());
+            y = Utils.roundTwoDecimalPlaces(((Player) sender).getLocation().getY());
+            z = Utils.roundTwoDecimalPlaces(((Player) sender).getLocation().getZ());
         }
 
         // yaw
@@ -142,7 +142,7 @@ public class SetSpawnSubcommand implements ISubcommand {
             }
         } else {
             if (sender instanceof Player) {
-                yaw = ((Player) sender).getLocation().getYaw();
+                yaw = (float) Utils.roundTwoDecimalPlaces(((Player) sender).getLocation().getYaw());
             } else {
                 yaw = 0;
             }
@@ -162,7 +162,7 @@ public class SetSpawnSubcommand implements ISubcommand {
             }
         } else {
             if (sender instanceof Player) {
-                pitch = ((Player) sender).getLocation().getPitch();
+                pitch = (float) Utils.roundTwoDecimalPlaces(((Player) sender).getLocation().getPitch());
             } else {
                 pitch = 0;
             }

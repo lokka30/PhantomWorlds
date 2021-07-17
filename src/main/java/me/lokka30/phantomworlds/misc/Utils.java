@@ -121,4 +121,15 @@ public class Utils {
         }
         return strings;
     }
+
+    /**
+     * Credit: https://stackoverflow.com/q/11701399
+     *
+     * @param val value to round
+     * @return val, rounded to 2 decimal places.
+     * @author Aayush Mahajan, ppeterka
+     */
+    public static double roundTwoDecimalPlaces(double val) {
+        return Math.round(val * 100) / 100.0;
+    }
 }
