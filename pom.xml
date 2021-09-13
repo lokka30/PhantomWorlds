@@ -41,7 +41,7 @@
         <dependency>
             <groupId>com.github.lokka30</groupId>
             <artifactId>MicroLib</artifactId>
-            <version>2.3.1</version>
+            <version>37df70d6</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>

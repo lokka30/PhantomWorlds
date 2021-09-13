@@ -1,6 +1,6 @@
 package me.lokka30.phantomworlds.misc;
 
-import me.lokka30.microlib.MicroLogger;
+import me.lokka30.microlib.messaging.MicroLogger;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
