@@ -101,7 +101,7 @@ public class CreateSubcommand implements ISubcommand {
                 String arg = args[index];
 
                 String[] split = arg.split(":");
-                if (split.length != 2) {
+                if (split.length == 1) {
                     (new MultiMessage(
                             main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-option"), Arrays.asList(
                             new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
@@ -114,7 +114,14 @@ public class CreateSubcommand implements ISubcommand {
                 }
 
                 String option = split[0].toLowerCase(Locale.ROOT);
-                String value = split[1].toLowerCase(Locale.ROOT);
+                StringBuilder value = new StringBuilder(split[1].toLowerCase(Locale.ROOT));
+
+                //TODO
+                int newLength = split.length;
+                while(newLength > 2) {
+                    value.append(split[2]);
+                    newLength--;
+                }
 
                 if (option.startsWith("-")) {
                     option = option.substring(1);
@@ -124,7 +131,7 @@ public class CreateSubcommand implements ISubcommand {
                     case "generatestructures":
                     case "genstructures":
                     case "structures":
-                        switch (value) {
+                        switch (value.toString()) {
                             case "true":
                             case "t":
                             case "yes":
@@ -141,7 +148,7 @@ public class CreateSubcommand implements ISubcommand {
                                 (new MultiMessage(
                                         main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
                                         new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("value", value.toString(), false),
                                         new MultiMessage.Placeholder("option", option, false),
                                         new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
                                 ))).send(sender);
@@ -150,14 +157,14 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "generator":
                     case "gen":
-                        generator = value;
+                        generator = value.toString();
                         break;
                     case "generatorsettings":
                     case "gensettings":
-                        generatorSettings = value;
+                        generatorSettings = value.toString();
                         break;
                     case "hardcore":
-                        switch (value) {
+                        switch (value.toString()) {
                             case "true":
                             case "t":
                             case "yes":
@@ -174,7 +181,7 @@ public class CreateSubcommand implements ISubcommand {
                                 (new MultiMessage(
                                         main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
                                         new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("value", value.toString(), false),
                                         new MultiMessage.Placeholder("option", option, false),
                                         new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
                                 ))).send(sender);
@@ -183,12 +190,12 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "seed":
                         try {
-                            seed = Long.valueOf(value);
+                            seed = Long.valueOf(value.toString());
                         } catch (NumberFormatException ex) {
                             (new MultiMessage(
                                     main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
                                     new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                                    new MultiMessage.Placeholder("value", value, false),
+                                    new MultiMessage.Placeholder("value", value.toString(), false),
                                     new MultiMessage.Placeholder("option", option, false),
                                     new MultiMessage.Placeholder("expected", "Long (any number)", false)
                             ))).send(sender);
@@ -198,12 +205,12 @@ public class CreateSubcommand implements ISubcommand {
                     case "type":
                     case "worldtype":
                         try {
-                            worldType = WorldType.valueOf(value.toUpperCase(Locale.ROOT));
+                            worldType = WorldType.valueOf(value.toString().toUpperCase(Locale.ROOT));
                         } catch (IllegalArgumentException ex) {
                             (new MultiMessage(
                                     main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value-list"), Arrays.asList(
                                     new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                                    new MultiMessage.Placeholder("value", value, false),
+                                    new MultiMessage.Placeholder("value", value.toString(), false),
                                     new MultiMessage.Placeholder("option", option, false),
                                     new MultiMessage.Placeholder("expected", "WorldType", false),
                                     new MultiMessage.Placeholder("values", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.enumValuesToStringList(WorldType.values())), true)
@@ -213,7 +220,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "spawnmobs":
                     case "mobs":
-                        switch (value) {
+                        switch (value.toString()) {
                             case "true":
                             case "t":
                             case "yes":
@@ -230,7 +237,7 @@ public class CreateSubcommand implements ISubcommand {
                                 (new MultiMessage(
                                         main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
                                         new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("value", value.toString(), false),
                                         new MultiMessage.Placeholder("option", option, false),
                                         new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
                                 ))).send(sender);
@@ -239,7 +246,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "spawnanimals":
                     case "animals":
-                        switch (value) {
+                        switch (value.toString()) {
                             case "true":
                             case "t":
                             case "yes":
@@ -256,7 +263,7 @@ public class CreateSubcommand implements ISubcommand {
                                 (new MultiMessage(
                                         main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
                                         new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("value", value.toString(), false),
                                         new MultiMessage.Placeholder("option", option, false),
                                         new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
                                 ))).send(sender);
@@ -265,7 +272,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "keepspawninmemory":
                     case "spawninmemory":
-                        switch (value) {
+                        switch (value.toString()) {
                             case "true":
                             case "t":
                             case "yes":
@@ -282,7 +289,7 @@ public class CreateSubcommand implements ISubcommand {
                                 (new MultiMessage(
                                         main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
                                         new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("value", value.toString(), false),
                                         new MultiMessage.Placeholder("option", option, false),
                                         new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
                                 ))).send(sender);
@@ -291,7 +298,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "allowpvp":
                     case "pvp":
-                        switch (value) {
+                        switch (value.toString()) {
                             case "true":
                             case "t":
                             case "yes":
@@ -308,7 +315,7 @@ public class CreateSubcommand implements ISubcommand {
                                 (new MultiMessage(
                                         main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value"), Arrays.asList(
                                         new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                                        new MultiMessage.Placeholder("value", value, false),
+                                        new MultiMessage.Placeholder("value", value.toString(), false),
                                         new MultiMessage.Placeholder("option", option, false),
                                         new MultiMessage.Placeholder("expected", "Boolean (true/false)", false)
                                 ))).send(sender);
@@ -318,12 +325,12 @@ public class CreateSubcommand implements ISubcommand {
                     case "difficulty":
                     case "diff":
                         try {
-                            difficulty = Difficulty.valueOf(value.toUpperCase(Locale.ROOT));
+                            difficulty = Difficulty.valueOf(value.toString().toUpperCase(Locale.ROOT));
                         } catch (IllegalArgumentException ex) {
                             (new MultiMessage(
                                     main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-value-list"), Arrays.asList(
                                     new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                                    new MultiMessage.Placeholder("value", value, false),
+                                    new MultiMessage.Placeholder("value", value.toString(), false),
                                     new MultiMessage.Placeholder("option", option, false),
                                     new MultiMessage.Placeholder("expected", "Difficulty", false),
                                     new MultiMessage.Placeholder("values", String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"), Utils.enumValuesToStringList(Difficulty.values())), true)

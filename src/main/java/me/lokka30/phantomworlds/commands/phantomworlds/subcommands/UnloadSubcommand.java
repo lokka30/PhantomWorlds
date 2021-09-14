@@ -21,11 +21,6 @@ import java.util.List;
 public class UnloadSubcommand implements ISubcommand {
 
     /*
-    TODO
-     - Test
-     */
-
-    /*
     cmd: /pw unload <world>
     arg:   -      0       1
     len:   0      1       2
