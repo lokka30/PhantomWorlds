@@ -2,7 +2,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
-import me.lokka30.phantomworlds.misc.MultiMessage;
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
