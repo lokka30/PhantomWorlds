@@ -21,12 +21,6 @@ import java.util.List;
 public class TeleportSubcommand implements ISubcommand {
 
     /*
-    TODO
-     - Test
-     */
-
-
-    /*
     cmd: /pw teleport <world> [player]
     arg:   -        0       1        2
     len:   0        1       2        3

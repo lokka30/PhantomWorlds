@@ -10,6 +10,9 @@
   PhantomWorlds, where you can learn more and download the resource if you wish. :)
 * Click [here](https://github.com/lokka30/PhantomWorlds/wiki) to visit the Wiki.
 
+## Contributors
+* Please see the [Credits](https://github.com/lokka30/PhantomWorlds/wiki/Credits) - thank you very much to all contributors to the resource! ❤
+
 ## License
 
-* GNU AGPL v3.0 (see [LICENSE.md](https://github.com/lokka30/PhantomWorlds/blob/master/LICENSE.md)).
+* Licensed under `GNU AGPL v3.0` (see [LICENSE.md](https://github.com/lokka30/PhantomWorlds/blob/master/LICENSE.md)).
