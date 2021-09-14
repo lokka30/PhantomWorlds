@@ -1,9 +1,9 @@
 package me.lokka30.phantomworlds;
 
-import me.lokka30.microlib.maths.QuickTimer;
-import me.lokka30.microlib.other.UpdateChecker;
 import me.lokka30.microlib.exceptions.OutdatedServerVersionException;
 import me.lokka30.microlib.files.YamlConfigFile;
+import me.lokka30.microlib.maths.QuickTimer;
+import me.lokka30.microlib.other.UpdateChecker;
 import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
 import me.lokka30.phantomworlds.managers.FileManager;
 import me.lokka30.phantomworlds.managers.WorldManager;
@@ -44,7 +44,7 @@ public class PhantomWorlds extends JavaPlugin {
      * add your name to the end of this list! :)
      */
     @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
-    public final HashSet<String> contributors = new HashSet<>(Arrays.asList("None"));
+    public final HashSet<String> contributors = new HashSet<>(Arrays.asList("madison-allen"));
 
     /**
      * This is reported in the 'pw info' command to
