@@ -1,12 +1,13 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.microlib.messaging.MessageUtils;
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
-import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -116,9 +118,9 @@ public class SetSpawnSubcommand implements ISubcommand {
             }
         } else {
             // Impossible for non-player to access this condition. No need to check sender=player
-            x = Utils.roundTwoDecimalPlaces(((Player) sender).getLocation().getX());
-            y = Utils.roundTwoDecimalPlaces(((Player) sender).getLocation().getY());
-            z = Utils.roundTwoDecimalPlaces(((Player) sender).getLocation().getZ());
+            x = ((Player) sender).getLocation().getX();
+            y = ((Player) sender).getLocation().getY();
+            z = ((Player) sender).getLocation().getZ();
         }
 
         // yaw
@@ -135,7 +137,7 @@ public class SetSpawnSubcommand implements ISubcommand {
             }
         } else {
             if (sender instanceof Player) {
-                yaw = (float) Utils.roundTwoDecimalPlaces(((Player) sender).getLocation().getYaw());
+                yaw = ((Player) sender).getLocation().getYaw();
             } else {
                 yaw = 0;
             }
@@ -155,25 +157,25 @@ public class SetSpawnSubcommand implements ISubcommand {
             }
         } else {
             if (sender instanceof Player) {
-                pitch = (float) Utils.roundTwoDecimalPlaces(((Player) sender).getLocation().getPitch());
+                pitch = ((Player) sender).getLocation().getPitch();
             } else {
                 pitch = 0;
             }
         }
 
-        final Location location = new Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch);
-        //noinspection ConstantConditions //This stop IntelliJ from complaining about the world being possibly null which we have already verified isn't the case.
-        location.getWorld().setSpawnLocation(location);
+        final World world = Bukkit.getWorld(worldName);
+        assert world != null;
+        world.setSpawnLocation(new Location(world, x, y, z, yaw, pitch));
 
         (new MultiMessage(
                 main.messages.getConfig().getStringList("command.phantomworlds.subcommands.setspawn.success"), Arrays.asList(
                 new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
                 new MultiMessage.Placeholder("world", worldName, false),
-                new MultiMessage.Placeholder("x", x + "", false),
-                new MultiMessage.Placeholder("y", y + "", false),
-                new MultiMessage.Placeholder("z", z + "", false),
-                new MultiMessage.Placeholder("yaw", yaw + "", false),
-                new MultiMessage.Placeholder("pitch", pitch + "", false)
+                new MultiMessage.Placeholder("x", Utils.roundTwoDecimalPlaces(x) + "", false),
+                new MultiMessage.Placeholder("y", Utils.roundTwoDecimalPlaces(y) + "", false),
+                new MultiMessage.Placeholder("z", Utils.roundTwoDecimalPlaces(z) + "", false),
+                new MultiMessage.Placeholder("yaw", Utils.roundTwoDecimalPlaces(yaw) + "", false),
+                new MultiMessage.Placeholder("pitch", Utils.roundTwoDecimalPlaces(pitch) + "", false)
         ))).send(sender);
     }
 
@@ -183,9 +185,7 @@ public class SetSpawnSubcommand implements ISubcommand {
      */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("phantomworlds.command.phantomworlds.setspawn")) {
-            return new ArrayList<>();
-        }
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds.setspawn")) return Collections.emptyList();
 
         switch (args.length) {
             case 2:
@@ -197,7 +197,7 @@ public class SetSpawnSubcommand implements ISubcommand {
             case 5:
                 return new ArrayList<>(Utils.getLoadedWorldsNameList());
             default:
-                return new ArrayList<>();
+                return Collections.emptyList();
         }
     }
 }

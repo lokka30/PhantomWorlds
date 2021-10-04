@@ -1,15 +1,15 @@
 package me.lokka30.phantomworlds.commands.phantomworlds;
 
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.*;
-import me.lokka30.microlib.messaging.MultiMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,6 +62,7 @@ public class PhantomWorldsCommand implements TabExecutor {
                     break;
                 case "teleport":
                 case "tp":
+                case "spawn":
                     teleportSubcommand.parseCommand(main, sender, cmd, label, args);
                     break;
                 case "list":
@@ -121,7 +122,7 @@ public class PhantomWorldsCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("create", "info", "list", "setspawn", "reload", "teleport", "unload", "debug", "compatibility");
+            return Arrays.asList("create", "info", "list", "setspawn", "reload", "teleport", "tp", "spawn", "unload", "debug", "compatibility");
         }
 
         switch (args[0].toLowerCase(Locale.ROOT)) {
@@ -136,6 +137,8 @@ public class PhantomWorldsCommand implements TabExecutor {
             case "reload":
                 return reloadSubcommand.parseTabCompletion(main, sender, cmd, label, args);
             case "teleport":
+            case "tp":
+            case "spawn":
                 return teleportSubcommand.parseTabCompletion(main, sender, cmd, label, args);
             case "unload":
                 return unloadSubcommand.parseTabCompletion(main, sender, cmd, label, args);
@@ -144,7 +147,7 @@ public class PhantomWorldsCommand implements TabExecutor {
             case "compatibility":
                 return compatibilitySubcommand.parseTabCompletion(main, sender, cmd, label, args);
             default:
-                return new ArrayList<>();
+                return Collections.emptyList();
         }
     }
 }

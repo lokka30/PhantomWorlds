@@ -7,12 +7,16 @@
 name: 'PhantomWorlds'
 version: '${project.version}'
 description: '${project.description}'
-author: 'lokka30'
+authors: ['lokka30']
 website: 'https://github.com/lokka30/PhantomWorlds'
+
+depend: []
+softdepend: []
 
 main: 'me.lokka30.phantomworlds.PhantomWorlds'
 api-version: '1.13'
 load: 'POSTWORLD'
+loadbefore: []
 
 commands:
   phantomworlds:
@@ -44,6 +48,7 @@ permissions:
       phantomworlds.command.phantomworlds.list: true
       phantomworlds.command.phantomworlds.setspawn: true
       phantomworlds.command.phantomworlds.teleport: true
+      phantomworlds.command.phantomworlds.spawn: true
       phantomworlds.command.phantomworlds.unload: true
       phantomworlds.command.phantomworlds.reload: true
 
@@ -78,6 +83,10 @@ permissions:
   phantomworlds.command.phantomworlds.teleport:
     default: op
     description: 'Ability to run /pw teleport'
+    
+  phantomworlds.command.phantomworlds.spawn:
+    default: op
+    description: 'Ability to run /pw spawn'
 
   phantomworlds.command.phantomworlds.unload:
     default: op

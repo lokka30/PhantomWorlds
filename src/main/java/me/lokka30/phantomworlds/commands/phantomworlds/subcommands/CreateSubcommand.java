@@ -1,10 +1,10 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.microlib.maths.QuickTimer;
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
 import me.lokka30.phantomworlds.managers.WorldManager;
-import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -100,8 +100,8 @@ public class CreateSubcommand implements ISubcommand {
             for (int index = 3; index < args.length; index++) {
                 String arg = args[index];
 
-                String[] split = arg.split(":");
-                if (split.length == 1) {
+                String[] split = arg.split(":", 2);
+                if (split.length != 2) {
                     (new MultiMessage(
                             main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-option"), Arrays.asList(
                             new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
@@ -114,14 +114,7 @@ public class CreateSubcommand implements ISubcommand {
                 }
 
                 String option = split[0].toLowerCase(Locale.ROOT);
-                StringBuilder value = new StringBuilder(split[1].toLowerCase(Locale.ROOT));
-
-                //TODO
-                int newLength = split.length;
-                while(newLength > 2) {
-                    value.append(split[2]);
-                    newLength--;
-                }
+                StringBuilder value = new StringBuilder(split[1]);
 
                 if (option.startsWith("-")) {
                     option = option.substring(1);
@@ -131,7 +124,7 @@ public class CreateSubcommand implements ISubcommand {
                     case "generatestructures":
                     case "genstructures":
                     case "structures":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -164,7 +157,7 @@ public class CreateSubcommand implements ISubcommand {
                         generatorSettings = value.toString();
                         break;
                     case "hardcore":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -220,7 +213,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "spawnmobs":
                     case "mobs":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -246,7 +239,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "spawnanimals":
                     case "animals":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -272,7 +265,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "keepspawninmemory":
                     case "spawninmemory":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -298,7 +291,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "allowpvp":
                     case "pvp":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -416,7 +409,7 @@ public class CreateSubcommand implements ISubcommand {
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.create")) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
 
         if (args.length == 2) {
@@ -431,7 +424,7 @@ public class CreateSubcommand implements ISubcommand {
             return TAB_COMPLETIONS_FOR_OPTIONS_ARGS;
         }
 
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     ArrayList<String> generateOptionsTabCompletionList() {
