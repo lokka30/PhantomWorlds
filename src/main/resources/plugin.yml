@@ -7,12 +7,16 @@
 name: 'PhantomWorlds'
 version: '${project.version}'
 description: '${project.description}'
-author: 'lokka30'
+authors: ['lokka30']
 website: 'https://github.com/lokka30/PhantomWorlds'
+
+depend: []
+softdepend: []
 
 main: 'me.lokka30.phantomworlds.PhantomWorlds'
 api-version: '1.13'
 load: 'POSTWORLD'
+loadbefore: []
 
 commands:
   phantomworlds:
