@@ -4,6 +4,7 @@ import me.lokka30.microlib.exceptions.OutdatedServerVersionException;
 import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.other.UpdateChecker;
+import me.lokka30.microlib.other.VersionUtils;
 import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
 import me.lokka30.phantomworlds.managers.FileManager;
 import me.lokka30.phantomworlds.managers.WorldManager;
@@ -89,12 +90,7 @@ public class PhantomWorlds extends JavaPlugin {
         loadWorlds();
         registerCommands();
         registerListeners();
-        try {
-			miscStartupProcedures();
-		} catch (OutdatedServerVersionException e) {
-			e.printStackTrace();
-			return;
-		}
+        miscStartupProcedures();
 
         Utils.LOGGER.info("&f~ Start-up complete. &7Took &b" + timer.getTimer() + "ms");
     }
@@ -191,10 +187,9 @@ public class PhantomWorlds extends JavaPlugin {
      * Miscellaneous startup procedures.
      *
      * @author lokka30
-     * @throws OutdatedServerVersionException
      * @since v2.0.0
      */
-    void miscStartupProcedures() throws OutdatedServerVersionException {
+    void miscStartupProcedures() {
         Utils.LOGGER.info("&3Startup: &7Running misc startup procedures...");
 
         /* bStats Metrics */
@@ -212,23 +207,28 @@ public class PhantomWorlds extends JavaPlugin {
                 return;
             }
 
-            final UpdateChecker updateChecker = new UpdateChecker(this, 84017);
-            updateChecker.getLatestVersion(latestVersion -> {
-                updateCheckerResult = new UpdateCheckerResult(
-                        !latestVersion.equals(updateChecker.getCurrentVersion()),
-                        updateChecker.getCurrentVersion(),
-                        latestVersion
-                );
+            try {
+                final UpdateChecker updateChecker = new UpdateChecker(this, 84017);
+                updateChecker.getLatestVersion(latestVersion -> {
+                    updateCheckerResult = new UpdateCheckerResult(
+                            !latestVersion.equals(updateChecker.getCurrentVersion()),
+                            updateChecker.getCurrentVersion(),
+                            latestVersion
+                    );
 
-                if (updateCheckerResult.isOutdated()) {
-                    if (!messages.getConfig().getBoolean("update-checker.console.enabled", true)) return;
+                    if (updateCheckerResult.isOutdated()) {
+                        if (!messages.getConfig().getBoolean("update-checker.console.enabled", true)) return;
 
-                    messages.getConfig().getStringList("update-checker.console.text").forEach(message -> Utils.LOGGER.info(message
-                            .replace("%currentVersion%", updateCheckerResult.getCurrentVersion())
-                            .replace("%latestVersion%", updateCheckerResult.getLatestVersion())
-                    ));
-                }
-            });
+                        messages.getConfig().getStringList("update-checker.console.text").forEach(message -> Utils.LOGGER.info(message
+                                .replace("%currentVersion%", updateCheckerResult.getCurrentVersion())
+                                .replace("%latestVersion%", updateCheckerResult.getLatestVersion())
+                        ));
+                    }
+                });
+            } catch(OutdatedServerVersionException ex) {
+                ex.printStackTrace();
+                // This should be impossible
+            }
         }
     }
 }
