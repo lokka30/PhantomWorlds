@@ -7,6 +7,7 @@ import me.lokka30.phantomworlds.commands.ISubcommand;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -162,9 +163,9 @@ public class SetSpawnSubcommand implements ISubcommand {
             }
         }
 
-        final Location location = new Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch);
-        //noinspection ConstantConditions //This stop IntelliJ from complaining about the world being possibly null which we have already verified isn't the case.
-        location.getWorld().setSpawnLocation(location);
+        final World world = Bukkit.getWorld(worldName);
+        assert world != null;
+        world.setSpawnLocation(new Location(world, x, y, z, yaw, pitch));
 
         (new MultiMessage(
                 main.messages.getConfig().getStringList("command.phantomworlds.subcommands.setspawn.success"), Arrays.asList(

@@ -36,34 +36,34 @@ public class TeleportSubcommand implements ISubcommand {
      */
     @Override
     public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
-    	String subCommand = args[0].toLowerCase(Locale.ROOT);
-    	if(subCommand.equals("tp")) {
-    		subCommand = "teleport";
+    	String subCommandLabel = args[0].toLowerCase(Locale.ROOT);
+    	if(subCommandLabel.equals("tp")) {
+    		subCommandLabel = "teleport";
     	}
     	
-    	if (!sender.hasPermission("phantomworlds.command.phantomworlds." + subCommand)) {
+    	if (!sender.hasPermission("phantomworlds.command.phantomworlds." + subCommandLabel)) {
             (new MultiMessage(
                     main.messages.getConfig().getStringList("common.no-permission"), Arrays.asList(
                     new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                    new MultiMessage.Placeholder("permission", "phantomworlds.command.phantomworlds." + subCommand, false)
+                    new MultiMessage.Placeholder("permission", "phantomworlds.command.phantomworlds." + subCommandLabel, false)
             ))).send(sender);
             return;
         }
 
     	
-    	if ((args.length < 2 || args.length > 3) && subCommand.equals("teleport")
-    			|| (args.length < 1 || args.length > 2) && subCommand.equals("spawn")) {
+    	if ((args.length < 2 || args.length > 3) && subCommandLabel.equals("teleport")
+    			|| (args.length < 1 || args.length > 2) && subCommandLabel.equals("spawn")) {
             (new MultiMessage(
-                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands." + subCommand + ".usage"), Arrays.asList(
+                    main.messages.getConfig().getStringList("command.phantomworlds.subcommands." + subCommandLabel + ".usage"), Arrays.asList(
                     new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
                     new MultiMessage.Placeholder("label", label, false)
             ))).send(sender);
             return;
         }
     	
-    	switch(subCommand) {
+    	switch(subCommandLabel) {
     		case "teleport":
-    			teleportToWorld(main, sender, subCommand, label, args[2], args[1]);
+    			teleportToWorld(main, sender, subCommandLabel, label, args[2], args[1]);
     			break;
     		case "spawn":
     			String world;
@@ -72,10 +72,10 @@ public class TeleportSubcommand implements ISubcommand {
     			} else {
     				world = Bukkit.getPlayer(args[1]).getWorld().toString();
     			}
-    			teleportToWorld(main, sender, subCommand, label, args[1], world);
+    			teleportToWorld(main, sender, subCommandLabel, label, args[1], world);
     			break;
     		default:
-    			return;	
+    			throw new IllegalStateException("Unexpected value: " + subCommandLabel);
     	}
     }
 
