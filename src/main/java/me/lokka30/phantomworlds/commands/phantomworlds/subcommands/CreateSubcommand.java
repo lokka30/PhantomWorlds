@@ -100,8 +100,8 @@ public class CreateSubcommand implements ISubcommand {
             for (int index = 3; index < args.length; index++) {
                 String arg = args[index];
 
-                String[] split = arg.split(":");
-                if (split.length == 1) {
+                String[] split = arg.split(":", 2);
+                if (split.length != 2) {
                     (new MultiMessage(
                             main.messages.getConfig().getStringList("command.phantomworlds.subcommands.create.options.invalid-option"), Arrays.asList(
                             new MultiMessage.Placeholder("prefix", main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
@@ -115,13 +115,6 @@ public class CreateSubcommand implements ISubcommand {
 
                 String option = split[0].toLowerCase(Locale.ROOT);
                 StringBuilder value = new StringBuilder(split[1].toLowerCase(Locale.ROOT));
-
-                //TODO
-                int newLength = split.length;
-                while(newLength > 2) {
-                    value.append(split[2]);
-                    newLength--;
-                }
 
                 if (option.startsWith("-")) {
                     option = option.substring(1);
