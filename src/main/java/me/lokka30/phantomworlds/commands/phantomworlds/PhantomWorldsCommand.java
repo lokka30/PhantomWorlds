@@ -122,7 +122,7 @@ public class PhantomWorldsCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("create", "info", "list", "setspawn", "reload", "teleport", "spawn", "unload", "debug", "compatibility");
+            return Arrays.asList("create", "info", "list", "setspawn", "reload", "teleport", "tp", "spawn", "unload", "debug", "compatibility");
         }
 
         switch (args[0].toLowerCase(Locale.ROOT)) {
@@ -137,6 +137,7 @@ public class PhantomWorldsCommand implements TabExecutor {
             case "reload":
                 return reloadSubcommand.parseTabCompletion(main, sender, cmd, label, args);
             case "teleport":
+            case "tp":
             case "spawn":
                 return teleportSubcommand.parseTabCompletion(main, sender, cmd, label, args);
             case "unload":

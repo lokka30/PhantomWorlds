@@ -114,7 +114,7 @@ public class CreateSubcommand implements ISubcommand {
                 }
 
                 String option = split[0].toLowerCase(Locale.ROOT);
-                StringBuilder value = new StringBuilder(split[1].toLowerCase(Locale.ROOT));
+                StringBuilder value = new StringBuilder(split[1]);
 
                 if (option.startsWith("-")) {
                     option = option.substring(1);
@@ -124,7 +124,7 @@ public class CreateSubcommand implements ISubcommand {
                     case "generatestructures":
                     case "genstructures":
                     case "structures":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -157,7 +157,7 @@ public class CreateSubcommand implements ISubcommand {
                         generatorSettings = value.toString();
                         break;
                     case "hardcore":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -213,7 +213,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "spawnmobs":
                     case "mobs":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -239,7 +239,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "spawnanimals":
                     case "animals":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -265,7 +265,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "keepspawninmemory":
                     case "spawninmemory":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
@@ -291,7 +291,7 @@ public class CreateSubcommand implements ISubcommand {
                         break;
                     case "allowpvp":
                     case "pvp":
-                        switch (value.toString()) {
+                        switch (value.toString().toLowerCase(Locale.ROOT)) {
                             case "true":
                             case "t":
                             case "yes":
