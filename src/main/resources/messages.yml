@@ -21,6 +21,7 @@ command:
       - '&8 &m->&b /%label% create &8- &7create/import a world'
       - '&8 &m->&b /%label% list &8- &7list loaded worlds'
       - '&8 &m->&b /%label% teleport &8- &7teleport to a loaded world''s spawnpoint'
+      - '&8 &m->&b /%label% spawn &8- &7teleport to the spawn of the current world'
       - '&8 &m->&b /%label% setspawn &8- &7set the spawnpoint of a world'
       - '&8 &m->&b /%label% unload &8- &7unload a loaded world'
       - '&8 &m->&b /%label% reload &8- &7reload all config & data files'
@@ -164,6 +165,17 @@ command:
 
         usage-console:
           - '%prefix% Invalid usage for console, try ''&b/%label% teleport <world> <player>&7''.'
+
+        success:
+          - '%prefix% Teleported player ''&b%player%&7'' to the spawn point of world ''&b%world%&7''.'
+          
+      spawn:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% spawn [player]&7''.'
+
+        usage-console:
+          - '%prefix% Invalid usage for console, try ''&b/%label% spawn <player>&7''.'
 
         success:
           - '%prefix% Teleported player ''&b%player%&7'' to the spawn point of world ''&b%world%&7''.'
