@@ -1,16 +1,16 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
-import me.lokka30.microlib.messaging.MultiMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -70,6 +70,6 @@ public class ListSubcommand implements ISubcommand {
      */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 }

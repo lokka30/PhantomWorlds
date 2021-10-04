@@ -1,9 +1,9 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.microlib.messaging.MessageUtils;
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
-import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -183,9 +184,7 @@ public class SetSpawnSubcommand implements ISubcommand {
      */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("phantomworlds.command.phantomworlds.setspawn")) {
-            return new ArrayList<>();
-        }
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds.setspawn")) return Collections.emptyList();
 
         switch (args.length) {
             case 2:
@@ -197,7 +196,7 @@ public class SetSpawnSubcommand implements ISubcommand {
             case 5:
                 return new ArrayList<>(Utils.getLoadedWorldsNameList());
             default:
-                return new ArrayList<>();
+                return Collections.emptyList();
         }
     }
 }

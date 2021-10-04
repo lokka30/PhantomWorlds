@@ -1,8 +1,8 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
-import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,10 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * @author lokka30
@@ -90,9 +87,7 @@ public class TeleportSubcommand implements ISubcommand {
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
     	String subCommand = args[0].toLowerCase(Locale.ROOT);
     	
-    	if (!sender.hasPermission("phantomworlds.command.phantomworlds." + subCommand)) {
-            return new ArrayList<>();
-        }
+    	if (!sender.hasPermission("phantomworlds.command.phantomworlds." + subCommand)) return Collections.emptyList();
 
         switch(subCommand) {
 			case "teleport":
@@ -102,16 +97,16 @@ public class TeleportSubcommand implements ISubcommand {
 					case 3:
 						return Utils.getPlayersCanSeeList(sender);
 					default:
-						return new ArrayList<>();
+                        return Collections.emptyList();
 				}
 			case "spawn":
 				if(args.length == 2) {
 					return Utils.getPlayersCanSeeList(sender);
-				} else {	
-					return new ArrayList<>();
+				} else {
+                    return Collections.emptyList();
 				}
 			default:
-				return new ArrayList<>();
+                return Collections.emptyList();
         }
     }
     

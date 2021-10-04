@@ -1,8 +1,8 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
-import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -87,14 +88,12 @@ public class UnloadSubcommand implements ISubcommand {
      */
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("phantomworlds.command.phantomworlds.unload")) {
-            return new ArrayList<>();
-        }
+        if (!sender.hasPermission("phantomworlds.command.phantomworlds.unload")) return Collections.emptyList();
 
         if (args.length == 2) {
             return new ArrayList<>(Utils.getLoadedWorldsNameList());
         } else {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 }

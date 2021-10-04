@@ -1,10 +1,10 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.microlib.maths.QuickTimer;
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.ISubcommand;
 import me.lokka30.phantomworlds.managers.WorldManager;
-import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -416,7 +416,7 @@ public class CreateSubcommand implements ISubcommand {
     @Override
     public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("phantomworlds.command.phantomworlds.create")) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
 
         if (args.length == 2) {
@@ -431,7 +431,7 @@ public class CreateSubcommand implements ISubcommand {
             return TAB_COMPLETIONS_FOR_OPTIONS_ARGS;
         }
 
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     ArrayList<String> generateOptionsTabCompletionList() {

@@ -1,15 +1,15 @@
 package me.lokka30.phantomworlds.commands.phantomworlds;
 
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.*;
-import me.lokka30.microlib.messaging.MultiMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -146,7 +146,7 @@ public class PhantomWorldsCommand implements TabExecutor {
             case "compatibility":
                 return compatibilitySubcommand.parseTabCompletion(main, sender, cmd, label, args);
             default:
-                return new ArrayList<>();
+                return Collections.emptyList();
         }
     }
 }
