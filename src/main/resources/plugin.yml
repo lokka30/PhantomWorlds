@@ -80,7 +80,7 @@ permissions:
     default: op
     description: 'Ability to run /pw teleport'
     
-    phantomworlds.command.phantomworlds.spawn:
+  phantomworlds.command.phantomworlds.spawn:
     default: op
     description: 'Ability to run /pw spawn'
 
