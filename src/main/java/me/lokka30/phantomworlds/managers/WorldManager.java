@@ -165,18 +165,12 @@ public class WorldManager {
 
             worldCreator.environment(environment);
             worldCreator.generateStructures(generateStructures);
-            worldCreator.hardcore(hardcore);
+            try { worldCreator.hardcore(hardcore); } catch(NoSuchMethodError ignored) {}
             worldCreator.type(worldType);
 
-            if (generator != null) {
-                worldCreator.generator(generator);
-            }
-            if (generatorSettings != null) {
-                worldCreator.generatorSettings(generatorSettings);
-            }
-            if (seed != null) {
-                worldCreator.seed(seed);
-            }
+            if (generator != null) { worldCreator.generator(generator); }
+            if (generatorSettings != null) { worldCreator.generatorSettings(generatorSettings); }
+            if (seed != null) { worldCreator.seed(seed); }
 
             World world = worldCreator.createWorld();
 

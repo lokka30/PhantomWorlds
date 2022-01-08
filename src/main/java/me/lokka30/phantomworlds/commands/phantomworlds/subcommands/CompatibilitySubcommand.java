@@ -2,7 +2,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.commands.ISubcommand;
+import me.lokka30.phantomworlds.commands.Subcommand;
 import me.lokka30.phantomworlds.misc.CompatibilityChecker;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author lokka30
  * @since v2.0.0
  */
-public class CompatibilitySubcommand implements ISubcommand {
+public class CompatibilitySubcommand implements Subcommand {
 
     /**
      * @author lokka30

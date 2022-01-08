@@ -3,7 +3,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.commands.ISubcommand;
+import me.lokka30.phantomworlds.commands.Subcommand;
 import me.lokka30.phantomworlds.managers.WorldManager;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
@@ -21,7 +21,7 @@ import java.util.*;
  * @author lokka30
  * @since v2.0.0
  */
-public class CreateSubcommand implements ISubcommand {
+public class CreateSubcommand implements Subcommand {
 
     final ArrayList<String> TAB_COMPLETIONS_FOR_OPTIONS_ARGS;
 

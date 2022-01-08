@@ -2,7 +2,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.commands.ISubcommand;
+import me.lokka30.phantomworlds.commands.Subcommand;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author lokka30
  * @since v2.0.0
  */
-public class ListSubcommand implements ISubcommand {
+public class ListSubcommand implements Subcommand {
 
     /*
     cmd: /pw list

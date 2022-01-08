@@ -2,7 +2,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.commands.ISubcommand;
+import me.lokka30.phantomworlds.commands.Subcommand;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author lokka30
  * @since v2.0.0
  */
-public class UnloadSubcommand implements ISubcommand {
+public class UnloadSubcommand implements Subcommand {
 
     /*
     cmd: /pw unload <world>

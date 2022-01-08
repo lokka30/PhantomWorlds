@@ -3,7 +3,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 import me.lokka30.microlib.messaging.MessageUtils;
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.commands.ISubcommand;
+import me.lokka30.phantomworlds.commands.Subcommand;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,7 +22,7 @@ import java.util.List;
  * @author lokka30
  * @since v2.0.0
  */
-public class SetSpawnSubcommand implements ISubcommand {
+public class SetSpawnSubcommand implements Subcommand {
 
     /*
     cmd: /pw setSpawn [x] [y] [z] [world] [yaw] [pitch]

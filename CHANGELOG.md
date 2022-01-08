@@ -1,3 +1,9 @@
+# v2.0.2
+* Should fix compatibility with <1.16 servers (`WorldCreator#harcore` error)
+* Fixed update checker creating an error on <1.11 servers
+* Renamed `Subcommand` interface
+* Updated MicroLib
+
 # v2.0.0
 * ahh... what a relief to get this released!
 * I was working pretty hard on this version so I forgot to keep track on most of the changes. Treat this as a new

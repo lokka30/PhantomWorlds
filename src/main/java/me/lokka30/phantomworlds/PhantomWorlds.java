@@ -1,10 +1,8 @@
 package me.lokka30.phantomworlds;
 
-import me.lokka30.microlib.exceptions.OutdatedServerVersionException;
 import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.other.UpdateChecker;
-import me.lokka30.microlib.other.VersionUtils;
 import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
 import me.lokka30.phantomworlds.managers.FileManager;
 import me.lokka30.phantomworlds.managers.WorldManager;
@@ -28,16 +26,12 @@ public class PhantomWorlds extends JavaPlugin {
 
     /*
     TODO:
-     * - Fix inability to use colons in values for the create subcommand.
      * - Translate backslash character in world names as a space so world names with a space can be used in the plugin
      * - Vanish compatibility
      *  - don't send 'by' messages unless the sender is not a player / target can see the (player) sender
      *  - add vanish compatibility to 'teleport' subcommand
      *  - add ability to toggle vanish compatibility
      * - log in console (LogLevel:INFO) when a command is prevented due to a target player seemingly being vanished to the command sender.
-     *
-     * Current changelog:
-     * - Fixed update checker throwing errors on older servers (Thanks ReverendJesus for reporting!)
      */
 
     /**
@@ -197,38 +191,23 @@ public class PhantomWorlds extends JavaPlugin {
 
         /* Update Checker */
         if (settings.getConfig().getBoolean("run-update-checker", true)) {
-            if(!VersionUtils.isOneEleven()) {
-                Utils.LOGGER.info(
-                        "This plugin's &bupdate checker&7 only works " +
-                                "for servers running &bMC 1.11 or newer&7. " +
-                                "Please consider disabling the setting '&brun-update-checker&7' " +
-                                "in the configuration file '&bsettings.yml&7'."
+            final UpdateChecker updateChecker = new UpdateChecker(this, 84017);
+            updateChecker.getLatestVersion(latestVersion -> {
+                updateCheckerResult = new UpdateCheckerResult(
+                        !latestVersion.equals(updateChecker.getCurrentVersion()),
+                        updateChecker.getCurrentVersion(),
+                        latestVersion
                 );
-                return;
-            }
 
-            try {
-                final UpdateChecker updateChecker = new UpdateChecker(this, 84017);
-                updateChecker.getLatestVersion(latestVersion -> {
-                    updateCheckerResult = new UpdateCheckerResult(
-                            !latestVersion.equals(updateChecker.getCurrentVersion()),
-                            updateChecker.getCurrentVersion(),
-                            latestVersion
-                    );
+                if (updateCheckerResult.isOutdated()) {
+                    if (!messages.getConfig().getBoolean("update-checker.console.enabled", true)) return;
 
-                    if (updateCheckerResult.isOutdated()) {
-                        if (!messages.getConfig().getBoolean("update-checker.console.enabled", true)) return;
-
-                        messages.getConfig().getStringList("update-checker.console.text").forEach(message -> Utils.LOGGER.info(message
-                                .replace("%currentVersion%", updateCheckerResult.getCurrentVersion())
-                                .replace("%latestVersion%", updateCheckerResult.getLatestVersion())
-                        ));
-                    }
-                });
-            } catch(OutdatedServerVersionException ex) {
-                ex.printStackTrace();
-                // This should be impossible
-            }
+                    messages.getConfig().getStringList("update-checker.console.text").forEach(message -> Utils.LOGGER.info(message
+                            .replace("%currentVersion%", updateCheckerResult.getCurrentVersion())
+                            .replace("%latestVersion%", updateCheckerResult.getLatestVersion())
+                    ));
+                }
+            });
         }
     }
 }

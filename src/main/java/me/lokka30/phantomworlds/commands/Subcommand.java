@@ -12,7 +12,7 @@ import java.util.List;
  * @author lokka30
  * @since v2.0.0
  */
-public interface ISubcommand {
+public interface Subcommand {
 
     /**
      * @author lokka30
