@@ -1,11 +1,9 @@
 package me.lokka30.phantomworlds.managers;
 
+import java.io.IOException;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-
-import java.io.IOException;
 
 /**
  * Contains methods that concern the loading of PW's data/config files.
@@ -25,22 +23,22 @@ public class FileManager {
      * Run all loading sequences for a file from this method.
      *
      * @param pwFile file to load
-     *
      * @author lokka30
      * @since v2.0.0
      */
     public void init(PWFile pwFile) {
-        Utils.LOGGER.info("&3Files: &7Loading file &b" + pwFile + "&7...");
+        main.getLogger().info("Loading file " + pwFile + "...");
 
         try {
             load(pwFile);
 
-            switch (pwFile) {
+            switch(pwFile) {
                 case SETTINGS:
                     migrate(pwFile, main.settings.getConfig().getInt("advanced.file-version"));
                     break;
                 case ADVANCED_SETTINGS:
-                    migrate(pwFile, main.advancedSettings.getConfig().getInt("advanced.file-version"));
+                    migrate(pwFile,
+                        main.advancedSettings.getConfig().getInt("advanced.file-version"));
                     break;
                 case MESSAGES:
                     migrate(pwFile, main.messages.getConfig().getInt("advanced.file-version"));
@@ -51,21 +49,20 @@ public class FileManager {
                 default:
                     break;
             }
-        } catch (IOException ex) {
-            Utils.LOGGER.error("&3Files: &7Unable to init file &b" + pwFile + "&7. Stack trace:");
+        } catch(IOException ex) {
+            main.getLogger().severe("Unable to init file " + pwFile + ". Stack trace:");
             ex.printStackTrace();
         }
     }
 
     /**
      * Run MicroLib's YamlConfigFile load sequence for each file.
-     * The license file is simply replaced.
      *
      * @author lokka30
      * @since v2.0.0
      */
     private void load(PWFile pwFile) throws IOException {
-        switch (pwFile) {
+        switch(pwFile) {
             case SETTINGS:
                 main.settings.load();
                 break;
@@ -77,9 +74,6 @@ public class FileManager {
                 break;
             case DATA:
                 main.data.load();
-                break;
-            case LICENSE:
-                main.saveResource("license.txt", true);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value " + pwFile);
@@ -94,44 +88,60 @@ public class FileManager {
      */
     private void migrate(PWFile pwFile, int currentVersion) {
         // Values of -1 indicate that it is not to be migrated
-        if (pwFile.latestFileVersion == -1) return;
+        if(pwFile.latestFileVersion == -1) {
+            return;
+        }
 
-        switch (pwFile) {
+        switch(pwFile) {
             case SETTINGS:
-                if (currentVersion == PWFile.SETTINGS.latestFileVersion) return;
+                if(currentVersion == PWFile.SETTINGS.latestFileVersion) {
+                    return;
+                }
                 alertIncorrectVersion(pwFile);
                 break;
             case ADVANCED_SETTINGS:
-                if (currentVersion == PWFile.ADVANCED_SETTINGS.latestFileVersion) return;
+                if(currentVersion == PWFile.ADVANCED_SETTINGS.latestFileVersion) {
+                    return;
+                }
                 alertIncorrectVersion(pwFile);
                 break;
             case MESSAGES:
-                if (currentVersion == PWFile.MESSAGES.latestFileVersion) return;
+                if(currentVersion == PWFile.MESSAGES.latestFileVersion) {
+                    return;
+                }
                 alertIncorrectVersion(pwFile);
                 break;
             case DATA:
-                if (currentVersion == PWFile.DATA.latestFileVersion) return;
+                if(currentVersion == PWFile.DATA.latestFileVersion) {
+                    return;
+                }
 
                 //Switch below is for future-proofing the code, in case more data versions are added.
                 //noinspection SwitchStatementWithTooFewBranches
-                switch (currentVersion) {
+                switch(currentVersion) {
                     case 1:
-                        Utils.LOGGER.info("&3Files: &7Automatically migrating the &b" + pwFile + "&7 file to the latest format (it was outdated).");
+                        main.getLogger().info("Automatically migrating the " + pwFile
+                            + " file to the latest format (it was outdated).");
 
-                        if (!main.data.getConfig().contains("worlds")) return;
+                        if(!main.data.getConfig().contains("worlds")) {
+                            return;
+                        }
 
-                        for (String worldName : main.data.getConfig().getStringList("worlds")) {
-                            if (Bukkit.getWorld(worldName) != null)
+                        for(String worldName : main.data.getConfig().getStringList("worlds")) {
+                            if(Bukkit.getWorld(worldName) != null) {
                                 continue; // Don't add worlds that are already loaded (most likely by Bukkit).
+                            }
 
-                            main.data.getConfig().set("worlds-to-load." + worldName + ".environment", World.Environment.NORMAL.toString());
+                            main.data.getConfig()
+                                .set("worlds-to-load." + worldName + ".environment",
+                                    World.Environment.NORMAL.toString());
                         }
 
                         main.data.getConfig().set("worlds", null);
 
                         main.data.getConfig().set("advanced.file-version", 2);
 
-                        Utils.LOGGER.info("&3Files: &7The &b" + pwFile + "&7 file has been migrated.");
+                        main.getLogger().info("File '" + pwFile + "' has been migrated.");
                         break;
                     default:
                         alertIncorrectVersion(pwFile);
@@ -144,8 +154,9 @@ public class FileManager {
     }
 
     void alertIncorrectVersion(PWFile pwFile) {
-        Utils.LOGGER.error("&3Files: &7You are running the incorrect version of the " +
-                "file &b" + pwFile + "&7! Please back it up and allow the plugin to generate a new file, or you will most likely experience errors.");
+        main.getLogger().severe("You are running the incorrect version of the " +
+            "file '" + pwFile + "'! Please back it up and allow the plugin to generate a new file, "
+            + "or you will most likely experience errors.");
     }
 
     /**
@@ -158,11 +169,9 @@ public class FileManager {
         SETTINGS(1),
         ADVANCED_SETTINGS(1),
         MESSAGES(5),
-        DATA(2),
-        LICENSE(-1);
+        DATA(2);
 
         public final int latestFileVersion; // If == -1: 'do not migrate me!'
-
         PWFile(int latestFileVersion) {
             this.latestFileVersion = latestFileVersion;
         }
