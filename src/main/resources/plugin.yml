@@ -10,18 +10,14 @@ description: '${project.description}'
 authors: ['lokka30']
 website: 'https://github.com/lokka30/PhantomWorlds'
 
-depend: []
-softdepend: []
-
 main: 'me.lokka30.phantomworlds.PhantomWorlds'
 api-version: '1.13'
 load: 'POSTWORLD'
-loadbefore: []
 
 commands:
   phantomworlds:
     description: 'Create, manage or teleport to worlds.'
-    aliases: [ 'pw', 'world' ]
+    aliases: ['pw', 'world']
     usage: '/<command>'
 
 permissions:
@@ -83,7 +79,7 @@ permissions:
   phantomworlds.command.phantomworlds.teleport:
     default: op
     description: 'Ability to run /pw teleport'
-    
+
   phantomworlds.command.phantomworlds.spawn:
     default: op
     description: 'Ability to run /pw spawn'

@@ -1,10 +1,9 @@
 package me.lokka30.phantomworlds;
 
-import me.lokka30.microlib.exceptions.OutdatedServerVersionException;
+import java.io.File;
 import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.other.UpdateChecker;
-import me.lokka30.microlib.other.VersionUtils;
 import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
 import me.lokka30.phantomworlds.managers.FileManager;
 import me.lokka30.phantomworlds.managers.WorldManager;
@@ -13,10 +12,6 @@ import me.lokka30.phantomworlds.misc.UpdateCheckerResult;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
 
 /**
  * This is the main class of the PhantomWorlds plugin.
@@ -28,32 +23,24 @@ public class PhantomWorlds extends JavaPlugin {
 
     /*
     TODO:
-     * - Fix inability to use colons in values for the create subcommand.
      * - Translate backslash character in world names as a space so world names with a space can be used in the plugin
      * - Vanish compatibility
      *  - don't send 'by' messages unless the sender is not a player / target can see the (player) sender
      *  - add vanish compatibility to 'teleport' subcommand
      *  - add ability to toggle vanish compatibility
      * - log in console (LogLevel:INFO) when a command is prevented due to a target player seemingly being vanished to the command sender.
-     *
-     * Current changelog:
-     * - Fixed update checker throwing errors on older servers (Thanks ReverendJesus for reporting!)
      */
 
     /**
-     * If you have contributed code to the plugin,
-     * add your name to the end of this list! :)
+     * If you have contributed code to the plugin, add your name to the end of this list! :)
      */
-    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
-    public final HashSet<String> contributors = new HashSet<>(Arrays.asList("madison-allen"));
+    public final String[] contributors = new String[]{"madison-allen"};
 
     /**
-     * This is reported in the 'pw info' command to
-     * inform the command sender of what MC versions that
-     * this version of PW is designed to run on, and is
-     * therefore supported.
+     * This is reported in the 'pw info' command to inform the command sender of what MC versions
+     * that this version of PW is designed to run on, and is therefore supported.
      */
-    public final String supportedServerVersions = "1.7.x to 1.17.x";
+    public final String supportedServerVersions = "1.7.x to 1.18.x";
 
     /**
      * Frequently used vars.
@@ -70,10 +57,14 @@ public class PhantomWorlds extends JavaPlugin {
     /**
      * Data/configuration files.
      */
-    public YamlConfigFile settings = new YamlConfigFile(this, new File(getDataFolder(), "settings.yml"));
-    public YamlConfigFile advancedSettings = new YamlConfigFile(this, new File(getDataFolder(), "advancedSettings.yml"));
-    public YamlConfigFile messages = new YamlConfigFile(this, new File(getDataFolder(), "messages.yml"));
-    public YamlConfigFile data = new YamlConfigFile(this, new File(getDataFolder(), "data.yml"));
+    public final YamlConfigFile settings = new YamlConfigFile(this,
+        new File(getDataFolder(), "settings.yml"));
+    public final YamlConfigFile advancedSettings = new YamlConfigFile(this,
+        new File(getDataFolder(), "advancedSettings.yml"));
+    public final YamlConfigFile messages = new YamlConfigFile(this,
+        new File(getDataFolder(), "messages.yml"));
+    public final YamlConfigFile data = new YamlConfigFile(this,
+        new File(getDataFolder(), "data.yml"));
 
     /**
      * This method is called by Bukkit when it loads PhantomWorlds.
@@ -92,7 +83,7 @@ public class PhantomWorlds extends JavaPlugin {
         registerListeners();
         miscStartupProcedures();
 
-        Utils.LOGGER.info("&f~ Start-up complete. &7Took &b" + timer.getTimer() + "ms");
+        getLogger().info("Start-up complete (took " + timer.getTimer() + "ms)");
     }
 
     /**
@@ -107,79 +98,81 @@ public class PhantomWorlds extends JavaPlugin {
 
         /* ... any on-disable content should be put here. nothing for now */
 
-        Utils.LOGGER.info("&f~ Shut-down complete. &7Took &b" + timer.getTimer() + "ms");
+        getLogger().info("Shut-down complete (took " + timer.getTimer() + "ms)");
     }
 
     /**
-     * Run the compatibility checkker.
-     * Reports in the console if it finds any possible issues.
+     * Run the compatibility checkker. Reports in the console if it finds any possible issues.
      *
      * @author lokka30
      * @since v2.0.0
      */
     void checkCompatibility() {
-        Utils.LOGGER.info("&3Compatibility: &7Checking compatibility with server...");
+        getLogger().info("Checking compatibility with server...");
 
         compatibilityChecker.checkAll();
 
-        if (compatibilityChecker.incompatibilities.isEmpty()) return;
+        if(compatibilityChecker.incompatibilities.isEmpty()) {
+            return;
+        }
 
-        for (int i = 0; i < compatibilityChecker.incompatibilities.size(); i++) {
-            CompatibilityChecker.Incompatibility incompatibility = compatibilityChecker.incompatibilities.get(i);
-            Utils.LOGGER.warning("Incompatibility #" + (i + 1) + " &8(&7Type: " + incompatibility.type + "&8)&7:");
-            Utils.LOGGER.info("&8 &m->&f Reason: &7" + incompatibility.reason);
-            Utils.LOGGER.info("&8 &m->&f Recommendation: &7" + incompatibility.recommendation);
+        for(int i = 0; i < compatibilityChecker.incompatibilities.size(); i++) {
+            CompatibilityChecker.Incompatibility incompatibility = compatibilityChecker.incompatibilities.get(
+                i);
+            getLogger().warning(
+                "Incompatibility #" + (i + 1) + " (Type: " + incompatibility.type + "):");
+            getLogger().info(" -> Reason: " + incompatibility.reason);
+            getLogger().info(" -> Recommendation: " + incompatibility.recommendation);
         }
     }
 
     /**
-     * (Re)load all data/configuration files.
-     * Creates them if they don't exist.
-     * Applies version checking where suitable.
+     * (Re)load all data/configuration files. Creates them if they don't exist. Applies version
+     * checking where suitable.
      *
      * @author lokka30
      * @since v2.0.0
      */
     public void loadFiles() {
-        Utils.LOGGER.info("&3Files: &7Loading files...");
-        for (FileManager.PWFile pwFile : FileManager.PWFile.values()) {
+        getLogger().info("Loading files...");
+        for(FileManager.PWFile pwFile : FileManager.PWFile.values()) {
             fileManager.init(pwFile);
         }
     }
 
     /**
-     * Checks on the worlds that are created through PhantomWorlds.
-     * If they aren't already loaded, PW loads them.
+     * Checks on the worlds that are created through PhantomWorlds. If they aren't already loaded,
+     * PW loads them.
      *
      * @author lokka30
      * @since v2.0.0
      */
     public void loadWorlds() {
-        Utils.LOGGER.info("&3Worlds: &7Loading worlds...");
+        getLogger().info("Loading worlds...");
         worldManager.loadManagedWorlds();
     }
 
     /**
-     * Registers the commands for the plugin. In this case, only one
-     * command is registered (with an array of sub-commands of course).
+     * Registers the commands for the plugin. In this case, only one command is registered (with an
+     * array of sub-commands of course).
      *
      * @author lokka30
      * @since v2.0.0
      */
     void registerCommands() {
-        Utils.LOGGER.info("&3Commands: &7Registering commands...");
+        getLogger().info("Registering commands...");
         Utils.registerCommand(this, new PhantomWorldsCommand(this), "phantomworlds");
     }
 
     /**
-     * Registers the listeners for the plugin. These classes run code
-     * when Events happen on the server, e.g. 'player joins server' or 'player changes world'.
+     * Registers the listeners for the plugin. These classes run code when Events happen on the
+     * server, e.g. 'player joins server' or 'player changes world'.
      *
      * @author lokka30
      * @since v2.0.0
      */
     void registerListeners() {
-        Utils.LOGGER.info("&3Listeners: &7Registering listeners...");
+        getLogger().info("Registering listeners...");
         /* Register any listeners here. */
     }
 
@@ -190,44 +183,39 @@ public class PhantomWorlds extends JavaPlugin {
      * @since v2.0.0
      */
     void miscStartupProcedures() {
-        Utils.LOGGER.info("&3Startup: &7Running misc startup procedures...");
+        getLogger().info("Running misc startup procedures...");
 
         /* bStats Metrics */
         new Metrics(this, 8916);
 
         /* Update Checker */
-        if (settings.getConfig().getBoolean("run-update-checker", true)) {
-            if(!VersionUtils.isOneEleven()) {
-                Utils.LOGGER.info(
-                        "This plugin's &bupdate checker&7 only works " +
-                                "for servers running &bMC 1.11 or newer&7. " +
-                                "Please consider disabling the setting '&brun-update-checker&7' " +
-                                "in the configuration file '&bsettings.yml&7'."
-                );
-                return;
-            }
-
+        if(settings.getConfig().getBoolean("run-update-checker", true)) {
             try {
                 final UpdateChecker updateChecker = new UpdateChecker(this, 84017);
                 updateChecker.getLatestVersion(latestVersion -> {
                     updateCheckerResult = new UpdateCheckerResult(
-                            !latestVersion.equals(updateChecker.getCurrentVersion()),
-                            updateChecker.getCurrentVersion(),
-                            latestVersion
+                        !latestVersion.equals(updateChecker.getCurrentVersion()),
+                        updateChecker.getCurrentVersion(),
+                        latestVersion
                     );
 
-                    if (updateCheckerResult.isOutdated()) {
-                        if (!messages.getConfig().getBoolean("update-checker.console.enabled", true)) return;
+                    if(updateCheckerResult.isOutdated()) {
+                        if(!messages.getConfig()
+                            .getBoolean("update-checker.console.enabled", true)) {
+                            return;
+                        }
 
-                        messages.getConfig().getStringList("update-checker.console.text").forEach(message -> Utils.LOGGER.info(message
-                                .replace("%currentVersion%", updateCheckerResult.getCurrentVersion())
+                        messages.getConfig().getStringList("update-checker.console.text")
+                            .forEach(message -> getLogger().info(message
+                                .replace("%currentVersion%",
+                                    updateCheckerResult.getCurrentVersion())
                                 .replace("%latestVersion%", updateCheckerResult.getLatestVersion())
-                        ));
+                            ));
                     }
                 });
-            } catch(OutdatedServerVersionException ex) {
-                ex.printStackTrace();
-                // This should be impossible
+            } catch(Exception ex) {
+                getLogger().warning("Unable to check for updates - check your internet connection: "
+                    + ex.getMessage());
             }
         }
     }

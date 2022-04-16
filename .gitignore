@@ -1,2 +1,8 @@
-/target/
-/.idea
+# IntelliJ IDEA
+target/
+.idea
+*.iml
+
+# macOS
+._.git
+.DS_Store

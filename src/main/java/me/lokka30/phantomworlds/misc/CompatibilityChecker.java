@@ -1,17 +1,17 @@
 package me.lokka30.phantomworlds.misc;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
- * Handles various checks that attempt to warn administrators about
- * potential compatibility issues with their server configuration.
+ * Handles various checks that attempt to warn administrators about potential compatibility issues
+ * with their server configuration.
  *
  * @author lokka30
  * @since v2.0.0
  */
 public class CompatibilityChecker {
 
-    public final ArrayList<Incompatibility> incompatibilities = new ArrayList<>();
+    public final LinkedList<Incompatibility> incompatibilities = new LinkedList<>();
 
     /**
      * Run all PW compatibility checks.
@@ -46,6 +46,7 @@ public class CompatibilityChecker {
      * @since v2.0.0
      */
     public static class Incompatibility {
+
         public final IncompatibilityType type;
         public final String reason;
         public final String recommendation;

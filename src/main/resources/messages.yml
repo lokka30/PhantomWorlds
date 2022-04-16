@@ -168,7 +168,7 @@ command:
 
         success:
           - '%prefix% Teleported player ''&b%player%&7'' to the spawn point of world ''&b%world%&7''.'
-          
+
       spawn:
 
         usage:
@@ -191,6 +191,9 @@ command:
         success:
           - '%prefix% You have unloaded the world ''&b%world%&7''.'
           - '%prefix% &eWarning: &7If the unloaded world''s folder is still present when you re-start your server, it will be loaded again. If you wish to prevent this, transfer the world''s directory elsewhere.'
+
+        kick:
+          - '%prefix% The world you were in was unloaded. Please re-join.'
 
 # Do not touch anything here unless you know what you are doing.
 advanced:

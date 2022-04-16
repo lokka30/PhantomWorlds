@@ -1,18 +1,19 @@
 package me.lokka30.phantomworlds.managers;
 
-import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.misc.Utils;
-import org.bukkit.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import me.lokka30.phantomworlds.PhantomWorlds;
+import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * Contains an assortment of methods to
- * handle world management in PW.
+ * Contains an assortment of methods to handle world management in PW.
  *
  * @author lokka30
  * @since v2.0.0
@@ -26,50 +27,63 @@ public class WorldManager {
     }
 
     /**
-     * For all worlds listed in PW's data file, if they aren't already loaded by Bukkit,
-     * then tell Bukkit to load them
+     * For all worlds listed in PW's data file, if they aren't already loaded by Bukkit, then tell
+     * Bukkit to load them
      *
      * @author lokka30
      * @since v2.0.0
      */
     public void loadManagedWorlds() {
-        Utils.LOGGER.info("&3Worlds: &7Loading managed worlds...");
+        main.getLogger().info("Loading managed worlds...");
 
-        if (!main.data.getConfig().contains("worlds-to-load")) return;
+        if(!main.data.getConfig().contains("worlds-to-load")) {
+            return;
+        }
 
         final HashSet<String> worldsToDiscardFromDataFile = new HashSet<>();
 
         //noinspection ConstantConditions
-        for (String worldName : main.data.getConfig().getConfigurationSection("worlds-to-load").getKeys(false)) {
-            if (Bukkit.getWorld(worldName) != null) continue;
+        for(String worldName : main.data.getConfig().getConfigurationSection("worlds-to-load")
+            .getKeys(false)) {
+            if(Bukkit.getWorld(worldName) != null) {
+                continue;
+            }
 
             final File worldContainer = Bukkit.getWorldContainer();
-            final File worldFolder = new File(worldContainer.getAbsolutePath() + File.separator + worldName);
+            final File worldFolder = new File(
+                worldContainer.getAbsolutePath() + File.separator + worldName);
 
-            if (!worldContainer.exists()) {
-                Utils.LOGGER.error("&3Worlds: &7World container doesn't exist!");
+            if(!worldContainer.exists()) {
+                main.getLogger()
+                    .severe("World container doesn't exist for world " + worldName + "!");
                 return;
             }
 
-            if (!worldFolder.exists()) {
+            if(!worldFolder.exists()) {
                 // The world was deleted/moved by the user so it must be re-imported. PW should no longer attempt to load that world.
-                Utils.LOGGER.info("&3Worlds: &7Discarding world '&b" + worldName + "&7' from PhantomWorlds' data file as it no longer exists on the server.");
+                main.getLogger().info("Discarding world '" + worldName + "' from PhantomWorlds' "
+                    + "data file as it no longer exists on the server.");
                 worldsToDiscardFromDataFile.add(worldName);
                 continue;
             }
 
-            Utils.LOGGER.info("&3Worlds: &7Loading world '&b" + worldName + "&7'...");
+            if(main.data.getConfig().getBoolean("worlds-to-load." + worldName + ".skip-autoload", false)) {
+                main.getLogger().info("Skipping autoload of world '" + worldName + "'.");
+                continue;
+            }
+
+            main.getLogger().info("Loading world '" + worldName + "'...");
             getPhantomWorldFromData(main, worldName).create();
         }
 
-        for (String worldName : worldsToDiscardFromDataFile) {
+        for(String worldName : worldsToDiscardFromDataFile) {
             main.data.getConfig().set("worlds-to-load." + worldName, null);
         }
 
         try {
             main.data.save();
-        } catch (IOException ex) {
-            Utils.LOGGER.error("Unable to save data file. Stack trace:");
+        } catch(IOException ex) {
+            main.getLogger().severe("Unable to save data file. Stack trace:");
             ex.printStackTrace();
         }
     }
@@ -85,25 +99,26 @@ public class WorldManager {
         final String cfgPath = "worlds-to-load." + name + ".";
 
         return new PhantomWorld(
-                name,
-                World.Environment.valueOf(main.data.getConfig().getString(cfgPath + "environment", "NORMAL")),
-                main.data.getConfig().getBoolean(cfgPath + "generateStructures", true),
-                main.data.getConfig().getString(cfgPath + "generator", null),
-                main.data.getConfig().getString(cfgPath + "generatorSettings", null),
-                main.data.getConfig().getBoolean(cfgPath + "hardcore", false),
-                main.data.getConfig().getLong(cfgPath + "seed", 0),
-                WorldType.valueOf(main.data.getConfig().getString(cfgPath + "worldType", "NORMAL")),
-                main.data.getConfig().getBoolean(cfgPath + "spawnMobs", true),
-                main.data.getConfig().getBoolean(cfgPath + "spawnAnimals", true),
-                main.data.getConfig().getBoolean(cfgPath + "keepSpawnInMemory", false),
-                main.data.getConfig().getBoolean(cfgPath + "allowPvP", true),
-                Difficulty.valueOf(main.data.getConfig().getString(cfgPath + "difficulty", null))
+            main,
+            name,
+            World.Environment.valueOf(
+                main.data.getConfig().getString(cfgPath + "environment", "NORMAL")),
+            main.data.getConfig().getBoolean(cfgPath + "generateStructures", true),
+            main.data.getConfig().getString(cfgPath + "generator", null),
+            main.data.getConfig().getString(cfgPath + "generatorSettings", null),
+            main.data.getConfig().getBoolean(cfgPath + "hardcore", false),
+            main.data.getConfig().getLong(cfgPath + "seed", 0),
+            WorldType.valueOf(main.data.getConfig().getString(cfgPath + "worldType", "NORMAL")),
+            main.data.getConfig().getBoolean(cfgPath + "spawnMobs", true),
+            main.data.getConfig().getBoolean(cfgPath + "spawnAnimals", true),
+            main.data.getConfig().getBoolean(cfgPath + "keepSpawnInMemory", false),
+            main.data.getConfig().getBoolean(cfgPath + "allowPvP", true),
+            Difficulty.valueOf(main.data.getConfig().getString(cfgPath + "difficulty", null))
         );
     }
 
     /**
-     * PhantomWorld object to make it easier to work with
-     * PW-managed worlds.
+     * PhantomWorld object to make it easier to work with PW-managed worlds.
      *
      * @author lokka30
      * @since v2.0.0
@@ -112,6 +127,7 @@ public class WorldManager {
 
         // Here comes the jungle!
 
+        private final PhantomWorlds main;
         public final String name;
         public final World.Environment environment;
         public final boolean generateStructures;
@@ -126,19 +142,23 @@ public class WorldManager {
         public final boolean allowPvP;
         public final Difficulty difficulty;
 
-        public PhantomWorld(@NotNull String name,
-                            @NotNull World.Environment environment,
-                            boolean generateStructures,
-                            @Nullable String generator,
-                            @Nullable String generatorSettings,
-                            boolean hardcore,
-                            @Nullable Long seed,
-                            @NotNull WorldType worldType,
-                            boolean spawnMobs,
-                            boolean spawnAnimals,
-                            boolean keepSpawnInMemory,
-                            boolean allowPvP,
-                            @NotNull Difficulty difficulty) {
+        public PhantomWorld(
+            @NotNull PhantomWorlds main,
+            @NotNull String name,
+            @NotNull World.Environment environment,
+            boolean generateStructures,
+            @Nullable String generator,
+            @Nullable String generatorSettings,
+            boolean hardcore,
+            @Nullable Long seed,
+            @NotNull WorldType worldType,
+            boolean spawnMobs,
+            boolean spawnAnimals,
+            boolean keepSpawnInMemory,
+            boolean allowPvP,
+            @NotNull Difficulty difficulty
+        ) {
+            this.main = main;
             this.name = name;
             this.environment = environment;
             this.generateStructures = generateStructures;
@@ -165,23 +185,26 @@ public class WorldManager {
 
             worldCreator.environment(environment);
             worldCreator.generateStructures(generateStructures);
-            worldCreator.hardcore(hardcore);
+            try {
+                worldCreator.hardcore(hardcore);
+            } catch(NoSuchMethodError ignored) {
+            }
             worldCreator.type(worldType);
 
-            if (generator != null) {
+            if(generator != null) {
                 worldCreator.generator(generator);
             }
-            if (generatorSettings != null) {
+            if(generatorSettings != null) {
                 worldCreator.generatorSettings(generatorSettings);
             }
-            if (seed != null) {
+            if(seed != null) {
                 worldCreator.seed(seed);
             }
 
             World world = worldCreator.createWorld();
 
-            if (world == null) {
-                Utils.LOGGER.error("Unable to create/load world '&b" + name + "&7'!");
+            if(world == null) {
+                main.getLogger().severe("Unable to create/load world '" + name + "'!");
                 return;
             }
 
