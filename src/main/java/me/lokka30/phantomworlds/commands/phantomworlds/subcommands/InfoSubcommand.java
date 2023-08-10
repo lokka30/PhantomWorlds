@@ -65,7 +65,7 @@ public class InfoSubcommand implements Subcommand {
                     main.getDescription().getAuthors()), false),
             new MultiMessage.Placeholder("contributors",
                 String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"),
-                    main.contributors), false),
+                    main.CONTRIBUTORS), false),
             new MultiMessage.Placeholder("supportedServerVersions", main.supportedServerVersions,
                 false)
         ))).send(sender);

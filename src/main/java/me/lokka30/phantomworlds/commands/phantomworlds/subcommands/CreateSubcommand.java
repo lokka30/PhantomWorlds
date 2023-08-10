@@ -1,11 +1,5 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
@@ -19,6 +13,10 @@ import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author lokka30
@@ -145,11 +143,13 @@ public class CreateSubcommand implements Subcommand {
                     option = option.substring(1);
                 } // remove - character if present, those switching from PW v1 may still use it by accident.
 
+                final String valueToLowerCase = value.toString().toLowerCase(Locale.ROOT);
+
                 switch(option) {
                     case "generatestructures":
                     case "genstructures":
                     case "structures":
-                        switch(value.toString().toLowerCase(Locale.ROOT)) {
+                        switch(valueToLowerCase) {
                             case "true":
                             case "t":
                             case "yes":
@@ -188,7 +188,7 @@ public class CreateSubcommand implements Subcommand {
                         generatorSettings = value.toString();
                         break;
                     case "hardcore":
-                        switch(value.toString().toLowerCase(Locale.ROOT)) {
+                        switch(valueToLowerCase) {
                             case "true":
                             case "t":
                             case "yes":
@@ -261,7 +261,7 @@ public class CreateSubcommand implements Subcommand {
                         break;
                     case "spawnmobs":
                     case "mobs":
-                        switch(value.toString().toLowerCase(Locale.ROOT)) {
+                        switch(valueToLowerCase) {
                             case "true":
                             case "t":
                             case "yes":
@@ -293,7 +293,7 @@ public class CreateSubcommand implements Subcommand {
                         break;
                     case "spawnanimals":
                     case "animals":
-                        switch(value.toString().toLowerCase(Locale.ROOT)) {
+                        switch(valueToLowerCase) {
                             case "true":
                             case "t":
                             case "yes":
@@ -325,7 +325,7 @@ public class CreateSubcommand implements Subcommand {
                         break;
                     case "keepspawninmemory":
                     case "spawninmemory":
-                        switch(value.toString().toLowerCase(Locale.ROOT)) {
+                        switch(valueToLowerCase) {
                             case "true":
                             case "t":
                             case "yes":
@@ -437,7 +437,7 @@ public class CreateSubcommand implements Subcommand {
             spawnAnimals, keepSpawnInMemory, allowPvP, difficulty
         );
 
-        final QuickTimer quickTimer = new QuickTimer();
+        final QuickTimer quickTimer = new QuickTimer(TimeUnit.MILLISECONDS);
 
         (new MultiMessage(
             main.messages.getConfig()
@@ -475,8 +475,8 @@ public class CreateSubcommand implements Subcommand {
 
         try {
             main.data.save();
-        } catch(IOException ex) {
-            ex.printStackTrace();
+        } catch(final IOException ex) {
+            throw new RuntimeException(ex);
         }
 
         (new MultiMessage(
@@ -499,7 +499,7 @@ public class CreateSubcommand implements Subcommand {
                     main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                     true),
                 new MultiMessage.Placeholder("world", worldName, false),
-                new MultiMessage.Placeholder("time", quickTimer.getTimer() + "", false),
+                new MultiMessage.Placeholder("time", Long.toString(quickTimer.getDuration()), false),
                 new MultiMessage.Placeholder("label", label, false)
             ))).send(sender);
     }
@@ -516,7 +516,7 @@ public class CreateSubcommand implements Subcommand {
         }
 
         if(args.length == 2) {
-            return Collections.singletonList("MyNewWorld");
+            return Collections.singletonList("ExampleWorldName");
         }
 
         if(args.length == 3) {

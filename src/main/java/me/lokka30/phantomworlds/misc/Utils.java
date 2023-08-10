@@ -1,9 +1,5 @@
 package me.lokka30.phantomworlds.misc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import me.lokka30.microlib.messaging.MessageUtils;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.Bukkit;
@@ -12,6 +8,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * This class contains Utility methods which are public & static which are used by multiple classes.
@@ -34,7 +35,7 @@ public class Utils {
      * This method returns a list of the names of worlds that are loaded on the server. Used in tab
      * completion, for example.
      *
-     * @return list of world names
+     * @return set of world names
      * @author lokka30
      * @since v2.0.0
      */
@@ -148,7 +149,7 @@ public class Utils {
     }
 
     /**
-     * Credit: https://stackoverflow.com/q/11701399
+     * Credit: <a href="https://stackoverflow.com/q/11701399">StackOverflow</a>
      *
      * @param val value to round
      * @return val, rounded to 2 decimal places.

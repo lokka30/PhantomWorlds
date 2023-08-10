@@ -1,6 +1,5 @@
 package me.lokka30.phantomworlds;
 
-import java.io.File;
 import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.other.UpdateChecker;
@@ -12,6 +11,9 @@ import me.lokka30.phantomworlds.misc.UpdateCheckerResult;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This is the main class of the PhantomWorlds plugin.
@@ -34,13 +36,13 @@ public class PhantomWorlds extends JavaPlugin {
     /**
      * If you have contributed code to the plugin, add your name to the end of this list! :)
      */
-    public final String[] contributors = new String[]{"madison-allen"};
+    public static final String[] CONTRIBUTORS = new String[]{"madison-allen"};
 
     /**
      * This is reported in the 'pw info' command to inform the command sender of what MC versions
      * that this version of PW is designed to run on, and is therefore supported.
      */
-    public final String supportedServerVersions = "1.7.x to 1.18.x";
+    public final String supportedServerVersions = "1.7.x and newer";
 
     /**
      * Frequently used vars.
@@ -74,7 +76,7 @@ public class PhantomWorlds extends JavaPlugin {
      */
     @Override
     public void onEnable() {
-        final QuickTimer timer = new QuickTimer();
+        final QuickTimer timer = new QuickTimer(TimeUnit.MILLISECONDS);
 
         checkCompatibility();
         loadFiles();
@@ -83,7 +85,7 @@ public class PhantomWorlds extends JavaPlugin {
         registerListeners();
         miscStartupProcedures();
 
-        getLogger().info("Start-up complete (took " + timer.getTimer() + "ms)");
+        getLogger().info("Start-up complete (took " + timer.getDuration() + "ms)");
     }
 
     /**
@@ -94,11 +96,11 @@ public class PhantomWorlds extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        final QuickTimer timer = new QuickTimer();
+        final QuickTimer timer = new QuickTimer(TimeUnit.MILLISECONDS);
 
         /* ... any on-disable content should be put here. nothing for now */
 
-        getLogger().info("Shut-down complete (took " + timer.getTimer() + "ms)");
+        getLogger().info("Shut-down complete (took " + timer.getDuration() + "ms)");
     }
 
     /**
