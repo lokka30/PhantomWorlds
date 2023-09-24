@@ -1,6 +1,6 @@
 # License
 
-The New Economy is licensed under the AGPLv3, or (at your option) any later version.
+PhantomWorlds is licensed under the AGPLv3, or (at your option) any later version.
 
 What this means to you in basic terms:
 - Include a copy of the full license text and the original copyright notice
