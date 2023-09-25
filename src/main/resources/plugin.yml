@@ -7,7 +7,7 @@
 name: 'PhantomWorlds'
 version: '${project.version}'
 description: '${project.description}'
-authors: ['lokka30']
+authors: ['creatorfromhell', 'lokka30']
 website: 'https://github.com/lokka30/PhantomWorlds'
 
 main: 'me.lokka30.phantomworlds.PhantomWorlds'
