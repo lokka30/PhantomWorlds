@@ -68,6 +68,12 @@ public class PhantomWorlds extends JavaPlugin {
     public final YamlConfigFile data = new YamlConfigFile(this,
         new File(getDataFolder(), "data.yml"));
 
+    /*
+        Used to check if world are loaded
+     */
+    private boolean isWorldLoaded;
+
+
     /**
      * This method is called by Bukkit when it loads PhantomWorlds.
      *
@@ -75,18 +81,22 @@ public class PhantomWorlds extends JavaPlugin {
      * @since v2.0.0
      */
     @Override
-    public void onEnable() {
-        final QuickTimer timer = new QuickTimer(TimeUnit.MILLISECONDS);
-
+    public void onEnable(){
+        QuickTimer timer = new QuickTimer(TimeUnit.MILLISECONDS);
         checkCompatibility();
         loadFiles();
-        loadWorlds();
+
+        isWorldLoaded = false;
+        getServer().getPluginManager().registerEvents(worldManager,this);
+
         registerCommands();
         registerListeners();
         miscStartupProcedures();
 
         getLogger().info("Start-up complete (took " + timer.getDuration() + "ms)");
     }
+
+    public boolean isWorldLoaded(){ return isWorldLoaded; }
 
     /**
      * This method is called by Bukkit when it disables PhantomWorlds.
@@ -152,6 +162,7 @@ public class PhantomWorlds extends JavaPlugin {
     public void loadWorlds() {
         getLogger().info("Loading worlds...");
         worldManager.loadManagedWorlds();
+        isWorldLoaded = true;
     }
 
     /**
