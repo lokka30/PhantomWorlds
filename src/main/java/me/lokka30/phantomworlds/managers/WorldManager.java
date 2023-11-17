@@ -9,6 +9,9 @@ import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.WorldInitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  * @author lokka30
  * @since v2.0.0
  */
-public class WorldManager {
+public class WorldManager implements Listener {
 
     private final PhantomWorlds main;
 
@@ -115,6 +118,15 @@ public class WorldManager {
             main.data.getConfig().getBoolean(cfgPath + "allowPvP", true),
             Difficulty.valueOf(main.data.getConfig().getString(cfgPath + "difficulty", null))
         );
+    }
+
+    @EventHandler
+    public void onInit(WorldInitEvent event)
+    {
+        if(!main.isWorldLoaded())
+        {
+            main.loadWorlds();
+        }
     }
 
     /**
