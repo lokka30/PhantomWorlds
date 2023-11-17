@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  * @author lokka30
  * @since v2.0.0
  */
-public class WorldManager implements Listener {
+public class WorldManager {
 
     private final PhantomWorlds main;
 
@@ -118,15 +118,6 @@ public class WorldManager implements Listener {
             main.data.getConfig().getBoolean(cfgPath + "allowPvP", true),
             Difficulty.valueOf(main.data.getConfig().getString(cfgPath + "difficulty", null))
         );
-    }
-
-    @EventHandler
-    public void onInit(WorldInitEvent event)
-    {
-        if(!main.isWorldLoaded())
-        {
-            main.loadWorlds();
-        }
     }
 
     /**

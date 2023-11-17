@@ -4,6 +4,7 @@ import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.other.UpdateChecker;
 import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
+import me.lokka30.phantomworlds.listeners.WorldInitListener;
 import me.lokka30.phantomworlds.managers.FileManager;
 import me.lokka30.phantomworlds.managers.WorldManager;
 import me.lokka30.phantomworlds.misc.CompatibilityChecker;
@@ -87,7 +88,7 @@ public class PhantomWorlds extends JavaPlugin {
         loadFiles();
 
         isWorldLoaded = false;
-        getServer().getPluginManager().registerEvents(worldManager,this);
+        getServer().getPluginManager().registerEvents(new WorldInitListener(this),this);
 
         registerCommands();
         registerListeners();
@@ -96,7 +97,9 @@ public class PhantomWorlds extends JavaPlugin {
         getLogger().info("Start-up complete (took " + timer.getDuration() + "ms)");
     }
 
-    public boolean isWorldLoaded(){ return isWorldLoaded; }
+    public boolean isWorldLoaded() {
+        return isWorldLoaded;
+    }
 
     /**
      * This method is called by Bukkit when it disables PhantomWorlds.
