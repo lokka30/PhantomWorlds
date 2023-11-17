@@ -8,11 +8,11 @@ name: 'PhantomWorlds'
 version: '${project.version}'
 description: '${project.description}'
 authors: ['creatorfromhell', 'lokka30']
-website: 'https://github.com/TheNewEconomy/PhantomWorlds'
+website: 'https://github.com/lokka30/PhantomWorlds'
 
 main: 'me.lokka30.phantomworlds.PhantomWorlds'
 api-version: '1.13'
-load: 'STARTUP'
+load: STARTUP
 
 commands:
   phantomworlds:
