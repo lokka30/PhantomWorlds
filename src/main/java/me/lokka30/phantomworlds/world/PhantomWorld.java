@@ -19,6 +19,7 @@ package me.lokka30.phantomworlds.world;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.Difficulty;
+import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -53,6 +54,8 @@ public class PhantomWorld {
   private final boolean allowPvP;
   private final Difficulty difficulty;
 
+  private final GameMode gameMode;
+
   public PhantomWorld(
           @NotNull String name,
           @NotNull World.Environment environment,
@@ -66,7 +69,8 @@ public class PhantomWorld {
           boolean spawnAnimals,
           boolean keepSpawnInMemory,
           boolean allowPvP,
-          @NotNull Difficulty difficulty
+          @NotNull Difficulty difficulty,
+          @NotNull GameMode gameMode
   ) {
     this.name = name;
     this.environment = environment;
@@ -81,6 +85,7 @@ public class PhantomWorld {
     this.keepSpawnInMemory = keepSpawnInMemory;
     this.allowPvP = allowPvP;
     this.difficulty = difficulty;
+    this.gameMode = gameMode;
   }
 
   /**

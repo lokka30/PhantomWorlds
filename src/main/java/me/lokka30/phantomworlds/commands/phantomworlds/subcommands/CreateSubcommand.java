@@ -8,6 +8,7 @@ import me.lokka30.phantomworlds.misc.Utils;
 import me.lokka30.phantomworlds.world.PhantomWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
+import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.WorldType;
 import org.bukkit.command.Command;
@@ -113,6 +114,7 @@ public class CreateSubcommand implements Subcommand {
     boolean keepSpawnInMemory = false;
     boolean allowPvP = true;
     Difficulty difficulty = Difficulty.NORMAL;
+    GameMode mode = GameMode.SURVIVAL;
 
     if(args.length > 3) {
       for(int index = 3; index < args.length; index++) {
@@ -132,7 +134,7 @@ public class CreateSubcommand implements Subcommand {
                                           .getString("common.list-delimiter", "&7, &b"),
                                   Arrays.asList("genStructures", "gen", "genSettings", "hardcore",
                                           "seed", "type", "spawnMobs", "spawnAnimals",
-                                          "keepSpawnInMemory", "allowPvP", "difficulty")
+                                          "keepSpawnInMemory", "allowPvP", "difficulty", "gamemode")
                           ), true)
                   ))).send(sender);
           return;
@@ -165,6 +167,9 @@ public class CreateSubcommand implements Subcommand {
           case "generatorsettings":
           case "gensettings":
             generatorSettings = value.toString();
+            break;
+          case "gamemode":
+            mode = GameMode.valueOf(value.toString());
             break;
           case "hardcore":
 
@@ -303,7 +308,7 @@ public class CreateSubcommand implements Subcommand {
     final PhantomWorld pworld = new PhantomWorld(
             worldName, environment, generateStructures, generator,
             generatorSettings, hardcore, seed, worldType, spawnMobs,
-            spawnAnimals, keepSpawnInMemory, allowPvP, difficulty
+            spawnAnimals, keepSpawnInMemory, allowPvP, difficulty, mode
     );
 
     final QuickTimer quickTimer = new QuickTimer(TimeUnit.MILLISECONDS);
@@ -341,6 +346,7 @@ public class CreateSubcommand implements Subcommand {
     PhantomWorlds.instance().data.getConfig().set(cfgPath + "keepSpawnInMemory", keepSpawnInMemory);
     PhantomWorlds.instance().data.getConfig().set(cfgPath + "allowPvP", allowPvP);
     PhantomWorlds.instance().data.getConfig().set(cfgPath + "difficulty", difficulty.toString());
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "gameMode", mode.name());
 
     try {
       PhantomWorlds.instance().data.save();
@@ -420,6 +426,11 @@ public class CreateSubcommand implements Subcommand {
 
     suggestions.add("generatorsettings:");
     suggestions.add("gensettings:");
+
+    suggestions.add("gamemode:ADVENTURE");
+    suggestions.add("gamemode:CREATIVE");
+    suggestions.add("gamemode:HARDCORE");
+    suggestions.add("gamemode:SURVIVAL");
 
     suggestions.add("seed:");
 

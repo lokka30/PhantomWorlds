@@ -4,6 +4,8 @@ import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.other.UpdateChecker;
 import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
+import me.lokka30.phantomworlds.listeners.PlayerChangeWorldListener;
+import me.lokka30.phantomworlds.listeners.PlayerJoinListener;
 import me.lokka30.phantomworlds.listeners.WorldInitListener;
 import me.lokka30.phantomworlds.managers.FileManager;
 import me.lokka30.phantomworlds.managers.WorldManager;
@@ -93,6 +95,8 @@ public class PhantomWorlds extends JavaPlugin {
 
     isWorldLoaded = false;
     getServer().getPluginManager().registerEvents(new WorldInitListener(this), this);
+    getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+    getServer().getPluginManager().registerEvents(new PlayerChangeWorldListener(this), this);
 
     registerCommands();
     registerListeners();

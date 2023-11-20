@@ -4,6 +4,7 @@ import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.world.PhantomWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
+import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
@@ -106,7 +107,8 @@ public class WorldManager {
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "spawnAnimals", true),
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "keepSpawnInMemory", false),
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "allowPvP", true),
-            Difficulty.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "difficulty", null))
+            Difficulty.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "difficulty", null)),
+            GameMode.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "gameMode", "SURVIVAL"))
     );
 
     if(PhantomWorlds.instance().data.getConfig().contains(cfgPath + "rules") &&
