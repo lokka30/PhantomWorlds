@@ -1,6 +1,7 @@
 package me.lokka30.phantomworlds.misc;
 
 import me.lokka30.microlib.messaging.MessageUtils;
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 /**
  * This class contains Utility methods which are public & static which are used by multiple classes.
@@ -156,5 +159,35 @@ public class Utils {
    */
   public static double roundTwoDecimalPlaces(double val) {
     return Math.round(val * 100) / 100.0;
+  }
+
+  public static Optional<Boolean> parseFromString(CommandSender sender, final StringBuilder value, final String option) {
+    switch(value.toString().toLowerCase(Locale.ROOT)) {
+      case "false":
+      case "f":
+      case "no":
+      case "n":
+        return Optional.of(false);
+      case "true":
+      case "t":
+      case "yes":
+      case "y":
+        return Optional.of(true);
+      default:
+        (new MultiMessage(
+                PhantomWorlds.instance().messages.getConfig().getStringList(
+                        "command.phantomworlds.subcommands.create.options.invalid-value"),
+                Arrays.asList(
+                        new MultiMessage.Placeholder("prefix",
+                                PhantomWorlds.instance().messages.getConfig().getString("common.prefix",
+                                        "&b&lPhantomWorlds: &7"), true),
+                        new MultiMessage.Placeholder("value", value.toString(),
+                                false),
+                        new MultiMessage.Placeholder("option", option, false),
+                        new MultiMessage.Placeholder("expected",
+                                "Boolean (true/false)", false)
+                ))).send(sender);
+        return Optional.empty();
+    }
   }
 }

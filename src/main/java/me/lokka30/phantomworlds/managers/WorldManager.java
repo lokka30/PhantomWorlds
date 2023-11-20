@@ -1,6 +1,7 @@
 package me.lokka30.phantomworlds.managers;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
+import me.lokka30.phantomworlds.world.PhantomWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
@@ -107,96 +108,5 @@ public class WorldManager {
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "allowPvP", true),
             Difficulty.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "difficulty", null))
     );
-  }
-
-  /**
-   * PhantomWorld object to make it easier to work with PW-managed worlds.
-   *
-   * @author lokka30
-   * @since v2.0.0
-   */
-  public static class PhantomWorld {
-    public final String name;
-    public final World.Environment environment;
-    public final boolean generateStructures;
-    public final String generator;
-    public final String generatorSettings;
-    public final boolean hardcore;
-    public final Long seed;
-    public final WorldType worldType;
-    public final boolean spawnMobs;
-    public final boolean spawnAnimals;
-    public final boolean keepSpawnInMemory;
-    public final boolean allowPvP;
-    public final Difficulty difficulty;
-
-    public PhantomWorld(
-            @NotNull String name,
-            @NotNull World.Environment environment,
-            boolean generateStructures,
-            @Nullable String generator,
-            @Nullable String generatorSettings,
-            boolean hardcore,
-            @Nullable Long seed,
-            @NotNull WorldType worldType,
-            boolean spawnMobs,
-            boolean spawnAnimals,
-            boolean keepSpawnInMemory,
-            boolean allowPvP,
-            @NotNull Difficulty difficulty
-    ) {
-      this.name = name;
-      this.environment = environment;
-      this.generateStructures = generateStructures;
-      this.generator = generator;
-      this.generatorSettings = generatorSettings;
-      this.hardcore = hardcore;
-      this.seed = seed;
-      this.worldType = worldType;
-      this.spawnMobs = spawnMobs;
-      this.spawnAnimals = spawnAnimals;
-      this.keepSpawnInMemory = keepSpawnInMemory;
-      this.allowPvP = allowPvP;
-      this.difficulty = difficulty;
-    }
-
-    /**
-     * Create/import the world with specified settings.
-     *
-     * @since v2.0.0
-     */
-    public void create() {
-      final WorldCreator worldCreator = new WorldCreator(name);
-
-      worldCreator.environment(environment);
-      worldCreator.generateStructures(generateStructures);
-      try {
-        worldCreator.hardcore(hardcore);
-      } catch(NoSuchMethodError ignored) {
-      }
-      worldCreator.type(worldType);
-
-      if(generator != null) {
-        worldCreator.generator(generator);
-      }
-      if(generatorSettings != null) {
-        worldCreator.generatorSettings(generatorSettings);
-      }
-      if(seed != null) {
-        worldCreator.seed(seed);
-      }
-
-      final World world = worldCreator.createWorld();
-
-      if(world == null) {
-        PhantomWorlds.instance().getLogger().severe("Unable to create/load world '" + name + "'!");
-        return;
-      }
-
-      world.setSpawnFlags(spawnMobs, spawnAnimals);
-      world.setKeepSpawnInMemory(keepSpawnInMemory);
-      world.setPVP(allowPvP);
-      world.setDifficulty(difficulty);
-    }
   }
 }

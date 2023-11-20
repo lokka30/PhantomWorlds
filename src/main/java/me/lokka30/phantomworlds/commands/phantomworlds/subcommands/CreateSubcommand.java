@@ -4,8 +4,8 @@ import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.Subcommand;
-import me.lokka30.phantomworlds.managers.WorldManager;
 import me.lokka30.phantomworlds.misc.Utils;
+import me.lokka30.phantomworlds.world.PhantomWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -144,81 +145,36 @@ public class CreateSubcommand implements Subcommand {
           option = option.substring(1);
         } // remove - character if present, those switching from PW v1 may still use it by accident.
 
-        final String valueToLowerCase = value.toString().toLowerCase(Locale.ROOT);
-
         switch(option) {
           case "generatestructures":
           case "genstructures":
           case "structures":
-            switch(valueToLowerCase) {
-              case "true":
-              case "t":
-              case "yes":
-              case "y":
-                generateStructures = true;
-                break;
-              case "false":
-              case "f":
-              case "no":
-              case "n":
-                generateStructures = false;
-                break;
-              default:
-                (new MultiMessage(
-                        PhantomWorlds.instance().messages.getConfig().getStringList(
-                                "command.phantomworlds.subcommands.create.options.invalid-value"),
-                        Arrays.asList(
-                                new MultiMessage.Placeholder("prefix",
-                                        PhantomWorlds.instance().messages.getConfig().getString("common.prefix",
-                                                "&b&lPhantomWorlds: &7"), true),
-                                new MultiMessage.Placeholder("value", value.toString(),
-                                        false),
-                                new MultiMessage.Placeholder("option", option, false),
-                                new MultiMessage.Placeholder("expected",
-                                        "Boolean (true/false)", false)
-                        ))).send(sender);
-                return;
+
+            final Optional<Boolean> gen = Utils.parseFromString(sender, value, option);
+            if(!gen.isPresent()) {
+              return;
             }
+            generateStructures = gen.get();
             break;
+
           case "generator":
           case "gen":
             generator = value.toString();
             break;
+
           case "generatorsettings":
           case "gensettings":
             generatorSettings = value.toString();
             break;
           case "hardcore":
-            switch(valueToLowerCase) {
-              case "true":
-              case "t":
-              case "yes":
-              case "y":
-                hardcore = true;
-                break;
-              case "false":
-              case "f":
-              case "no":
-              case "n":
-                hardcore = false;
-                break;
-              default:
-                (new MultiMessage(
-                        PhantomWorlds.instance().messages.getConfig().getStringList(
-                                "command.phantomworlds.subcommands.create.options.invalid-value"),
-                        Arrays.asList(
-                                new MultiMessage.Placeholder("prefix",
-                                        PhantomWorlds.instance().messages.getConfig().getString("common.prefix",
-                                                "&b&lPhantomWorlds: &7"), true),
-                                new MultiMessage.Placeholder("value", value.toString(),
-                                        false),
-                                new MultiMessage.Placeholder("option", option, false),
-                                new MultiMessage.Placeholder("expected",
-                                        "Boolean (true/false)", false)
-                        ))).send(sender);
-                return;
+
+            final Optional<Boolean> hard = Utils.parseFromString(sender, value, option);
+            if(!hard.isPresent()) {
+              return;
             }
+            hardcore = hard.get();
             break;
+
           case "seed":
             try {
               seed = Long.valueOf(value.toString());
@@ -262,132 +218,44 @@ public class CreateSubcommand implements Subcommand {
             break;
           case "spawnmobs":
           case "mobs":
-            switch(valueToLowerCase) {
-              case "true":
-              case "t":
-              case "yes":
-              case "y":
-                spawnMobs = true;
-                break;
-              case "false":
-              case "f":
-              case "no":
-              case "n":
-                spawnMobs = false;
-                break;
-              default:
-                (new MultiMessage(
-                        PhantomWorlds.instance().messages.getConfig().getStringList(
-                                "command.phantomworlds.subcommands.create.options.invalid-value"),
-                        Arrays.asList(
-                                new MultiMessage.Placeholder("prefix",
-                                        PhantomWorlds.instance().messages.getConfig().getString("common.prefix",
-                                                "&b&lPhantomWorlds: &7"), true),
-                                new MultiMessage.Placeholder("value", value.toString(),
-                                        false),
-                                new MultiMessage.Placeholder("option", option, false),
-                                new MultiMessage.Placeholder("expected",
-                                        "Boolean (true/false)", false)
-                        ))).send(sender);
-                return;
+
+            final Optional<Boolean> mobs = Utils.parseFromString(sender, value, option);
+            if(!mobs.isPresent()) {
+              return;
             }
+            spawnMobs = mobs.get();
             break;
+
           case "spawnanimals":
           case "animals":
-            switch(valueToLowerCase) {
-              case "true":
-              case "t":
-              case "yes":
-              case "y":
-                spawnAnimals = true;
-                break;
-              case "false":
-              case "f":
-              case "no":
-              case "n":
-                spawnAnimals = false;
-                break;
-              default:
-                (new MultiMessage(
-                        PhantomWorlds.instance().messages.getConfig().getStringList(
-                                "command.phantomworlds.subcommands.create.options.invalid-value"),
-                        Arrays.asList(
-                                new MultiMessage.Placeholder("prefix",
-                                        PhantomWorlds.instance().messages.getConfig().getString("common.prefix",
-                                                "&b&lPhantomWorlds: &7"), true),
-                                new MultiMessage.Placeholder("value", value.toString(),
-                                        false),
-                                new MultiMessage.Placeholder("option", option, false),
-                                new MultiMessage.Placeholder("expected",
-                                        "Boolean (true/false)", false)
-                        ))).send(sender);
-                return;
+
+            final Optional<Boolean> animals = Utils.parseFromString(sender, value, option);
+            if(!animals.isPresent()) {
+              return;
             }
+            spawnAnimals = animals.get();
             break;
+
           case "keepspawninmemory":
           case "spawninmemory":
-            switch(valueToLowerCase) {
-              case "true":
-              case "t":
-              case "yes":
-              case "y":
-                keepSpawnInMemory = true;
-                break;
-              case "false":
-              case "f":
-              case "no":
-              case "n":
-                keepSpawnInMemory = false;
-                break;
-              default:
-                (new MultiMessage(
-                        PhantomWorlds.instance().messages.getConfig().getStringList(
-                                "command.phantomworlds.subcommands.create.options.invalid-value"),
-                        Arrays.asList(
-                                new MultiMessage.Placeholder("prefix",
-                                        PhantomWorlds.instance().messages.getConfig().getString("common.prefix",
-                                                "&b&lPhantomWorlds: &7"), true),
-                                new MultiMessage.Placeholder("value", value.toString(),
-                                        false),
-                                new MultiMessage.Placeholder("option", option, false),
-                                new MultiMessage.Placeholder("expected",
-                                        "Boolean (true/false)", false)
-                        ))).send(sender);
-                return;
+
+            final Optional<Boolean> spawn = Utils.parseFromString(sender, value, option);
+            if(!spawn.isPresent()) {
+              return;
             }
+            keepSpawnInMemory = spawn.get();
             break;
+
           case "allowpvp":
           case "pvp":
-            switch(value.toString().toLowerCase(Locale.ROOT)) {
-              case "true":
-              case "t":
-              case "yes":
-              case "y":
-                allowPvP = true;
-                break;
-              case "false":
-              case "f":
-              case "no":
-              case "n":
-                allowPvP = false;
-                break;
-              default:
-                (new MultiMessage(
-                        PhantomWorlds.instance().messages.getConfig().getStringList(
-                                "command.phantomworlds.subcommands.create.options.invalid-value"),
-                        Arrays.asList(
-                                new MultiMessage.Placeholder("prefix",
-                                        PhantomWorlds.instance().messages.getConfig().getString("common.prefix",
-                                                "&b&lPhantomWorlds: &7"), true),
-                                new MultiMessage.Placeholder("value", value.toString(),
-                                        false),
-                                new MultiMessage.Placeholder("option", option, false),
-                                new MultiMessage.Placeholder("expected",
-                                        "Boolean (true/false)", false)
-                        ))).send(sender);
-                return;
+
+            final Optional<Boolean> pvp = Utils.parseFromString(sender, value, option);
+            if(!pvp.isPresent()) {
+              return;
             }
+            allowPvP = pvp.get();
             break;
+
           case "difficulty":
           case "diff":
             try {
@@ -432,7 +300,7 @@ public class CreateSubcommand implements Subcommand {
       }
     }
 
-    WorldManager.PhantomWorld pworld = new WorldManager.PhantomWorld(
+    final PhantomWorld pworld = new PhantomWorld(
             worldName, environment, generateStructures, generator,
             generatorSettings, hardcore, seed, worldType, spawnMobs,
             spawnAnimals, keepSpawnInMemory, allowPvP, difficulty
