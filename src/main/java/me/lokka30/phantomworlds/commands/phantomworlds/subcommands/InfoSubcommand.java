@@ -1,14 +1,14 @@
 package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.Subcommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author lokka30
@@ -22,62 +22,58 @@ public class InfoSubcommand implements Subcommand {
     len:   0    1
      */
 
-    /**
-     * @author lokka30
-     * @since v2.0.0
-     */
-    @Override
-    public void parseCommand(@NotNull PhantomWorlds main, CommandSender sender, Command cmd,
-        String label, String[] args) {
-        if(!sender.hasPermission("phantomworlds.command.phantomworlds.info")) {
-            (new MultiMessage(
-                main.messages.getConfig().getStringList("common.no-permission"), Arrays.asList(
-                new MultiMessage.Placeholder("prefix",
-                    main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
-                    true),
-                new MultiMessage.Placeholder("permission",
-                    "phantomworlds.command.phantomworlds.info", false)
-            ))).send(sender);
-            return;
-        }
+  /**
+   * @since v2.0.0
+   */
+  @Override
+  public void parseCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    if(!sender.hasPermission("phantomworlds.command.phantomworlds.info")) {
+      (new MultiMessage(
+              PhantomWorlds.instance().messages.getConfig().getStringList("common.no-permission"), Arrays.asList(
+              new MultiMessage.Placeholder("prefix",
+                      PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
+                      true),
+              new MultiMessage.Placeholder("permission",
+                      "phantomworlds.command.phantomworlds.info", false)
+      ))).send(sender);
+      return;
+    }
 
-        if(args.length != 1) {
-            (new MultiMessage(
-                main.messages.getConfig()
-                    .getStringList("command.phantomworlds.subcommands.info.usage"), Arrays.asList(
-                new MultiMessage.Placeholder("prefix",
-                    main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
-                    true),
-                new MultiMessage.Placeholder("label", label, false)
-            ))).send(sender);
-            return;
-        }
+    if(args.length != 1) {
+      (new MultiMessage(
+              PhantomWorlds.instance().messages.getConfig()
+                      .getStringList("command.phantomworlds.subcommands.info.usage"), Arrays.asList(
+              new MultiMessage.Placeholder("prefix",
+                      PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
+                      true),
+              new MultiMessage.Placeholder("label", label, false)
+      ))).send(sender);
+      return;
+    }
 
-        (new MultiMessage(
-            main.messages.getConfig()
-                .getStringList("command.phantomworlds.subcommands.info.success"), Arrays.asList(
+    (new MultiMessage(
+            PhantomWorlds.instance().messages.getConfig()
+                    .getStringList("command.phantomworlds.subcommands.info.success"), Arrays.asList(
             new MultiMessage.Placeholder("prefix",
-                main.messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
-                true),
-            new MultiMessage.Placeholder("version", main.getDescription().getVersion(), false),
+                    PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
+                    true),
+            new MultiMessage.Placeholder("version", PhantomWorlds.instance().getDescription().getVersion(), false),
             new MultiMessage.Placeholder("authors",
-                String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"),
-                    main.getDescription().getAuthors()), false),
+                    String.join(PhantomWorlds.instance().messages.getConfig().getString("common.list-delimiter", "&7, &b"),
+                            PhantomWorlds.instance().getDescription().getAuthors()), false),
             new MultiMessage.Placeholder("contributors",
-                String.join(main.messages.getConfig().getString("common.list-delimiter", "&7, &b"),
-                    main.CONTRIBUTORS), false),
-            new MultiMessage.Placeholder("supportedServerVersions", main.supportedServerVersions,
-                false)
-        ))).send(sender);
-    }
+                    String.join(PhantomWorlds.instance().messages.getConfig().getString("common.list-delimiter", "&7, &b"),
+                            PhantomWorlds.CONTRIBUTORS), false),
+            new MultiMessage.Placeholder("supportedServerVersions", PhantomWorlds.instance().supportedServerVersions,
+                    false)
+    ))).send(sender);
+  }
 
-    /**
-     * @author lokka30
-     * @since v2.0.0
-     */
-    @Override
-    public List<String> parseTabCompletion(PhantomWorlds main, CommandSender sender, Command cmd,
-        String label, String[] args) {
-        return Collections.emptyList();
-    }
+  /**
+   * @since v2.0.0
+   */
+  @Override
+  public List<String> parseTabCompletion(CommandSender sender, Command cmd, String label, String[] args) {
+    return Collections.emptyList();
+  }
 }

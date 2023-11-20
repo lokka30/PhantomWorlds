@@ -14,7 +14,8 @@
 
 ## Contributors
 
-* Please see the [Credits](https://github.com/TheNewEconomy/PhantomWorlds/wiki/Credits) - thank you very
+* Please see the [Credits](https://github.com/TheNewEconomy/PhantomWorlds/wiki/Credits) - thank you
+  very
   much to all contributors to the resource! ❤
 
 ## License
