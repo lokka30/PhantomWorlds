@@ -92,7 +92,7 @@ public class WorldManager {
   public PhantomWorld getPhantomWorldFromData(String name) {
     final String cfgPath = "worlds-to-load." + name + ".";
 
-    return new PhantomWorld(
+    final PhantomWorld world = new PhantomWorld(
             name,
             World.Environment.valueOf(
                     PhantomWorlds.instance().data.getConfig().getString(cfgPath + "environment", "NORMAL")),
@@ -108,5 +108,13 @@ public class WorldManager {
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "allowPvP", true),
             Difficulty.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "difficulty", null))
     );
+
+    if(PhantomWorlds.instance().data.getConfig().contains(cfgPath + "rules") &&
+            PhantomWorlds.instance().data.getConfig().isConfigurationSection(cfgPath + "rules")) {
+      for(final String rule : PhantomWorlds.instance().data.getConfig().getConfigurationSection(cfgPath + "rules").getKeys(false)) {
+        world.getGamerules().put(rule, PhantomWorlds.instance().data.getConfig().getString(cfgPath + "rules." + rule));
+      }
+    }
+    return world;
   }
 }

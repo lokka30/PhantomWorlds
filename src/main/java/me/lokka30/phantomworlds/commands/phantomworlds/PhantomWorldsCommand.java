@@ -5,6 +5,7 @@ import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.CompatibilitySubcommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.CreateSubcommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.DebugSubcommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.GameruleSubcommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.InfoSubcommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.ListSubcommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.ReloadSubcommand;
@@ -30,6 +31,7 @@ import java.util.Locale;
 public class PhantomWorldsCommand implements TabExecutor {
 
   final CreateSubcommand createSubcommand = new CreateSubcommand();
+  final GameruleSubcommand gameruleSubcommand = new GameruleSubcommand();
   final UnloadSubcommand unloadSubcommand = new UnloadSubcommand();
   final TeleportSubcommand teleportSubcommand = new TeleportSubcommand();
   final ListSubcommand listSubcommand = new ListSubcommand();
@@ -61,6 +63,9 @@ public class PhantomWorldsCommand implements TabExecutor {
       switch(args[0].toLowerCase()) {
         case "create":
           createSubcommand.parseCommand(sender, cmd, label, args);
+          break;
+        case "gamerule":
+          gameruleSubcommand.parseCommand(sender, cmd, label, args);
           break;
         case "unload":
           unloadSubcommand.parseCommand(sender, cmd, label, args);
@@ -132,13 +137,15 @@ public class PhantomWorldsCommand implements TabExecutor {
   public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd,
                                     @NotNull String label, String[] args) {
     if(args.length == 1) {
-      return Arrays.asList("create", "info", "list", "setspawn", "reload", "teleport", "tp",
+      return Arrays.asList("create", "gamerule", "info", "list", "setspawn", "reload", "teleport", "tp",
               "spawn", "unload", "debug", "compatibility");
     }
 
     switch(args[0].toLowerCase(Locale.ROOT)) {
       case "create":
         return createSubcommand.parseTabCompletion(sender, cmd, label, args);
+      case "gamerule":
+        return gameruleSubcommand.parseTabCompletion(sender, cmd, label, args);
       case "info":
         return infoSubcommand.parseTabCompletion(sender, cmd, label, args);
       case "list":

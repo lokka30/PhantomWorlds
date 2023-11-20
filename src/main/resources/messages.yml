@@ -23,6 +23,7 @@ command:
       - '&8 &m->&b /%label% teleport &8- &7teleport to a loaded world''s spawnpoint'
       - '&8 &m->&b /%label% spawn &8- &7teleport to the spawn of the current world'
       - '&8 &m->&b /%label% setspawn &8- &7set the spawnpoint of a world'
+      - '&8 &m->&b /%label% gamerule &8- &7set the gamerules of a world'
       - '&8 &m->&b /%label% unload &8- &7unload a loaded world'
       - '&8 &m->&b /%label% reload &8- &7reload all config & data files'
       - '&8 &m->&b /%label% info &8- &7view info about the plugin'
@@ -180,6 +181,26 @@ command:
         success:
           - '%prefix% Teleported player ''&b%player%&7'' to the spawn point of world ''&b%world%&7''.'
 
+      gamerule:
+
+        rules:
+
+          invalid-rule:
+            - '%prefix% Invalid gamerule ''&b%rule%&7''.'
+            - '%prefix% Valid world gamerules: &b%rules%&7.'
+
+          invalid-value:
+            - '%prefix% Invalid gamerule value ''&b%value%&7'' for gamerule ''&b%rule%&7'', a &b%expected%&7 value was expected.'
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% gamerule <world> [gamerules]&7''.'
+
+        usage-console:
+          - '%prefix% Invalid usage for console, try ''&b/%label% <world> [gamerules]&7''.'
+
+        success:
+          - '%prefix% Set the gamerules of world ''&b%world%&7''.'
+
       unload:
 
         usage:
@@ -197,5 +218,5 @@ command:
 
 # Do not touch anything here unless you know what you are doing.
 advanced:
-  file-version: 5
+  file-version: 6
   generated-with: '${project.version}'

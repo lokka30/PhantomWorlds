@@ -398,7 +398,7 @@ public class CreateSubcommand implements Subcommand {
   }
 
   ArrayList<String> generateOptionsTabCompletionList() {
-    ArrayList<String> suggestions = new ArrayList<>();
+    final ArrayList<String> suggestions = new ArrayList<>();
 
     suggestions.addAll(addTrueFalseValues("generatestructures"));
     suggestions.addAll(addTrueFalseValues("genstructures"));
@@ -431,7 +431,7 @@ public class CreateSubcommand implements Subcommand {
   }
 
   ArrayList<String> addTrueFalseValues(String option) {
-    ArrayList<String> list = new ArrayList<>();
+    final ArrayList<String> list = new ArrayList<>();
     option = option + ":";
 
     list.add(option + "true");
