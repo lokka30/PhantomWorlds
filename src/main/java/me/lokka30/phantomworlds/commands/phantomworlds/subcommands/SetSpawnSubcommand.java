@@ -91,8 +91,11 @@ public class SetSpawnSubcommand implements Subcommand {
       return;
     }
 
-    double x = 0, y = 0, z = 0; // these are (I hope) redundant initializers, just there to stop IntellIJ from complaining
-    float yaw, pitch;
+    double x = 0;
+    double y = 0;
+    double z = 0; // these are (I hope) redundant initializers, just there to stop IntellIJ from complaining
+    float yaw;
+    float pitch;
 
     // Determine x, y, z.
     if(args.length >= 4) {
