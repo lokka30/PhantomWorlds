@@ -7,6 +7,10 @@
 # Should PW run an update check from the Spigot page on startup?
 run-update-checker: true
 
+#What is the spawn world for the server? If the player hasn't played before this is the world that
+#they will go to.
+spawn-world: world
+
 # Do not touch anything here unless you know what you are doing.
 advanced:
   file-version: 1
