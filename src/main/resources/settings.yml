@@ -11,6 +11,9 @@ run-update-checker: true
 #they will go to.
 spawn-world: world
 
+#Should worlds deleted be moved to an archive folder in deletedworlds?
+delete-archive: true
+
 # Do not touch anything here unless you know what you are doing.
 advanced:
   file-version: 2
