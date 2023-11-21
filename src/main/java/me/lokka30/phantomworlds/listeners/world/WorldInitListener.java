@@ -1,4 +1,4 @@
-package me.lokka30.phantomworlds.listeners;
+package me.lokka30.phantomworlds.listeners.world;
 /*
  * The New Kings
  * Copyright (C) 2022 - 2023 Daniel "creatorfromhell" Vidmar
