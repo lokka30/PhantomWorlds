@@ -21,32 +21,31 @@ import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 /**
- * PlayerLoginListener
+ * PlayerDeathListener
  *
  * @author creatorfromhell
  * @since 2.0.5.0
  */
-public class PlayerJoinListener implements Listener {
+public class PlayerDeathListener implements Listener {
 
   final PhantomWorlds plugin;
 
-  public PlayerJoinListener(PhantomWorlds plugin) {
+  public PlayerDeathListener(PhantomWorlds plugin) {
     this.plugin = plugin;
   }
 
   @EventHandler
-  public void onJoin(PlayerJoinEvent event) {
-    final String spawnWorld = PhantomWorlds.instance().settings.getConfig().getString("spawn-world", "world");
-    if(Bukkit.getWorld(spawnWorld) == null) {
-      plugin.getLogger().warning("Configured spawn world doesn't exist! Not changing player spawn location.");
+  public void onDeath(PlayerDeathEvent event) {
+    if(!PhantomWorlds.instance().settings.getConfig().getBoolean("respawn-world", false)) {
       return;
     }
 
-    if(!event.getPlayer().hasPlayedBefore()) {
-      event.getPlayer().teleport(Bukkit.getWorld(spawnWorld).getSpawnLocation());
+    if(event.getEntity().getBedSpawnLocation() == null) {
+      event.getEntity().teleport(event.getEntity().getWorld().getSpawnLocation());
     }
   }
 }

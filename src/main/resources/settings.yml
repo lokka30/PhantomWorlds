@@ -11,8 +11,17 @@ run-update-checker: true
 #they will go to.
 spawn-world: world
 
+#Should players respawn at the world spawn if they don't have a bed?
+respawn-world: true
+
 #Should worlds deleted be moved to an archive folder in deletedworlds?
 delete-archive: true
+
+#Should worlds be automatically backed up to the backup folder?
+backup-scheduler: true
+
+#The time, in seconds, to back up every PhantomWorlds-managed world.
+backup-delay: 600
 
 # Do not touch anything here unless you know what you are doing.
 advanced:

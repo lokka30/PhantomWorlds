@@ -5,6 +5,7 @@ import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.other.UpdateChecker;
 import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
 import me.lokka30.phantomworlds.listeners.player.PlayerChangeWorldListener;
+import me.lokka30.phantomworlds.listeners.player.PlayerDeathListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerJoinListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerPortalListener;
 import me.lokka30.phantomworlds.listeners.world.WorldInitListener;
@@ -13,8 +14,10 @@ import me.lokka30.phantomworlds.managers.WorldManager;
 import me.lokka30.phantomworlds.misc.CompatibilityChecker;
 import me.lokka30.phantomworlds.misc.UpdateCheckerResult;
 import me.lokka30.phantomworlds.misc.Utils;
+import me.lokka30.phantomworlds.scheduler.BackupScheduler;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -40,10 +43,14 @@ public class PhantomWorlds extends JavaPlugin {
 
   private static PhantomWorlds instance;
 
+  private BukkitTask backupService = null;
+
   /**
    * If you have contributed code to the plugin, add your name to the end of this list! :)
    */
   public static final String[] CONTRIBUTORS = new String[]{"madison-allen"};
+
+  public static final String BACKUP_FOLDER = "backups";
 
   /**
    * This is reported in the 'pw info' command to inform the command sender of what MC versions that
@@ -97,6 +104,7 @@ public class PhantomWorlds extends JavaPlugin {
 
     isWorldLoaded = false;
     getServer().getPluginManager().registerEvents(new PlayerChangeWorldListener(this), this);
+    getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
     getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
     getServer().getPluginManager().registerEvents(new PlayerPortalListener(this), this);
 
@@ -105,6 +113,11 @@ public class PhantomWorlds extends JavaPlugin {
     registerCommands();
     registerListeners();
     miscStartupProcedures();
+
+    if(settings.getConfig().getBoolean("backup-scheduler", true)) {
+      getLogger().info("Starting up Backup scheduler...");
+      backupService = new BackupScheduler().runTaskTimerAsynchronously(this, 0, settings.getConfig().getInt("backup-delay") * 20L);
+    }
 
     getLogger().info("Start-up complete (took " + timer.getDuration() + "ms)");
   }
@@ -122,7 +135,10 @@ public class PhantomWorlds extends JavaPlugin {
   public void onDisable() {
     final QuickTimer timer = new QuickTimer(TimeUnit.MILLISECONDS);
 
-    /* ... any on-disable content should be put here. nothing for now */
+    if(backupService != null) {
+      getLogger().info("Shutting down backup scheduler...");
+      backupService.cancel();
+    }
 
     getLogger().info("Shut-down complete (took " + timer.getDuration() + "ms)");
   }
@@ -158,7 +174,15 @@ public class PhantomWorlds extends JavaPlugin {
    * @since v2.0.0
    */
   public void loadFiles() {
+    getLogger().info("Checking for backup directory...");
+
+    final File backup = new File(getDataFolder(), BACKUP_FOLDER);
+    if(!backup.exists()) {
+      backup.mkdirs();
+    }
+
     getLogger().info("Loading files...");
+
     for(FileManager.PWFile pwFile : FileManager.PWFile.values()) {
       fileManager.init(pwFile);
     }
@@ -247,5 +271,9 @@ public class PhantomWorlds extends JavaPlugin {
 
   public static Logger logger() {
     return instance.getLogger();
+  }
+
+  public static WorldManager worldManager() {
+    return instance.worldManager;
   }
 }

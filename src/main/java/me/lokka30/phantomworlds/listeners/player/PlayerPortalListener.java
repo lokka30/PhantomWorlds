@@ -1,7 +1,7 @@
 package me.lokka30.phantomworlds.listeners.player;
 /*
- * The New Kings
- * Copyright (C) 2022 - 2023 Daniel "creatorfromhell" Vidmar
+ * Phantom Worlds
+ * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -32,7 +32,7 @@ import static org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.END_PORT
  * EntityPortalListener
  *
  * @author creatorfromhell
- * @since 0.0.1.0
+ * @since 2.0.5.0
  */
 public class PlayerPortalListener implements Listener {
 

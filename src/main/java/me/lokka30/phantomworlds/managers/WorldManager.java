@@ -1,6 +1,7 @@
 package me.lokka30.phantomworlds.managers;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
+import me.lokka30.phantomworlds.misc.Utils;
 import me.lokka30.phantomworlds.world.PhantomWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -14,6 +15,8 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+
+import static me.lokka30.phantomworlds.misc.Utils.zipFolder;
 
 /**
  * Contains an assortment of methods to handle world management in PW.
@@ -116,7 +119,55 @@ public class WorldManager {
     return world;
   }
   
-  public boolean backup(final String name) {
-    return false;
+  public boolean backupWorld(final String world) {
+    final File worldFolder = new File(Bukkit.getWorldContainer(), world);
+    final File backupFolder = new File(PhantomWorlds.instance().getDataFolder(), PhantomWorlds.BACKUP_FOLDER);
+
+    try {
+      final String timestamp = String.valueOf(System.currentTimeMillis());
+      final File timestampedBackupFolder = new File(backupFolder + File.separator + world, world + "_" + timestamp);
+      timestampedBackupFolder.mkdir();
+
+      final String zipFilePath = new File(timestampedBackupFolder, world + ".zip").getPath();
+      zipFolder(worldFolder, zipFilePath);
+
+      PhantomWorlds.logger().info("World '" + world + "' backed up to: " + timestampedBackupFolder.getPath());
+      return true;
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+  public boolean backupAndDeleteWorld(final String worldName) {
+    final World world = Bukkit.getWorld(worldName);
+
+    if(world == null) {
+      PhantomWorlds.logger().warning("Unable to locate world '" + worldName + "'! Halting deletion.");
+      return false;
+    }
+
+    if(PhantomWorlds.instance().settings.getConfig().getBoolean("delete-archive", true)) {
+      if(!backupWorld(world.getName())) {
+        PhantomWorlds.logger().warning("Unable to backup world '" + worldName + "'! Halting deletion.");
+        return false;
+      }
+    }
+
+    if(!Bukkit.unloadWorld(world, true)) {
+      PhantomWorlds.logger().warning("Unable to unload world '" + worldName + "'! Halting deletion.");
+      return false;
+    }
+    final File worldFolder = new File(Bukkit.getWorldContainer(), worldName);
+    if(!worldFolder.exists()) {
+      PhantomWorlds.logger().warning("Unable to locate folder for world '" + worldName + "'! Halting deletion.");
+      return false;
+    }
+
+    if(!Utils.deleteFolder(worldFolder)) {
+      PhantomWorlds.logger().warning("Unable to delete world '" + worldName + "'! Halting deletion.");
+      return false;
+    }
+    return true;
   }
 }

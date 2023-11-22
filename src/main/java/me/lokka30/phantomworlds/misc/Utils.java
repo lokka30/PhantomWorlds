@@ -10,12 +10,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * This class contains Utility methods which are public & static which are used by multiple classes.
@@ -189,5 +195,61 @@ public class Utils {
                 ))).send(sender);
         return Optional.empty();
     }
+  }
+
+  public static void zipFolder(File sourceFolder, String destinationZipFile) throws IOException {
+    try (
+            FileOutputStream fos = new FileOutputStream(destinationZipFile);
+            ZipOutputStream zos = new ZipOutputStream(fos)
+    ) {
+      zipFolder(sourceFolder, sourceFolder.getName(), zos);
+    }
+  }
+
+  public static void zipFolder(final File folder, final String parentFolder, final ZipOutputStream zos) throws IOException {
+
+    if(folder == null || folder.exists()) {
+      return;
+    }
+
+    final File[] files = folder.listFiles();
+    if(files == null) {
+      return;
+    }
+
+    for (File file : files) {
+      if (file.isDirectory()) {
+        zipFolder(file, parentFolder + File.separator + file.getName(), zos);
+        continue;
+      }
+
+      final ZipEntry zipEntry = new ZipEntry(parentFolder + File.separator + file.getName());
+      zos.putNextEntry(zipEntry);
+
+      try (FileInputStream fis = new FileInputStream(file)) {
+        final byte[] buffer = new byte[1024];
+        int length;
+        while ((length = fis.read(buffer)) > 0) {
+          zos.write(buffer, 0, length);
+        }
+      }
+      zos.closeEntry();
+    }
+  }
+
+  public static boolean deleteFolder(File folder) {
+    if (folder.exists()) {
+      final File[] files = folder.listFiles();
+      if (files != null) {
+        for (File file : files) {
+          if (file.isDirectory()) {
+            deleteFolder(file);
+          } else {
+            file.delete();
+          }
+        }
+      }
+    }
+    return folder.delete();
   }
 }
