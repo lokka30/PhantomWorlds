@@ -45,14 +45,12 @@ public class WorldManager {
         continue;
       }
 
-      final File worldContainer = Bukkit.getWorldContainer();
-      final File worldFolder = new File(worldContainer, worldName);
-
-      if(!worldContainer.exists()) {
+      if(!Bukkit.getWorldContainer().exists()) {
         PhantomWorlds.logger().severe("World container doesn't exist for world " + worldName + "!");
         return;
       }
 
+      final File worldFolder = new File(Bukkit.getWorldContainer(), worldName);
       if(!worldFolder.exists()) {
         // The world was deleted/moved by the user so it must be re-imported. PW should no longer attempt to load that world.
         PhantomWorlds.logger().info("Discarding world '" + worldName + "' from PhantomWorlds' "
