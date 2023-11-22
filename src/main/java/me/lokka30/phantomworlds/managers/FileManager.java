@@ -21,8 +21,8 @@ public class FileManager {
    *
    * @since v2.0.0
    */
-  public void init(PWFile pwFile) {
-    PhantomWorlds.instance().getLogger().info("Loading file " + pwFile + "...");
+  public void init(final PWFile pwFile) {
+    PhantomWorlds.logger().info("Loading file " + pwFile + "...");
 
     try {
       load(pwFile);
@@ -45,7 +45,7 @@ public class FileManager {
           break;
       }
     } catch(IOException ex) {
-      PhantomWorlds.instance().getLogger().severe("Unable to init file " + pwFile + ". Stack trace:");
+      PhantomWorlds.logger().severe("Unable to init file " + pwFile + ". Stack trace:");
       ex.printStackTrace();
     }
   }
@@ -55,7 +55,7 @@ public class FileManager {
    *
    * @since v2.0.0
    */
-  private void load(PWFile pwFile) throws IOException {
+  private void load(final PWFile pwFile) throws IOException {
     switch(pwFile) {
       case SETTINGS:
         PhantomWorlds.instance().settings.load();
@@ -79,7 +79,7 @@ public class FileManager {
    *
    * @since v2.0.0
    */
-  private void migrate(PWFile pwFile, int currentVersion) {
+  private void migrate(final PWFile pwFile, final int currentVersion) {
     // Values of -1 indicate that it is not to be migrated
     if(pwFile.latestFileVersion == -1) {
       return;
@@ -113,7 +113,7 @@ public class FileManager {
         //noinspection SwitchStatementWithTooFewBranches
         switch(currentVersion) {
           case 1:
-            PhantomWorlds.instance().getLogger().info("Automatically migrating the " + pwFile
+            PhantomWorlds.logger().info("Automatically migrating the " + pwFile
                     + " file to the latest format (it was outdated).");
 
             if(!PhantomWorlds.instance().data.getConfig().contains("worlds")) {
@@ -134,7 +134,7 @@ public class FileManager {
 
             PhantomWorlds.instance().data.getConfig().set("advanced.file-version", 2);
 
-            PhantomWorlds.instance().getLogger().info("File '" + pwFile + "' has been migrated.");
+            PhantomWorlds.logger().info("File '" + pwFile + "' has been migrated.");
             break;
           default:
             alertIncorrectVersion(pwFile);
@@ -146,8 +146,8 @@ public class FileManager {
     }
   }
 
-  void alertIncorrectVersion(PWFile pwFile) {
-    PhantomWorlds.instance().getLogger().severe("You are running the incorrect version of the " +
+  void alertIncorrectVersion(final PWFile pwFile) {
+    PhantomWorlds.logger().severe("You are running the incorrect version of the " +
             "file '" + pwFile + "'! Please back it up and allow the plugin to generate a new file, "
             + "or you will most likely experience errors.");
   }
@@ -166,7 +166,7 @@ public class FileManager {
 
     public final int latestFileVersion; // If == -1: 'do not migrate me!'
 
-    PWFile(int latestFileVersion) {
+    PWFile(final int latestFileVersion) {
       this.latestFileVersion = latestFileVersion;
     }
   }

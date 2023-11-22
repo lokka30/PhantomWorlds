@@ -117,7 +117,7 @@ public class PhantomWorld {
     final World world = worldCreator.createWorld();
 
     if(world == null) {
-      PhantomWorlds.instance().getLogger().severe("Unable to create/load world '" + name + "'!");
+      PhantomWorlds.logger().severe("Unable to create/load world '" + name + "'!");
       return;
     }
 
@@ -134,13 +134,13 @@ public class PhantomWorld {
         try {
           world.setGameRule((GameRule<Boolean>)rule, Boolean.valueOf(entry.getValue()));
         } catch(Exception ignore) {
-          PhantomWorlds.instance().getLogger().warning("Error setting gamerule: " + entry.getKey() + " for world: " + name + "! Invalid boolean value!");
+          PhantomWorlds.logger().warning("Error setting gamerule: " + entry.getKey() + " for world: " + name + "! Invalid boolean value!");
         }
       } else if(rule.getType() == Integer.class) {
         try {
           world.setGameRule((GameRule<Integer>)rule, Integer.valueOf(entry.getValue()));
         } catch(Exception ignore) {
-          PhantomWorlds.instance().getLogger().warning("Error setting gamerule: " + entry.getKey() + " for world: " + name + "! Invalid integer value!");
+          PhantomWorlds.logger().warning("Error setting gamerule: " + entry.getKey() + " for world: " + name + "! Invalid integer value!");
         }
       }
     }

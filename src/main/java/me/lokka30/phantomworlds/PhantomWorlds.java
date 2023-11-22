@@ -18,6 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  * This is the main class of the PhantomWorlds plugin.
@@ -242,5 +243,9 @@ public class PhantomWorlds extends JavaPlugin {
 
   public static PhantomWorlds instance() {
     return instance;
+  }
+
+  public static Logger logger() {
+    return instance.getLogger();
   }
 }

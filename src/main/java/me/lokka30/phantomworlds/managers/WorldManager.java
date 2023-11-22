@@ -30,7 +30,7 @@ public class WorldManager {
    * @since v2.0.0
    */
   public void loadManagedWorlds() {
-    PhantomWorlds.instance().getLogger().info("Loading managed worlds...");
+    PhantomWorlds.logger().info("Loading managed worlds...");
 
     if(!PhantomWorlds.instance().data.getConfig().contains("worlds-to-load")) {
       return;
@@ -46,29 +46,27 @@ public class WorldManager {
       }
 
       final File worldContainer = Bukkit.getWorldContainer();
-      final File worldFolder = new File(
-              worldContainer.getAbsolutePath() + File.separator + worldName);
+      final File worldFolder = new File(worldContainer, worldName);
 
       if(!worldContainer.exists()) {
-        PhantomWorlds.instance().getLogger()
-                .severe("World container doesn't exist for world " + worldName + "!");
+        PhantomWorlds.logger().severe("World container doesn't exist for world " + worldName + "!");
         return;
       }
 
       if(!worldFolder.exists()) {
         // The world was deleted/moved by the user so it must be re-imported. PW should no longer attempt to load that world.
-        PhantomWorlds.instance().getLogger().info("Discarding world '" + worldName + "' from PhantomWorlds' "
+        PhantomWorlds.logger().info("Discarding world '" + worldName + "' from PhantomWorlds' "
                 + "data file as it no longer exists on the server.");
         worldsToDiscardFromDataFile.add(worldName);
         continue;
       }
 
       if(PhantomWorlds.instance().data.getConfig().getBoolean("worlds-to-load." + worldName + ".skip-autoload", false)) {
-        PhantomWorlds.instance().getLogger().info("Skipping autoload of world '" + worldName + "'.");
+        PhantomWorlds.logger().info("Skipping autoload of world '" + worldName + "'.");
         continue;
       }
 
-      PhantomWorlds.instance().getLogger().info("Loading world '" + worldName + "'...");
+      PhantomWorlds.logger().info("Loading world '" + worldName + "'...");
       getPhantomWorldFromData(worldName).create();
     }
 
@@ -79,7 +77,7 @@ public class WorldManager {
     try {
       PhantomWorlds.instance().data.save();
     } catch(IOException ex) {
-      PhantomWorlds.instance().getLogger().severe("Unable to save data file. Stack trace:");
+      PhantomWorlds.logger().severe("Unable to save data file. Stack trace:");
       ex.printStackTrace();
     }
   }
@@ -90,7 +88,7 @@ public class WorldManager {
    *
    * @since v2.0.0
    */
-  public PhantomWorld getPhantomWorldFromData(String name) {
+  public PhantomWorld getPhantomWorldFromData(final String name) {
     final String cfgPath = "worlds-to-load." + name + ".";
 
     final PhantomWorld world = new PhantomWorld(
@@ -118,5 +116,9 @@ public class WorldManager {
       }
     }
     return world;
+  }
+  
+  public boolean backup(final String name) {
+    return false;
   }
 }

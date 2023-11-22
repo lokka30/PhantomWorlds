@@ -56,14 +56,14 @@ public class Utils {
    *
    * @since v2.0.0
    */
-  public static void registerCommand(@NotNull CommandExecutor clazz, @NotNull String command) {
+  public static void registerCommand(@NotNull final CommandExecutor clazz, @NotNull final String command) {
     if(PhantomWorlds.instance().getCommand(command) == null) {
-      PhantomWorlds.instance().getLogger().severe("Unable to register command '/" + command + "' - PluginCommand "
+      PhantomWorlds.logger().severe("Unable to register command '/" + command + "' - PluginCommand "
               + "is null. Was plugin.yml tampered with?");
     } else {
       //noinspection ConstantConditions
       PhantomWorlds.instance().getCommand(command).setExecutor(clazz);
-      PhantomWorlds.instance().getLogger().info("Registered command '/" + command + "'.");
+      PhantomWorlds.logger().info("Registered command '/" + command + "'.");
     }
   }
 
@@ -76,9 +76,9 @@ public class Utils {
    *
    * @since v2.0.0
    */
-  public static void unloadWorld(@NotNull World world) {
+  public static void unloadWorld(@NotNull final World world) {
     // inform console
-    PhantomWorlds.instance().getLogger().info(String.format(
+    PhantomWorlds.logger().info(String.format(
             "Unloading world %s; kicking %s players from the world...",
             world.getName(),
             world.getPlayers().size()
@@ -115,12 +115,12 @@ public class Utils {
    *
    * @since v2.0.0
    */
-  public static List<String> getPlayersCanSeeList(@NotNull CommandSender sender) {
-    List<String> suggestions = new ArrayList<>();
+  public static List<String> getPlayersCanSeeList(@NotNull final CommandSender sender) {
+    final List<String> suggestions = new ArrayList<>();
 
     if(!sender.hasPermission("phantomworlds.knows-vanished-users")
             && sender instanceof Player) {
-      Player player = (Player)sender;
+      final Player player = (Player)sender;
       for(Player listedPlayer : Bukkit.getOnlinePlayers()) {
         if(player.canSee(listedPlayer)) {
           suggestions.add(listedPlayer.getName());
@@ -142,8 +142,8 @@ public class Utils {
    *
    * @since v2.0.0
    */
-  public static List<String> enumValuesToStringList(Object[] values) {
-    List<String> strings = new ArrayList<>();
+  public static List<String> enumValuesToStringList(final Object[] values) {
+    final List<String> strings = new ArrayList<>();
     for(Object value : values) {
       strings.add(value.toString());
     }
@@ -157,7 +157,7 @@ public class Utils {
    *
    * @return val, rounded to 2 decimal places.
    */
-  public static double roundTwoDecimalPlaces(double val) {
+  public static double roundTwoDecimalPlaces(final double val) {
     return Math.round(val * 100) / 100.0;
   }
 
