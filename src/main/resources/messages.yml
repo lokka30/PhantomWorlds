@@ -46,6 +46,17 @@ command:
         player-offline:
           - '%prefix% Player ''&b%player%&7'' is offline.'
 
+      backup:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% backup <world>&7''.'
+
+        success:
+          - '%prefix% You have created a back up for the world ''&b%world%&7''.'
+
+        failure:
+          - '%prefix% Issue while creating a back up for the world ''&b%world%&7''.'
+
       compatibility:
 
         start:
@@ -107,6 +118,17 @@ command:
 
         usage:
           - '%prefix% Invalid usage, try ''&b/%label% create <world> <environment> [options...]&7''.'
+
+      delete:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% delete <world>&7''.'
+
+        success:
+          - '%prefix% You have deleted the world ''&b%world%&7''.'
+
+        failure:
+          - '%prefix% Issue while deleting the world ''&b%world%&7''.'
 
       info:
 

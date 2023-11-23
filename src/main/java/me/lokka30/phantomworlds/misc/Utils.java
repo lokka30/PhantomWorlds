@@ -9,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -251,5 +252,72 @@ public class Utils {
       }
     }
     return folder.delete();
+  }
+
+  public static void teleportToWorld(@NotNull CommandSender sender, @NotNull String subCommand,
+                                     @NotNull String label, @Nullable String targetPlayerName,
+                                     @Nullable String worldName) {
+    Player targetPlayer;
+    if(targetPlayerName != null) {
+      targetPlayer = Bukkit.getPlayer(targetPlayerName);
+
+      // If the target is offline or invisible to the sender, then stop
+      if(targetPlayer == null || !Utils.getPlayersCanSeeList(sender)
+              .contains(targetPlayer.getName())) {
+        (new MultiMessage(
+                PhantomWorlds.instance().messages.getConfig()
+                        .getStringList("command.phantomworlds.subcommands.common.player-offline"),
+                Arrays.asList(
+                        new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
+                                .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                        new MultiMessage.Placeholder("player", targetPlayerName, false)
+                ))).send(sender);
+        return;
+      }
+    } else {
+      if(sender instanceof Player) {
+        targetPlayer = (Player)sender;
+      } else {
+        (new MultiMessage(
+                PhantomWorlds.instance().messages.getConfig().getStringList(
+                        "command.phantomworlds.subcommands." + subCommand + ".usage-console"),
+                Arrays.asList(
+                        new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
+                                .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                        new MultiMessage.Placeholder("label", label, false)
+                ))).send(sender);
+        return;
+      }
+    }
+
+    if(worldName == null) {
+      worldName = targetPlayer.getWorld().getName();
+    }
+
+    if(Bukkit.getWorld(worldName) == null) {
+      (new MultiMessage(
+              PhantomWorlds.instance().messages.getConfig()
+                      .getStringList("command.phantomworlds.subcommands.common.invalid-world"),
+              Arrays.asList(
+                      new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
+                              .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                      new MultiMessage.Placeholder("world", worldName, false)
+              ))).send(sender);
+      return;
+    }
+
+    //noinspection ConstantConditions
+    targetPlayer.teleport(Bukkit.getWorld(worldName).getSpawnLocation());
+
+    (new MultiMessage(
+            PhantomWorlds.instance().messages.getConfig()
+                    .getStringList("command.phantomworlds.subcommands." + subCommand + ".success"),
+            Arrays.asList(
+                    new MultiMessage.Placeholder("prefix",
+                            PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
+                            true),
+                    new MultiMessage.Placeholder("player", targetPlayer.getName(), false),
+                    new MultiMessage.Placeholder("world", worldName, false)
+            ))).send(sender);
   }
 }

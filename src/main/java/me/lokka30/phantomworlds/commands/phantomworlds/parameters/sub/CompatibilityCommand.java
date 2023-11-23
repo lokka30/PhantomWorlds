@@ -1,51 +1,39 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.subcommands;
+package me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub;
+/*
+ * Phantom Worlds
+ * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.commands.Subcommand;
 import me.lokka30.phantomworlds.misc.CompatibilityChecker;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import revxrsal.commands.bukkit.BukkitCommandActor;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 /**
- * @author lokka30
- * @since v2.0.0
+ * CompatibilityCommand
+ *
+ * @author creatorfromhell
+ * @since 2.0.5.0
  */
-public class CompatibilitySubcommand implements Subcommand {
+public class CompatibilityCommand {
 
-  /**
-   * @since v2.0.0
-   */
-  @Override
-  public void parseCommand(CommandSender sender, Command cmd, String label, String[] args) {
-    if(!sender.hasPermission("phantomworlds.command.phantomworlds.compatibility")) {
-      (new MultiMessage(
-              PhantomWorlds.instance().messages.getConfig().getStringList("common.no-permission"), Arrays.asList(
-              new MultiMessage.Placeholder("prefix",
-                      PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
-                      true),
-              new MultiMessage.Placeholder("permission",
-                      "phantomworlds.command.phantomworlds.compatibility", false)
-      ))).send(sender);
-      return;
-    }
-
-    if(args.length != 1) {
-      (new MultiMessage(
-              PhantomWorlds.instance().messages.getConfig()
-                      .getStringList("command.phantomworlds.subcommands.compatibility.usage"),
-              Arrays.asList(
-                      new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
-                              .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                      new MultiMessage.Placeholder("label", label, false)
-              ))).send(sender);
-      return;
-    }
-
+  public static void onCommand(final BukkitCommandActor actor) {
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
                     .getStringList("command.phantomworlds.subcommands.compatibility.start"),
@@ -53,7 +41,7 @@ public class CompatibilitySubcommand implements Subcommand {
                     new MultiMessage.Placeholder("prefix",
                             PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                             true)
-            ))).send(sender);
+            ))).send(actor.getSender());
 
     PhantomWorlds.instance().compatibilityChecker.checkAll();
 
@@ -64,7 +52,7 @@ public class CompatibilitySubcommand implements Subcommand {
               Collections.singletonList(
                       new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
                               .getString("common.prefix", "&b&lPhantomWorlds: &7"), true)
-              ))).send(sender);
+              ))).send(actor.getSender());
       return;
     }
 
@@ -77,7 +65,7 @@ public class CompatibilitySubcommand implements Subcommand {
                             true),
                     new MultiMessage.Placeholder("amount",
                             String.valueOf(PhantomWorlds.instance().compatibilityChecker.incompatibilities.size()), false)
-            ))).send(sender);
+            ))).send(actor.getSender());
 
     for(int i = 0; i < PhantomWorlds.instance().compatibilityChecker.incompatibilities.size(); i++) {
       CompatibilityChecker.Incompatibility incompatibility = PhantomWorlds.instance().compatibilityChecker.incompatibilities.get(
@@ -94,15 +82,7 @@ public class CompatibilitySubcommand implements Subcommand {
                       new MultiMessage.Placeholder("reason", incompatibility.reason, true),
                       new MultiMessage.Placeholder("recommendation", incompatibility.recommendation,
                               true)
-              ))).send(sender);
+              ))).send(actor.getSender());
     }
-  }
-
-  /**
-   * @since v2.0.0
-   */
-  @Override
-  public List<String> parseTabCompletion(CommandSender sender, Command cmd, String label, String[] args) {
-    return Collections.emptyList();
   }
 }

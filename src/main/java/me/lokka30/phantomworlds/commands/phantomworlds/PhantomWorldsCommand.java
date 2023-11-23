@@ -2,16 +2,9 @@ package me.lokka30.phantomworlds.commands.phantomworlds;
 
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.CompatibilitySubcommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.CreateSubcommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.DebugSubcommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.GameruleSubcommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.InfoSubcommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.ListSubcommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.ReloadSubcommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.SetSpawnSubcommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.TeleportSubcommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.UnloadSubcommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -32,14 +25,7 @@ public class PhantomWorldsCommand implements TabExecutor {
 
   final CreateSubcommand createSubcommand = new CreateSubcommand();
   final GameruleSubcommand gameruleSubcommand = new GameruleSubcommand();
-  final UnloadSubcommand unloadSubcommand = new UnloadSubcommand();
-  final TeleportSubcommand teleportSubcommand = new TeleportSubcommand();
-  final ListSubcommand listSubcommand = new ListSubcommand();
   final SetSpawnSubcommand setSpawnSubcommand = new SetSpawnSubcommand();
-  final ReloadSubcommand reloadSubcommand = new ReloadSubcommand();
-  final InfoSubcommand infoSubcommand = new InfoSubcommand();
-  final DebugSubcommand debugSubcommand = new DebugSubcommand();
-  final CompatibilitySubcommand compatibilitySubcommand = new CompatibilitySubcommand();
 
   /**
    * @since v2.0.0
@@ -67,31 +53,8 @@ public class PhantomWorldsCommand implements TabExecutor {
         case "gamerule":
           gameruleSubcommand.parseCommand(sender, cmd, label, args);
           break;
-        case "unload":
-          unloadSubcommand.parseCommand(sender, cmd, label, args);
-          break;
-        case "teleport":
-        case "tp":
-        case "spawn":
-          teleportSubcommand.parseCommand(sender, cmd, label, args);
-          break;
-        case "list":
-          listSubcommand.parseCommand(sender, cmd, label, args);
-          break;
         case "setspawn":
           setSpawnSubcommand.parseCommand(sender, cmd, label, args);
-          break;
-        case "reload":
-          reloadSubcommand.parseCommand(sender, cmd, label, args);
-          break;
-        case "info":
-          infoSubcommand.parseCommand(sender, cmd, label, args);
-          break;
-        case "debug":
-          debugSubcommand.parseCommand(sender, cmd, label, args);
-          break;
-        case "compatibility":
-          compatibilitySubcommand.parseCommand(sender, cmd, label, args);
           break;
         default:
           (new MultiMessage(
@@ -146,24 +109,8 @@ public class PhantomWorldsCommand implements TabExecutor {
         return createSubcommand.parseTabCompletion(sender, cmd, label, args);
       case "gamerule":
         return gameruleSubcommand.parseTabCompletion(sender, cmd, label, args);
-      case "info":
-        return infoSubcommand.parseTabCompletion(sender, cmd, label, args);
-      case "list":
-        return listSubcommand.parseTabCompletion(sender, cmd, label, args);
       case "setspawn":
         return setSpawnSubcommand.parseTabCompletion(sender, cmd, label, args);
-      case "reload":
-        return reloadSubcommand.parseTabCompletion(sender, cmd, label, args);
-      case "teleport":
-      case "tp":
-      case "spawn":
-        return teleportSubcommand.parseTabCompletion(sender, cmd, label, args);
-      case "unload":
-        return unloadSubcommand.parseTabCompletion(sender, cmd, label, args);
-      case "debug":
-        return debugSubcommand.parseTabCompletion(sender, cmd, label, args);
-      case "compatibility":
-        return compatibilitySubcommand.parseTabCompletion(sender, cmd, label, args);
       default:
         return Collections.emptyList();
     }
