@@ -18,6 +18,8 @@ import me.lokka30.phantomworlds.scheduler.BackupScheduler;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
+import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +44,8 @@ public class PhantomWorlds extends JavaPlugin {
      */
 
   private static PhantomWorlds instance;
+
+  protected BukkitCommandHandler command;
 
   private BukkitTask backupService = null;
 
@@ -209,6 +213,8 @@ public class PhantomWorlds extends JavaPlugin {
   void registerCommands() {
     getLogger().info("Registering commands...");
     Utils.registerCommand(new PhantomWorldsCommand(), "phantomworlds");
+
+    this.command = BukkitCommandHandler.create(this);
   }
 
   /**
