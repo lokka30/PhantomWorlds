@@ -55,6 +55,7 @@ public class PhantomWorlds extends JavaPlugin {
   public static final String[] CONTRIBUTORS = new String[]{"madison-allen"};
 
   public static final String BACKUP_FOLDER = "backups";
+  public static final String ARCHIVE_FOLDER = "archives";
 
   /**
    * This is reported in the 'pw info' command to inform the command sender of what MC versions that

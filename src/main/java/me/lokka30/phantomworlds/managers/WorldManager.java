@@ -115,20 +115,23 @@ public class WorldManager {
     }
     return world;
   }
-  
+
   public boolean backupWorld(final String world) {
+    return backupWorld(world, new File(PhantomWorlds.instance().getDataFolder(), PhantomWorlds.BACKUP_FOLDER));
+  }
+  
+  public boolean backupWorld(final String world, final File backupFolder) {
     final File worldFolder = new File(Bukkit.getWorldContainer(), world);
-    final File backupFolder = new File(PhantomWorlds.instance().getDataFolder(), PhantomWorlds.BACKUP_FOLDER);
 
     try {
-      final String timestamp = String.valueOf(System.currentTimeMillis());
-      final File timestampedBackupFolder = new File(backupFolder + File.separator + world, world + "_" + timestamp);
-      timestampedBackupFolder.mkdir();
+      final File worldBackupFolder = new File(backupFolder, world);
+      worldBackupFolder.mkdir();
 
-      final String zipFilePath = new File(timestampedBackupFolder, world + ".zip").getPath();
+      final String timestamp = String.valueOf(System.currentTimeMillis());
+      final String zipFilePath = new File(worldBackupFolder, world + "-" + timestamp + ".zip").getPath();
       zipFolder(worldFolder, zipFilePath);
 
-      PhantomWorlds.logger().info("World '" + world + "' backed up to: " + timestampedBackupFolder.getPath());
+      PhantomWorlds.logger().info("World '" + world + "' backed up to: " + worldBackupFolder.getPath());
       return true;
     } catch (IOException e) {
       e.printStackTrace();
@@ -145,7 +148,7 @@ public class WorldManager {
     }
 
     if(PhantomWorlds.instance().settings.getConfig().getBoolean("delete-archive", true)) {
-      if(!backupWorld(world.getName())) {
+      if(!backupWorld(world.getName(), new File(PhantomWorlds.instance().getDataFolder(), PhantomWorlds.ARCHIVE_FOLDER))) {
         PhantomWorlds.logger().warning("Unable to backup world '" + worldName + "'! Halting deletion.");
         return false;
       }
