@@ -22,13 +22,9 @@ import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.Subcommand;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
-import org.bukkit.World;
-import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
 import java.util.ArrayList;

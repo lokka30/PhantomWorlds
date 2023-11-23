@@ -19,10 +19,9 @@ package me.lokka30.phantomworlds.commands.phantomworlds;
 
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
-import revxrsal.commands.annotation.Description;
 import revxrsal.commands.annotation.Subcommand;
-import revxrsal.commands.annotation.Usage;
 import revxrsal.commands.bukkit.BukkitCommandActor;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 /**
  * PWCommand
@@ -34,57 +33,68 @@ import revxrsal.commands.bukkit.BukkitCommandActor;
 public class PWCommand {
 
   @Subcommand({"create", "+", "new"})
+  @CommandPermission("phantomworlds.command.phantomworlds.create")
   public void create(BukkitCommandActor actor) {
 
   }
 
   @Subcommand({"delete", "-", "remove", "del"})
+  @CommandPermission("phantomworlds.command.phantomworlds.delete")
   public void delete(BukkitCommandActor actor) {
 
   }
 
   @Subcommand({"backup", "archive", "bu"})
+  @CommandPermission("phantomworlds.command.phantomworlds.backup")
   public void backup(BukkitCommandActor actor) {
 
   }
 
   @Subcommand({"create", "+", "new"})
   @DefaultFor({"pw", "phantomworlds"})
+  @CommandPermission("phantomworlds.command.phantomworlds.list")
   public void list(BukkitCommandActor actor) {
 
   }
 
   @Subcommand({"debug"})
+  @CommandPermission("phantomworlds.command.phantomworlds.debug")
   public void debug(BukkitCommandActor actor) {
 
   }
 
   @Subcommand({"gamerule", "rule"})
+  @CommandPermission("phantomworlds.command.phantomworlds.gamerule")
   public void gamerule(BukkitCommandActor actor) {
 
   }
 
   @Subcommand({"info", "i"})
+  @CommandPermission("phantomworlds.command.phantomworlds.info")
   public void info(BukkitCommandActor actor) {
 
   }
 
   @Subcommand({"reload", "r"})
+  @CommandPermission("phantomworlds.command.phantomworlds.reload")
   public void reload(BukkitCommandActor actor) {
 
   }
 
-  @Subcommand({"setspawn", "spawn"})
+  @Subcommand({"setspawn"})
+  @CommandPermission("phantomworlds.command.phantomworlds.setspawn")
   public void setspawn(BukkitCommandActor actor) {
 
   }
 
   @Subcommand({"teleport", "tp"})
+  @CommandPermission("phantomworlds.command.phantomworlds.teleport")
   public void tp(BukkitCommandActor actor) {
 
   }
 
   @Subcommand({"unload", "u"})
+  @CommandPermission("phantomworlds.command.phantomworlds.unload")
   public void unload(BukkitCommandActor actor) {
 
   }

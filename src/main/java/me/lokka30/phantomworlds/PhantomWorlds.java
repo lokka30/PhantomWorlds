@@ -3,6 +3,7 @@ package me.lokka30.phantomworlds;
 import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.other.UpdateChecker;
+import me.lokka30.phantomworlds.commands.phantomworlds.PWCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
 import me.lokka30.phantomworlds.listeners.player.PlayerChangeWorldListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerDeathListener;
@@ -18,7 +19,6 @@ import me.lokka30.phantomworlds.scheduler.BackupScheduler;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.io.File;
@@ -215,6 +215,8 @@ public class PhantomWorlds extends JavaPlugin {
     Utils.registerCommand(new PhantomWorldsCommand(), "phantomworlds");
 
     this.command = BukkitCommandHandler.create(this);
+    this.command.register(new PWCommand());
+    this.command.registerBrigadier();
   }
 
   /**

@@ -24,6 +24,8 @@ command:
       - '&8 &m->&b /%label% spawn &8- &7teleport to the spawn of the current world'
       - '&8 &m->&b /%label% setspawn &8- &7set the spawnpoint of a world'
       - '&8 &m->&b /%label% gamerule &8- &7set the gamerules of a world'
+      - '&8 &m->&b /%label% delete &8- &7delete a world'
+      - '&8 &m->&b /%label% backup &8- &backup a world'
       - '&8 &m->&b /%label% unload &8- &7unload a loaded world'
       - '&8 &m->&b /%label% reload &8- &7reload all config & data files'
       - '&8 &m->&b /%label% info &8- &7view info about the plugin'
@@ -123,7 +125,13 @@ command:
         usage:
           - '%prefix% Invalid usage, try ''&b/%label% list&7''.'
 
-        header:
+        header-loaded:
+          - '%prefix% Worlds loaded &8(&b%amount%&8)&7:'
+
+        header-unloaded:
+          - '%prefix% Worlds loaded &8(&b%amount%&8)&7:'
+
+        header-archived:
           - '%prefix% Worlds loaded &8(&b%amount%&8)&7:'
 
         entry:

@@ -22,9 +22,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 
 import static org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.END_PORTAL;
 
