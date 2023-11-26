@@ -33,7 +33,7 @@ import java.util.Arrays;
  */
 public class ListCommand {
 
-  public static void onCommand(final BukkitCommandActor actor) {
+  public static void onCommand(final BukkitCommandActor actor, Integer... test) {
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
                     .getStringList("command.phantomworlds.subcommands.list.header"), Arrays.asList(
@@ -44,7 +44,7 @@ public class ListCommand {
     ))).send(actor.getSender());
 
     //TODO: Unloaded, archived, last backup times.
-    for(World world : Bukkit.getWorlds()) {
+    for(final World world : Bukkit.getWorlds()) {
       (new MultiMessage(
               PhantomWorlds.instance().messages.getConfig()
                       .getStringList("command.phantomworlds.subcommands.list.entry"), Arrays.asList(

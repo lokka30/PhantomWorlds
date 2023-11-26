@@ -24,6 +24,7 @@ import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.DeleteComm
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.InfoCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.ListCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.ReloadCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.SetSpawnCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.SpawnCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.TeleportCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.UnloadCommand;
@@ -45,6 +46,12 @@ import revxrsal.commands.bukkit.annotation.CommandPermission;
 @Command({"pw", "phantomworlds"})
 public class PWCommand {
 
+  @Subcommand({"backup", "archive", "bu"})
+  @CommandPermission("phantomworlds.command.phantomworlds.backup")
+  public void backup(BukkitCommandActor actor, final World world) {
+    BackupCommand.onCommand(actor, world);
+  }
+
   @Subcommand({"create", "+", "new"})
   @CommandPermission("phantomworlds.command.phantomworlds.create")
   public void create(BukkitCommandActor actor) {
@@ -57,16 +64,16 @@ public class PWCommand {
     CompatibilityCommand.onCommand(actor);
   }
 
+  @Subcommand({"debug"})
+  @CommandPermission("phantomworlds.command.phantomworlds.debug")
+  public void debug(BukkitCommandActor actor, final String level) {
+    DebugCommand.onCommand(actor, level);
+  }
+
   @Subcommand({"delete", "-", "remove", "del"})
   @CommandPermission("phantomworlds.command.phantomworlds.delete")
   public void delete(BukkitCommandActor actor, final World world) {
     DeleteCommand.onCommand(actor, world);
-  }
-
-  @Subcommand({"backup", "archive", "bu"})
-  @CommandPermission("phantomworlds.command.phantomworlds.backup")
-  public void backup(BukkitCommandActor actor, final World world) {
-    BackupCommand.onCommand(actor, world);
   }
 
   @Subcommand({"create", "+", "new"})
@@ -74,12 +81,6 @@ public class PWCommand {
   @CommandPermission("phantomworlds.command.phantomworlds.list")
   public void list(BukkitCommandActor actor) {
     ListCommand.onCommand(actor);
-  }
-
-  @Subcommand({"debug"})
-  @CommandPermission("phantomworlds.command.phantomworlds.debug")
-  public void debug(BukkitCommandActor actor, final String level) {
-    DebugCommand.onCommand(actor, level);
   }
 
   @Subcommand({"gamerule", "rule"})
@@ -102,20 +103,20 @@ public class PWCommand {
 
   @Subcommand({"setspawn"})
   @CommandPermission("phantomworlds.command.phantomworlds.setspawn")
-  public void setspawn(BukkitCommandActor actor) {
-    //todo: port setspawn command
-  }
-
-  @Subcommand({"teleport", "tp"})
-  @CommandPermission("phantomworlds.command.phantomworlds.teleport")
-  public void tp(BukkitCommandActor actor, final World world, @Optional final Player player) {
-    TeleportCommand.onCommand(actor, world, player);
+  public void setspawn(BukkitCommandActor actor, @Optional Double x, @Optional Double y, @Optional Double z, @Optional World world, @Optional Float yaw, @Optional Float pitch) {
+    SetSpawnCommand.onCommand(actor, x, y, z, world, yaw, pitch);
   }
 
   @Subcommand({"spawn"})
   @CommandPermission("phantomworlds.command.phantomworlds.spawn")
   public void spawn(BukkitCommandActor actor, final World world, @Optional final Player player) {
     SpawnCommand.onCommand(actor, world, player);
+  }
+
+  @Subcommand({"teleport", "tp"})
+  @CommandPermission("phantomworlds.command.phantomworlds.teleport")
+  public void tp(BukkitCommandActor actor, final World world, @Optional final Player player) {
+    TeleportCommand.onCommand(actor, world, player);
   }
 
   @Subcommand({"unload", "u"})

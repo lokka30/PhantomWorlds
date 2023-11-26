@@ -19,6 +19,7 @@ package me.lokka30.phantomworlds.listeners.player;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -41,6 +42,19 @@ public class PlayerChangeWorldListener implements Listener {
 
   @EventHandler
   public void onChangeWorld(PlayerChangedWorldEvent event) {
+
+    //Check if this world has a PhantomWorlds managed spawn. If so, teleport the player there.
+    final String spawnPath = "worlds-to-load." + event.getPlayer().getWorld().getName() + ".spawn";
+    if(PhantomWorlds.instance().data.getConfig().contains(spawnPath)) {
+      final double x = PhantomWorlds.instance().data.getConfig().getDouble(spawnPath + ".x", event.getPlayer().getWorld().getSpawnLocation().getX());
+      final double y = PhantomWorlds.instance().data.getConfig().getDouble(spawnPath + ".y", event.getPlayer().getWorld().getSpawnLocation().getY());
+      final double z = PhantomWorlds.instance().data.getConfig().getDouble(spawnPath + ".z", event.getPlayer().getWorld().getSpawnLocation().getZ());
+      final float yaw = (float)PhantomWorlds.instance().data.getConfig().getDouble(spawnPath + ".yaw", event.getPlayer().getWorld().getSpawnLocation().getYaw());
+      final float pitch = (float)PhantomWorlds.instance().data.getConfig().getDouble(spawnPath + ".pitch", event.getPlayer().getWorld().getSpawnLocation().getPitch());
+
+      event.getPlayer().teleport(new Location(event.getPlayer().getWorld(), x, y, z, yaw, pitch));
+    }
+
     final String cfgPath = "worlds-to-load." + event.getPlayer().getWorld().getName();
     if(PhantomWorlds.instance().data.getConfig().contains(cfgPath + ".gameMode")) {
       final GameMode mode = GameMode.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + ".gameMode"));
