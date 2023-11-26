@@ -4,7 +4,6 @@ import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.CreateSubcommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.GameruleSubcommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.subcommands.SetSpawnSubcommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -25,8 +24,6 @@ public class PhantomWorldsCommand implements TabExecutor {
 
   final CreateSubcommand createSubcommand = new CreateSubcommand();
   final GameruleSubcommand gameruleSubcommand = new GameruleSubcommand();
-  final SetSpawnSubcommand setSpawnSubcommand = new SetSpawnSubcommand();
-
   /**
    * @since v2.0.0
    */
@@ -52,9 +49,6 @@ public class PhantomWorldsCommand implements TabExecutor {
           break;
         case "gamerule":
           gameruleSubcommand.parseCommand(sender, cmd, label, args);
-          break;
-        case "setspawn":
-          setSpawnSubcommand.parseCommand(sender, cmd, label, args);
           break;
         default:
           (new MultiMessage(
@@ -109,8 +103,6 @@ public class PhantomWorldsCommand implements TabExecutor {
         return createSubcommand.parseTabCompletion(sender, cmd, label, args);
       case "gamerule":
         return gameruleSubcommand.parseTabCompletion(sender, cmd, label, args);
-      case "setspawn":
-        return setSpawnSubcommand.parseTabCompletion(sender, cmd, label, args);
       default:
         return Collections.emptyList();
     }
