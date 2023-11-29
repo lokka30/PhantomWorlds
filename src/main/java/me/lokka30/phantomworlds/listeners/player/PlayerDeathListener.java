@@ -18,6 +18,8 @@ package me.lokka30.phantomworlds.listeners.player;
  */
 
 import me.lokka30.phantomworlds.PhantomWorlds;
+import me.lokka30.phantomworlds.misc.Utils;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -38,12 +40,13 @@ public class PlayerDeathListener implements Listener {
 
   @EventHandler
   public void onDeath(PlayerDeathEvent event) {
-    if(!PhantomWorlds.instance().settings.getConfig().getBoolean("respawn-world", false)) {
+    if(!PhantomWorlds.instance().settings.getConfig().getBoolean("spawning.respawn-world", false)) {
       return;
     }
 
     if(event.getEntity().getBedSpawnLocation() == null) {
-      event.getEntity().teleport(event.getEntity().getWorld().getSpawnLocation());
+
+      event.getEntity().teleport(Utils.spawn(event.getEntity().getWorld()));
     }
   }
 }

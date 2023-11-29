@@ -7,12 +7,18 @@
 # Should PW run an update check from the Spigot page on startup?
 run-update-checker: true
 
-#What is the spawn world for the server? If the player hasn't played before this is the world that
-#they will go to.
-spawn-world: world
+#Configurations relating to spawn controls.
+spawning:
 
-#Should players respawn at the world spawn if they don't have a bed?
-respawn-world: true
+  #What is the spawn world for the server? If the player hasn't played before this is the world that
+  #they will go to.
+  default-world: world
+
+  #Should players respawn at the world spawn if they don't have a bed?
+  respawn-world: true
+
+  #Should players be sent to the world spawn each time they change worlds?
+  change: false
 
 #Should worlds deleted be moved to an archive folder in deletedworlds?
 delete-archive: true

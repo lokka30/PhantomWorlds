@@ -18,6 +18,7 @@ package me.lokka30.phantomworlds.listeners.player;
  */
 
 import me.lokka30.phantomworlds.PhantomWorlds;
+import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -41,31 +42,16 @@ public class PlayerJoinListener implements Listener {
 
   @EventHandler
   public void onJoin(PlayerJoinEvent event) {
-    final String spawnWorld = PhantomWorlds.instance().settings.getConfig().getString("spawn-world", "world");
+    final String spawnWorld = PhantomWorlds.instance().settings.getConfig().getString("spawning.default-world", "world");
     final World sWorld = Bukkit.getWorld(spawnWorld);
     if(sWorld == null) {
       plugin.getLogger().warning("Configured spawn world doesn't exist! Not changing player spawn location.");
       return;
     }
 
-    final World world = (event.getPlayer().hasPlayedBefore())? event.getPlayer().getWorld() : sWorld;
-
-    //Check if we manage the spawn for the world the player needs to join in.
-    final String cfgPath = "worlds-to-load." + world.getName() + ".spawn";
-    if(PhantomWorlds.instance().data.getConfig().contains(cfgPath)) {
-      final double x = PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".x", world.getSpawnLocation().getX());
-      final double y = PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".y", world.getSpawnLocation().getY());
-      final double z = PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".z", world.getSpawnLocation().getZ());
-      final float yaw = (float)PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".yaw", world.getSpawnLocation().getYaw());
-      final float pitch = (float)PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".pitch", world.getSpawnLocation().getPitch());
-
-      event.getPlayer().teleport(new Location(world, x, y, z, yaw, pitch));
-    } else {
-
-      //We don't manage so send the player to the spawn world
-      if(!event.getPlayer().hasPlayedBefore()) {
-        event.getPlayer().teleport(sWorld.getSpawnLocation());
-      }
+    //We don't manage so send the player to the spawn world
+    if(!event.getPlayer().hasPlayedBefore()) {
+      event.getPlayer().teleport(Utils.spawn(sWorld));
     }
   }
 }

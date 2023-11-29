@@ -4,6 +4,7 @@ import me.lokka30.microlib.messaging.MessageUtils;
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -294,7 +295,8 @@ public class Utils {
       worldName = targetPlayer.getWorld().getName();
     }
 
-    if(Bukkit.getWorld(worldName) == null) {
+    final World world = Bukkit.getWorld(worldName);
+    if(world == null) {
       (new MultiMessage(
               PhantomWorlds.instance().messages.getConfig()
                       .getStringList("command.phantomworlds.subcommands.common.invalid-world"),
@@ -305,9 +307,7 @@ public class Utils {
               ))).send(sender);
       return;
     }
-
-    //noinspection ConstantConditions
-    targetPlayer.teleport(Bukkit.getWorld(worldName).getSpawnLocation());
+    targetPlayer.teleport(spawn(world));
 
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
@@ -319,5 +319,19 @@ public class Utils {
                     new MultiMessage.Placeholder("player", targetPlayer.getName(), false),
                     new MultiMessage.Placeholder("world", worldName, false)
             ))).send(sender);
+  }
+
+  public static Location spawn(final World world) {
+    final String cfgPath = "worlds-to-load." + world.getName() + ".spawn";
+    if(PhantomWorlds.instance().data.getConfig().contains(cfgPath)) {
+      final double x = PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".x", world.getSpawnLocation().getX());
+      final double y = PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".y", world.getSpawnLocation().getY());
+      final double z = PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".z", world.getSpawnLocation().getZ());
+      final float yaw = (float)PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".yaw", world.getSpawnLocation().getYaw());
+      final float pitch = (float)PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".pitch", world.getSpawnLocation().getPitch());
+
+      return new Location(world, x, y, z, yaw, pitch);
+    }
+    return world.getSpawnLocation();
   }
 }

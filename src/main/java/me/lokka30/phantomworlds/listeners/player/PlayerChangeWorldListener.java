@@ -45,7 +45,7 @@ public class PlayerChangeWorldListener implements Listener {
 
     //Check if this world has a PhantomWorlds managed spawn. If so, teleport the player there.
     final String spawnPath = "worlds-to-load." + event.getPlayer().getWorld().getName() + ".spawn";
-    if(PhantomWorlds.instance().data.getConfig().contains(spawnPath)) {
+    if(PhantomWorlds.instance().settings.getConfig().getBoolean("spawning.change", false) && PhantomWorlds.instance().data.getConfig().contains(spawnPath)) {
       final double x = PhantomWorlds.instance().data.getConfig().getDouble(spawnPath + ".x", event.getPlayer().getWorld().getSpawnLocation().getX());
       final double y = PhantomWorlds.instance().data.getConfig().getDouble(spawnPath + ".y", event.getPlayer().getWorld().getSpawnLocation().getY());
       final double z = PhantomWorlds.instance().data.getConfig().getDouble(spawnPath + ".z", event.getPlayer().getWorld().getSpawnLocation().getZ());
