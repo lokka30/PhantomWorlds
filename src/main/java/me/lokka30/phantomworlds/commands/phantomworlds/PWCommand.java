@@ -89,6 +89,12 @@ public class PWCommand {
     //todo: port gamerule command
   }
 
+  @Subcommand({"import", "im"})
+  @CommandPermission("phantomworlds.command.phantomworlds.import")
+  public void importCMD(BukkitCommandActor actor, final World world) {
+    InfoCommand.onCommand(actor);
+  }
+
   @Subcommand({"info", "i"})
   @CommandPermission("phantomworlds.command.phantomworlds.info")
   public void info(BukkitCommandActor actor) {

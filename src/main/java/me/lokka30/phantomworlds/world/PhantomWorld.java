@@ -27,6 +27,7 @@ import org.bukkit.WorldType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,6 +144,30 @@ public class PhantomWorld {
           PhantomWorlds.logger().warning("Error setting gamerule: " + entry.getKey() + " for world: " + name + "! Invalid integer value!");
         }
       }
+    }
+  }
+
+  public void save() {
+
+    final String cfgPath = "worlds-to-load." + name + ".";
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "environment", environment.toString());
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "generateStructures", generateStructures);
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "generator", generator);
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "generatorSettings", generatorSettings);
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "hardcore", hardcore);
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "seed", seed);
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "worldType", worldType.toString());
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "spawnMobs", spawnMobs);
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "spawnAnimals", spawnAnimals);
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "keepSpawnInMemory", keepSpawnInMemory);
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "allowPvP", allowPvP);
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "difficulty", difficulty.toString());
+    PhantomWorlds.instance().data.getConfig().set(cfgPath + "gameMode", gameMode.name());
+
+    try {
+      PhantomWorlds.instance().data.save();
+    } catch(final IOException ex) {
+      throw new RuntimeException(ex);
     }
   }
 
