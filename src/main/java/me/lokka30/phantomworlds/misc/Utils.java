@@ -307,7 +307,7 @@ public class Utils {
               ))).send(sender);
       return;
     }
-    targetPlayer.teleport(spawn(world));
+    targetPlayer.teleport(parseSpawn(world));
 
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
@@ -321,7 +321,7 @@ public class Utils {
             ))).send(sender);
   }
 
-  public static Location spawn(final World world) {
+  public static Location parseSpawn(final World world) {
     final String cfgPath = "worlds-to-load." + world.getName() + ".spawn";
     if(PhantomWorlds.instance().data.getConfig().contains(cfgPath)) {
       final double x = PhantomWorlds.instance().data.getConfig().getDouble(cfgPath + ".x", world.getSpawnLocation().getX());

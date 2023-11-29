@@ -20,7 +20,6 @@ package me.lokka30.phantomworlds.listeners.player;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -51,7 +50,7 @@ public class PlayerJoinListener implements Listener {
 
     //We don't manage so send the player to the spawn world
     if(!event.getPlayer().hasPlayedBefore()) {
-      event.getPlayer().teleport(Utils.spawn(sWorld));
+      event.getPlayer().teleport(Utils.parseSpawn(sWorld));
     }
   }
 }
