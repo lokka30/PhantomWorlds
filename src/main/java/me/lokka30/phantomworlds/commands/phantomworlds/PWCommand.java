@@ -21,6 +21,7 @@ import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.BackupComm
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.CompatibilityCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.DebugCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.DeleteCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.ImportCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.InfoCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.ListCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.ReloadCommand;
@@ -92,7 +93,7 @@ public class PWCommand {
   @Subcommand({"import", "im"})
   @CommandPermission("phantomworlds.command.phantomworlds.import")
   public void importCMD(BukkitCommandActor actor, final World world) {
-    InfoCommand.onCommand(actor);
+    ImportCommand.onCommand(actor, world);
   }
 
   @Subcommand({"info", "i"})
