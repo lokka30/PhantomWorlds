@@ -70,10 +70,10 @@ public class SetSpawnCommand {
     if(PhantomWorlds.instance().data.getConfig().contains(cfgPath)) {
       //PhantomWorlds manages this world so let's set the spawn here for better accuracy.
       PhantomWorlds.instance().data.getConfig().set(cfgPath + ".spawn.x", finalX);
-      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".spawn.y", finalX);
-      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".spawn.z", finalX);
-      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".spawn.yaw", finalX);
-      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".spawn.pitch", finalX);
+      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".spawn.y", finalY);
+      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".spawn.z", finalZ);
+      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".spawn.yaw", finalYaw);
+      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".spawn.pitch", finalPitch);
 
       try {
         PhantomWorlds.instance().data.save();
