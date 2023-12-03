@@ -1,4 +1,4 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub;
+package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 /*
  * Phantom Worlds
  * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
@@ -31,7 +31,9 @@ import java.util.Locale;
 public class DebugCommand {
 
   public static void onCommand(final BukkitCommandActor actor, final String level) {
-    switch(level.toLowerCase(Locale.ROOT)) {
+
+    final String parsed = (level == null)? "nothing" : level;
+    switch(parsed.toLowerCase(Locale.ROOT)) {
       case "dump":
         actor.getSender().sendMessage(
                 MessageUtils.colorizeStandardCodes("&b&lPhantomWorlds: &7Incomplete."));
@@ -39,7 +41,7 @@ public class DebugCommand {
       default:
         actor.getSender().sendMessage(MessageUtils.colorizeStandardCodes(
                         "&b&lPhantomWorlds: &7Invalid debug method '%method%'.")
-                .replace("%method%", level)
+                .replace("%method%", parsed)
         );
 
         actor.getSender().sendMessage(MessageUtils.colorizeStandardCodes(

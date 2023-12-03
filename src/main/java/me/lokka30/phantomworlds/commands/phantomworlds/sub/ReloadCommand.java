@@ -1,4 +1,4 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub;
+package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 /*
  * Phantom Worlds
  * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar

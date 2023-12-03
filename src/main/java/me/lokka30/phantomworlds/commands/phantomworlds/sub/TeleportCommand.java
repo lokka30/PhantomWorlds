@@ -1,4 +1,4 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub;
+package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 /*
  * Phantom Worlds
  * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
@@ -31,6 +31,9 @@ import revxrsal.commands.bukkit.BukkitCommandActor;
 public class TeleportCommand {
 
   public static void onCommand(final BukkitCommandActor actor, final World world, final Player player) {
+    if(!Utils.checkWorld(actor.getSender(), "command.phantomworlds.subcommands.teleport.usage", world)) {
+      return;
+    }
     Utils.teleportToWorld(actor.getSender(), "teleport", "teleport", (player == null)? actor.getSender().getName() : player.getName(), world.getName());
   }
 }

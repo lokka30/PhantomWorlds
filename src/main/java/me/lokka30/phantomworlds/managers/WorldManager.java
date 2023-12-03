@@ -2,6 +2,7 @@ package me.lokka30.phantomworlds.managers;
 
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.misc.Utils;
+import me.lokka30.phantomworlds.misc.WorldLoadResponse;
 import me.lokka30.phantomworlds.world.PhantomWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -38,34 +39,21 @@ public class WorldManager {
 
     final HashSet<String> worldsToDiscardFromDataFile = new HashSet<>();
 
+    //This should be outside our for each
+    if(!Bukkit.getWorldContainer().exists()) {
+      PhantomWorlds.logger().severe("World container doesn't exist!");
+      return;
+    }
+
     //noinspection ConstantConditions
-    for(final String worldName : PhantomWorlds.instance().data.getConfig().getConfigurationSection("worlds-to-load")
-            .getKeys(false)) {
-      if(Bukkit.getWorld(worldName) != null) {
-        continue;
-      }
+    for(final String worldName : PhantomWorlds.instance().data.getConfig().getConfigurationSection("worlds-to-load").getKeys(false)) {
 
-      if(!Bukkit.getWorldContainer().exists()) {
-        PhantomWorlds.logger().severe("World container doesn't exist for world " + worldName + "!");
-        return;
-      }
+      final WorldLoadResponse response = loadWorld(worldName);
 
-      final File worldFolder = new File(Bukkit.getWorldContainer(), worldName);
-      if(!worldFolder.exists()) {
-        // The world was deleted/moved by the user so it must be re-imported. PW should no longer attempt to load that world.
-        PhantomWorlds.logger().info("Discarding world '" + worldName + "' from PhantomWorlds' "
-                + "data file as it no longer exists on the server.");
+      if(response.equals(WorldLoadResponse.INVALID)) {
         worldsToDiscardFromDataFile.add(worldName);
-        continue;
       }
 
-      if(PhantomWorlds.instance().data.getConfig().getBoolean("worlds-to-load." + worldName + ".skip-autoload", false)) {
-        PhantomWorlds.logger().info("Skipping autoload of world '" + worldName + "'.");
-        continue;
-      }
-
-      PhantomWorlds.logger().info("Loading world '" + worldName + "'...");
-      getPhantomWorldFromData(worldName).create();
     }
 
     for(String worldName : worldsToDiscardFromDataFile) {
@@ -78,6 +66,36 @@ public class WorldManager {
       PhantomWorlds.logger().severe("Unable to save data file. Stack trace:");
       ex.printStackTrace();
     }
+  }
+
+  /**
+   * Used to load a world based on the name.
+   * @param worldName The name of the world.
+   * @return The {@link WorldLoadResponse response} from the loading process.
+   */
+  public WorldLoadResponse loadWorld(final String worldName) {
+
+    if(Bukkit.getWorld(worldName) != null) {
+      return WorldLoadResponse.NOT_FOUND;
+    }
+
+    final File worldFolder = new File(Bukkit.getWorldContainer(), worldName);
+    if(!worldFolder.exists()) {
+
+      // The world was deleted/moved by the user so it must be re-imported. PW should no longer attempt to load that world.
+      PhantomWorlds.logger().info("Discarding world '" + worldName + "' from PhantomWorlds' "
+              + "data file as it no longer exists on the server.");
+      return WorldLoadResponse.INVALID;
+    }
+
+    if(PhantomWorlds.instance().data.getConfig().getBoolean("worlds-to-load." + worldName + ".skip-autoload", false)) {
+      PhantomWorlds.logger().info("Skipping autoload of world '" + worldName + "'.");
+      return WorldLoadResponse.CONFIG_SKIPPED;
+    }
+
+    PhantomWorlds.logger().info("Loading world '" + worldName + "'...");
+    getPhantomWorldFromData(worldName).create();
+    return WorldLoadResponse.LOADED;
   }
 
   /**

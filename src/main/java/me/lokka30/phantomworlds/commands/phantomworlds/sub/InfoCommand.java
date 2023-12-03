@@ -1,4 +1,4 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub;
+package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 /*
  * Phantom Worlds
  * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
@@ -19,49 +19,35 @@ package me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub;
 
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.misc.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
 import revxrsal.commands.bukkit.BukkitCommandActor;
 
 import java.util.Arrays;
 
 /**
- * UnloadCommand
+ * InfoCommand
  *
  * @author creatorfromhell
  * @since 2.0.5.0
  */
-public class UnloadCommand {
+public class InfoCommand {
 
-  public static void onCommand(final BukkitCommandActor actor, final World world) {
-
-    if(actor.getSender() instanceof Player) {
-
-      if(world.getPlayers().contains((Player)actor.getSender())) {
-        (new MultiMessage(
-                PhantomWorlds.instance().messages.getConfig().getStringList(
-                        "command.phantomworlds.subcommands.unload.in-specified-world"),
-                Arrays.asList(
-                        new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
-                                .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
-                        new MultiMessage.Placeholder("world", world.getName(), false)
-                ))).send(actor.getSender());
-        return;
-      }
-    }
-
-    //noinspection ConstantConditions
-    Utils.unloadWorld(world);
+  public static void onCommand(final BukkitCommandActor actor) {
 
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
-                    .getStringList("command.phantomworlds.subcommands.unload.success"), Arrays.asList(
+                    .getStringList("command.phantomworlds.subcommands.info.success"), Arrays.asList(
             new MultiMessage.Placeholder("prefix",
                     PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                     true),
-            new MultiMessage.Placeholder("world", world.getName(), false)
+            new MultiMessage.Placeholder("version", PhantomWorlds.instance().getDescription().getVersion(), false),
+            new MultiMessage.Placeholder("authors",
+                    String.join(PhantomWorlds.instance().messages.getConfig().getString("common.list-delimiter", "&7, &b"),
+                            PhantomWorlds.instance().getDescription().getAuthors()), false),
+            new MultiMessage.Placeholder("contributors",
+                    String.join(PhantomWorlds.instance().messages.getConfig().getString("common.list-delimiter", "&7, &b"),
+                            PhantomWorlds.CONTRIBUTORS), false),
+            new MultiMessage.Placeholder("supportedServerVersions", PhantomWorlds.instance().supportedServerVersions,
+                    false)
     ))).send(actor.getSender());
   }
 }

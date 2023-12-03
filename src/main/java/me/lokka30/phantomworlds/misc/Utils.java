@@ -200,12 +200,60 @@ public class Utils {
   }
 
   public static void zipFolder(File sourceFolder, String destinationZipFile) throws IOException {
-    try (
-            FileOutputStream fos = new FileOutputStream(destinationZipFile);
-            ZipOutputStream zos = new ZipOutputStream(fos)
-    ) {
-      zipFolder(sourceFolder, sourceFolder.getName(), zos);
+    try(FileOutputStream fos = new FileOutputStream(destinationZipFile);
+        ZipOutputStream zos = new ZipOutputStream(fos)) {
+
+      //zipFolder(sourceFolder, sourceFolder.getName(), zos);
+
+      zipFile(sourceFolder, sourceFolder.getName(), zos);
+      zos.closeEntry();
+      zos.flush();
+      zos.close();
+      fos.flush();
+    } catch(Exception e) {
+      e.printStackTrace();
     }
+  }
+
+  public static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
+    if(fileToZip.isHidden()) {
+      return;
+    }
+
+    if(fileToZip.isDirectory()) {
+
+      if(fileName.endsWith("/")) {
+
+        zipOut.putNextEntry(new ZipEntry(fileName));
+        zipOut.closeEntry();
+      } else {
+
+        zipOut.putNextEntry(new ZipEntry(fileName + "/"));
+        zipOut.closeEntry();
+      }
+
+      File[] children = fileToZip.listFiles();
+      if(children == null) {
+        return;
+      }
+
+      for(File childFile : children) {
+        zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
+      }
+      return;
+    }
+
+    FileInputStream fis = new FileInputStream(fileToZip);
+    ZipEntry zipEntry = new ZipEntry(fileName);
+    zipOut.putNextEntry(zipEntry);
+
+    byte[] bytes = new byte[1024];
+    int length;
+
+    while((length = fis.read(bytes)) >= 0) {
+      zipOut.write(bytes, 0, length);
+    }
+    fis.close();
   }
 
   public static void zipFolder(final File folder, final String parentFolder, final ZipOutputStream zos) throws IOException {
@@ -333,5 +381,22 @@ public class Utils {
       return new Location(world, x, y, z, yaw, pitch);
     }
     return world.getSpawnLocation();
+  }
+
+  public static boolean checkWorld(@NotNull final CommandSender sender, final String usage, @Nullable final World world) {
+    if(world == null) {
+
+      (new MultiMessage(
+              PhantomWorlds.instance().messages.getConfig()
+                      .getStringList(usage), Arrays.asList(
+              new MultiMessage.Placeholder("prefix",
+                      PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
+                      true),
+              new MultiMessage.Placeholder("label", "pw", false)
+      ))).send(sender);
+
+      return false;
+    }
+    return true;
   }
 }

@@ -1,5 +1,4 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub;
-
+package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 /*
  * Phantom Worlds
  * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
@@ -20,35 +19,47 @@ package me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub;
 
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
+import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import revxrsal.commands.bukkit.BukkitCommandActor;
 
 import java.util.Arrays;
 
 /**
- * BackupCommand
+ * UnloadCommand
  *
  * @author creatorfromhell
  * @since 2.0.5.0
  */
-public class BackupCommand {
+public class UnloadCommand {
 
   public static void onCommand(final BukkitCommandActor actor, final World world) {
-
-    if(!PhantomWorlds.worldManager().backupWorld(world.getName())) {
-      (new MultiMessage(
-              PhantomWorlds.instance().messages.getConfig()
-                      .getStringList("command.phantomworlds.subcommands.backup.failure"), Arrays.asList(
-              new MultiMessage.Placeholder("prefix",
-                      PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
-                      true),
-              new MultiMessage.Placeholder("world", world.getName(), false)
-      ))).send(actor.getSender());
+    if(!Utils.checkWorld(actor.getSender(), "command.phantomworlds.subcommands.unload.usage", world)) {
+      return;
     }
+
+    if(actor.getSender() instanceof Player) {
+
+      if(world.getPlayers().contains((Player)actor.getSender())) {
+        (new MultiMessage(
+                PhantomWorlds.instance().messages.getConfig().getStringList(
+                        "command.phantomworlds.subcommands.unload.in-specified-world"),
+                Arrays.asList(
+                        new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
+                                .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                        new MultiMessage.Placeholder("world", world.getName(), false)
+                ))).send(actor.getSender());
+        return;
+      }
+    }
+
+    //noinspection ConstantConditions
+    Utils.unloadWorld(world);
 
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
-                    .getStringList("command.phantomworlds.subcommands.backup.success"), Arrays.asList(
+                    .getStringList("command.phantomworlds.subcommands.unload.success"), Arrays.asList(
             new MultiMessage.Placeholder("prefix",
                     PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                     true),

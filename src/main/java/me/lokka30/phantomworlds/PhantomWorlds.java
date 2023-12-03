@@ -2,9 +2,13 @@ package me.lokka30.phantomworlds;
 
 import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.microlib.other.UpdateChecker;
 import me.lokka30.phantomworlds.commands.phantomworlds.PWCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.parameters.resolvers.WorldFolderResolver;
+import me.lokka30.phantomworlds.commands.phantomworlds.parameters.suggestion.WorldFolderSuggestion;
+import me.lokka30.phantomworlds.commands.phantomworlds.utils.WorldFolder;
 import me.lokka30.phantomworlds.listeners.player.PlayerChangeWorldListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerDeathListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerJoinListener;
@@ -17,11 +21,13 @@ import me.lokka30.phantomworlds.misc.UpdateCheckerResult;
 import me.lokka30.phantomworlds.misc.Utils;
 import me.lokka30.phantomworlds.scheduler.BackupScheduler;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -90,8 +96,7 @@ public class PhantomWorlds extends JavaPlugin {
   /*
       Used to check if world are loaded
    */
-  private boolean isWorldLoaded;
-
+  private boolean isWorldLoaded = false;
 
   /**
    * This method is called by Bukkit when it loads PhantomWorlds.
@@ -106,14 +111,7 @@ public class PhantomWorlds extends JavaPlugin {
     QuickTimer timer = new QuickTimer(TimeUnit.MILLISECONDS);
     checkCompatibility();
     loadFiles();
-
-    isWorldLoaded = false;
-    getServer().getPluginManager().registerEvents(new PlayerChangeWorldListener(this), this);
-    getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
-    getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-    getServer().getPluginManager().registerEvents(new PlayerPortalListener(this), this);
-
-    getServer().getPluginManager().registerEvents(new WorldInitListener(this), this);
+    loadWorlds();
 
     registerCommands();
     registerListeners();
@@ -121,7 +119,7 @@ public class PhantomWorlds extends JavaPlugin {
 
     if(settings.getConfig().getBoolean("backup-scheduler", true)) {
       getLogger().info("Starting up Backup scheduler...");
-      backupService = new BackupScheduler().runTaskTimerAsynchronously(this, 0, settings.getConfig().getInt("backup-delay") * 20L);
+      backupService = new BackupScheduler().runTaskTimerAsynchronously(this, settings.getConfig().getInt("backup-delay") * 20L, settings.getConfig().getInt("backup-delay") * 20L);
     }
 
     getLogger().info("Start-up complete (took " + timer.getDuration() + "ms)");
@@ -213,9 +211,30 @@ public class PhantomWorlds extends JavaPlugin {
    */
   void registerCommands() {
     getLogger().info("Registering commands...");
-    Utils.registerCommand(new PhantomWorldsCommand(), "phantomworlds");
+    //Utils.registerCommand(new PhantomWorldsCommand(), "phantomworlds");
 
     this.command = BukkitCommandHandler.create(this);
+
+    //Set our command help writer
+    command.setHelpWriter((command, actor) -> {
+      if(command.getDescription() == null) {
+        return "";
+      }
+
+      final String description = PhantomWorlds.instance().messages.getConfig().getString(command.getDescription());
+      if(description == null) {
+        return "";
+      }
+
+      return ChatColor.translateAlternateColorCodes('&', description);
+    });
+
+    //Register Resolvers
+    this.command.registerValueResolver(WorldFolder.class, new WorldFolderResolver());
+
+    //Register Suggestors
+    this.command.getAutoCompleter().registerParameterSuggestions(WorldFolder.class, new WorldFolderSuggestion());
+
     this.command.register(new PWCommand());
     this.command.registerBrigadier();
   }
@@ -228,7 +247,12 @@ public class PhantomWorlds extends JavaPlugin {
    */
   void registerListeners() {
     getLogger().info("Registering listeners...");
-    /* Register any listeners here. */
+    getServer().getPluginManager().registerEvents(new PlayerChangeWorldListener(this), this);
+    getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
+    getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+    getServer().getPluginManager().registerEvents(new PlayerPortalListener(this), this);
+
+    //getServer().getPluginManager().registerEvents(new WorldInitListener(this), this);
   }
 
   /**

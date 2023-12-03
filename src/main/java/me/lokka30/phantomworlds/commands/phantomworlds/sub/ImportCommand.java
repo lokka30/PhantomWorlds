@@ -1,4 +1,4 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub;
+package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 /*
  * Phantom Worlds
  * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
@@ -17,11 +17,15 @@ package me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.world.PhantomWorld;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import revxrsal.commands.bukkit.BukkitCommandActor;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * ImportCommand
@@ -34,13 +38,26 @@ public class ImportCommand {
   public static void onCommand(final BukkitCommandActor actor, final World world) {
 
     if(world == null) {
-      //TODO: send message world doesn't exist, can't import.
+      (new MultiMessage(
+              PhantomWorlds.instance().messages.getConfig().getStringList(
+                      "command.phantomworlds.subcommands.import.failure-exist"),
+              Collections.singletonList(
+                      new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
+                              .getString("common.prefix", "&b&lPhantomWorlds: &7"), true)
+              ))).send(actor.getSender());
       return;
     }
 
     final String cfgPath = "worlds-to-load." + world.getName() + ".";
     if(PhantomWorlds.instance().data.getConfig().contains(cfgPath)) {
-      //TODO: Already a PhantomWorlds managed world.
+      (new MultiMessage(
+              PhantomWorlds.instance().messages.getConfig().getStringList(
+                      "command.phantomworlds.subcommands.import.failure-already"),
+              Arrays.asList(
+                      new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
+                              .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                      new MultiMessage.Placeholder("world", world.getName(), false)
+              ))).send(actor.getSender());
       return;
     }
 
@@ -50,6 +67,13 @@ public class ImportCommand {
             world.getAllowAnimals(), world.getKeepSpawnInMemory(), world.getPVP(), world.getDifficulty(), GameMode.SURVIVAL
     );
     pworld.save();
-    //TODO: world imported and will be managed by phantomworlds
+    (new MultiMessage(
+            PhantomWorlds.instance().messages.getConfig().getStringList(
+                    "command.phantomworlds.subcommands.import.success"),
+            Arrays.asList(
+                    new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
+                            .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
+                    new MultiMessage.Placeholder("world", world.getName(), false)
+            ))).send(actor.getSender());
   }
 }

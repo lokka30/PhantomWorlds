@@ -17,26 +17,35 @@ package me.lokka30.phantomworlds.commands.phantomworlds;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.BackupCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.CompatibilityCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.DebugCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.DeleteCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.ImportCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.InfoCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.ListCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.ReloadCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.SetSpawnCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.SpawnCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.TeleportCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.sub.UnloadCommand;
+import me.lokka30.microlib.messaging.MultiMessage;
+import me.lokka30.phantomworlds.PhantomWorlds;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.BackupCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.CompatibilityCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.DebugCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.DeleteCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.ImportCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.InfoCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.ListCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.LoadCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.ReloadCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.SetSpawnCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.SpawnCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.TeleportCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.sub.UnloadCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.utils.WorldFolder;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
+import revxrsal.commands.annotation.Default;
 import revxrsal.commands.annotation.DefaultFor;
+import revxrsal.commands.annotation.Description;
 import revxrsal.commands.annotation.Optional;
 import revxrsal.commands.annotation.Subcommand;
 import revxrsal.commands.bukkit.BukkitCommandActor;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
+import revxrsal.commands.help.CommandHelp;
+
+import java.util.ArrayList;
 
 /**
  * PWCommand
@@ -47,88 +56,111 @@ import revxrsal.commands.bukkit.annotation.CommandPermission;
 @Command({"pw", "phantomworlds"})
 public class PWCommand {
 
+  @Subcommand({"help", "?"})
+  @DefaultFor({"pw", "phantomworlds"})
+  public void help(BukkitCommandActor actor, CommandHelp<String> helpEntries, @Default("1") int page) {
+    for(final String entry : helpEntries.paginate(page, 5)) {
+      (new MultiMessage(
+              PhantomWorlds.instance().messages.getConfig().getStringList(entry), new ArrayList<>()
+      )).send(actor.getSender());
+    }
+  }
+
   @Subcommand({"backup", "archive", "bu"})
   @CommandPermission("phantomworlds.command.phantomworlds.backup")
-  public void backup(BukkitCommandActor actor, final World world) {
+  @Description("command.phantomworlds.usages.backup")
+  public void backup(BukkitCommandActor actor, @Optional final World world) {
     BackupCommand.onCommand(actor, world);
   }
 
   @Subcommand({"create", "+", "new"})
   @CommandPermission("phantomworlds.command.phantomworlds.create")
+  @Description("command.phantomworlds.usages.create")
   public void create(BukkitCommandActor actor) {
     //todo: port create command
   }
 
   @Subcommand({"compatibility"})
   @CommandPermission("phantomworlds.command.phantomworlds.compatibility")
+  @Description("command.phantomworlds.usages.compatibility")
   public void compatibility(BukkitCommandActor actor) {
     CompatibilityCommand.onCommand(actor);
   }
 
   @Subcommand({"debug"})
   @CommandPermission("phantomworlds.command.phantomworlds.debug")
-  public void debug(BukkitCommandActor actor, final String level) {
+  @Description("command.phantomworlds.usages.debug")
+  public void debug(BukkitCommandActor actor, @Optional final String level) {
     DebugCommand.onCommand(actor, level);
   }
 
   @Subcommand({"delete", "-", "remove", "del"})
   @CommandPermission("phantomworlds.command.phantomworlds.delete")
-  public void delete(BukkitCommandActor actor, final World world) {
+  @Description("command.phantomworlds.usages.delete")
+  public void delete(BukkitCommandActor actor, @Optional final World world) {
     DeleteCommand.onCommand(actor, world);
   }
 
-  @Subcommand({"create", "+", "new"})
-  @DefaultFor({"pw", "phantomworlds"})
+  @Subcommand({"list", "l"})
   @CommandPermission("phantomworlds.command.phantomworlds.list")
+  @Description("command.phantomworlds.usages.list")
   public void list(BukkitCommandActor actor) {
     ListCommand.onCommand(actor);
   }
 
-  @Subcommand({"gamerule", "rule"})
-  @CommandPermission("phantomworlds.command.phantomworlds.gamerule")
-  public void gamerule(BukkitCommandActor actor) {
-    //todo: port gamerule command
-  }
-
   @Subcommand({"import", "im"})
   @CommandPermission("phantomworlds.command.phantomworlds.import")
-  public void importCMD(BukkitCommandActor actor, final World world) {
+  @Description("command.phantomworlds.usages.import")
+  public void importCMD(BukkitCommandActor actor, @Optional final World world) {
     ImportCommand.onCommand(actor, world);
   }
 
   @Subcommand({"info", "i"})
   @CommandPermission("phantomworlds.command.phantomworlds.info")
+  @Description("command.phantomworlds.usages.info")
   public void info(BukkitCommandActor actor) {
     InfoCommand.onCommand(actor);
   }
 
+  @Subcommand({"load"})
+  @CommandPermission("phantomworlds.command.phantomworlds.load")
+  @Description("command.phantomworlds.usages.load")
+  public void load(BukkitCommandActor actor, @Optional final WorldFolder world) {
+    LoadCommand.onCommand(actor, world);
+  }
+
   @Subcommand({"reload", "r"})
   @CommandPermission("phantomworlds.command.phantomworlds.reload")
+  @Description("command.phantomworlds.usages.reload")
   public void reload(BukkitCommandActor actor) {
     ReloadCommand.onCommand(actor);
   }
 
   @Subcommand({"setspawn"})
   @CommandPermission("phantomworlds.command.phantomworlds.setspawn")
+  @Description("command.phantomworlds.usages.setspawn")
   public void setspawn(BukkitCommandActor actor, @Optional Double x, @Optional Double y, @Optional Double z, @Optional World world, @Optional Float yaw, @Optional Float pitch) {
     SetSpawnCommand.onCommand(actor, x, y, z, world, yaw, pitch);
   }
 
   @Subcommand({"spawn"})
   @CommandPermission("phantomworlds.command.phantomworlds.spawn")
-  public void spawn(BukkitCommandActor actor, final World world, @Optional final Player player) {
+  @Description("command.phantomworlds.usages.spawn")
+  public void spawn(BukkitCommandActor actor, @Optional final World world, @Optional final Player player) {
     SpawnCommand.onCommand(actor, world, player);
   }
 
   @Subcommand({"teleport", "tp"})
   @CommandPermission("phantomworlds.command.phantomworlds.teleport")
-  public void tp(BukkitCommandActor actor, final World world, @Optional final Player player) {
+  @Description("command.phantomworlds.usages.tp")
+  public void tp(BukkitCommandActor actor, @Optional final World world, @Optional final Player player) {
     TeleportCommand.onCommand(actor, world, player);
   }
 
   @Subcommand({"unload", "u"})
   @CommandPermission("phantomworlds.command.phantomworlds.unload")
-  public void unload(BukkitCommandActor actor, final World world) {
+  @Description("command.phantomworlds.usages.unload")
+  public void unload(BukkitCommandActor actor, @Optional final World world) {
     UnloadCommand.onCommand(actor, world);
   }
 }
