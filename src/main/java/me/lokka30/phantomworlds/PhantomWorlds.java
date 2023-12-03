@@ -2,10 +2,8 @@ package me.lokka30.phantomworlds;
 
 import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
-import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.microlib.other.UpdateChecker;
 import me.lokka30.phantomworlds.commands.phantomworlds.PWCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.PhantomWorldsCommand;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.resolvers.WorldFolderResolver;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.suggestion.WorldFolderSuggestion;
 import me.lokka30.phantomworlds.commands.phantomworlds.utils.WorldFolder;
@@ -13,12 +11,10 @@ import me.lokka30.phantomworlds.listeners.player.PlayerChangeWorldListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerDeathListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerJoinListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerPortalListener;
-import me.lokka30.phantomworlds.listeners.world.WorldInitListener;
 import me.lokka30.phantomworlds.managers.FileManager;
 import me.lokka30.phantomworlds.managers.WorldManager;
 import me.lokka30.phantomworlds.misc.CompatibilityChecker;
 import me.lokka30.phantomworlds.misc.UpdateCheckerResult;
-import me.lokka30.phantomworlds.misc.Utils;
 import me.lokka30.phantomworlds.scheduler.BackupScheduler;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
@@ -27,7 +23,6 @@ import org.bukkit.scheduler.BukkitTask;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -40,7 +35,7 @@ import java.util.logging.Logger;
 public class PhantomWorlds extends JavaPlugin {
 
     /*
-    TODO:
+     *TODO:
      * - Translate backslash character in world names as a space so world names with a space can be used in the plugin
      * - Vanish compatibility
      *  - don't send 'by' messages unless the sender is not a player / target can see the (player) sender

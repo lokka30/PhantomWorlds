@@ -68,7 +68,10 @@ public class ListCommand {
 
     for(File file : directory.listFiles()) {
       if(file.isDirectory() && !loaded.contains(file.getName())) {
-        unloaded.add(file.getName());
+        final File levelDat = new File(file, "level.dat");
+        if(levelDat.exists()) {
+          unloaded.add(file.getName());
+        }
       }
     }
 

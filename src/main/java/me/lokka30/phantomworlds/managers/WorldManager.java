@@ -80,7 +80,8 @@ public class WorldManager {
     }
 
     final File worldFolder = new File(Bukkit.getWorldContainer(), worldName);
-    if(!worldFolder.exists()) {
+    final File levelDat = new File(worldFolder, "level.dat");
+    if(!worldFolder.exists() || !levelDat.exists()) {
 
       // The world was deleted/moved by the user so it must be re-imported. PW should no longer attempt to load that world.
       PhantomWorlds.logger().info("Discarding world '" + worldName + "' from PhantomWorlds' "
