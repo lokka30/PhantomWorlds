@@ -43,7 +43,8 @@ public class WorldFolderSuggestion implements SuggestionProvider {
     final File directory = Bukkit.getWorldContainer();
 
     for(File file : directory.listFiles()) {
-      if(file.isDirectory()) {
+      final File levelDat = new File(file, "level.dat");
+      if(file.isDirectory() && levelDat.exists()) {
         folders.add(file.getName());
       }
     }

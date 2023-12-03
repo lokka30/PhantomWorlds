@@ -122,7 +122,7 @@ public class WorldManager {
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "spawnAnimals", true),
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "keepSpawnInMemory", false),
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "allowPvP", true),
-            Difficulty.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "difficulty", null)),
+            Difficulty.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "difficulty", "NORMAL")),
             GameMode.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "gameMode", "SURVIVAL"))
     );
 
