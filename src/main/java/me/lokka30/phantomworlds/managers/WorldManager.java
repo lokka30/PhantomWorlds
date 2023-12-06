@@ -45,8 +45,14 @@ public class WorldManager {
       return;
     }
 
+    final String defaultWorld = Utils.defaultWorld();
+
     //noinspection ConstantConditions
     for(final String worldName : PhantomWorlds.instance().data.getConfig().getConfigurationSection("worlds-to-load").getKeys(false)) {
+
+      if(worldName.equalsIgnoreCase(defaultWorld) || worldName.startsWith(defaultWorld)) {
+        continue;
+      }
 
       final WorldLoadResponse response = loadWorld(worldName);
 

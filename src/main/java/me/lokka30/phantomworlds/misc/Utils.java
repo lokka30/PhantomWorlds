@@ -16,12 +16,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -398,5 +401,17 @@ public class Utils {
       return false;
     }
     return true;
+  }
+
+  public static String defaultWorld() {
+    try (InputStream input = Files.newInputStream(new File(PhantomWorlds.instance().getDataFolder(), "../../server.properties").toPath())) {
+
+      final Properties prop = new Properties();
+      prop.load(input);
+
+      return prop.getProperty("level-name");
+    } catch(Exception ignore) {
+      return "world";
+    }
   }
 }

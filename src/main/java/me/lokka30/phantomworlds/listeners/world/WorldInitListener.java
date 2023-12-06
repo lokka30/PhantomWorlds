@@ -38,6 +38,9 @@ public class WorldInitListener implements Listener {
 
   @EventHandler
   public void onInit(WorldInitEvent event) {
+    if(PhantomWorlds.instance().data.getConfig().contains("worlds-to-load." + event.getWorld().getName())) {
+
+    }
     if(!plugin.isWorldLoaded()) {
       plugin.loadWorlds();
     }

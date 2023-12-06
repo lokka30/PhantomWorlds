@@ -11,13 +11,16 @@ import me.lokka30.phantomworlds.listeners.player.PlayerChangeWorldListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerDeathListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerJoinListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerPortalListener;
+import me.lokka30.phantomworlds.listeners.world.WorldInitListener;
 import me.lokka30.phantomworlds.managers.FileManager;
 import me.lokka30.phantomworlds.managers.WorldManager;
 import me.lokka30.phantomworlds.misc.CompatibilityChecker;
 import me.lokka30.phantomworlds.misc.UpdateCheckerResult;
 import me.lokka30.phantomworlds.scheduler.BackupScheduler;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
@@ -106,7 +109,6 @@ public class PhantomWorlds extends JavaPlugin {
     QuickTimer timer = new QuickTimer(TimeUnit.MILLISECONDS);
     checkCompatibility();
     loadFiles();
-    loadWorlds();
 
     registerCommands();
     registerListeners();
@@ -247,7 +249,7 @@ public class PhantomWorlds extends JavaPlugin {
     getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
     getServer().getPluginManager().registerEvents(new PlayerPortalListener(this), this);
 
-    //getServer().getPluginManager().registerEvents(new WorldInitListener(this), this);
+    getServer().getPluginManager().registerEvents(new WorldInitListener(this), this);
   }
 
   /**
