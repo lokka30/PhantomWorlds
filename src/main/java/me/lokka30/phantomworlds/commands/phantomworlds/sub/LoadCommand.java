@@ -21,10 +21,8 @@ import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.commands.phantomworlds.utils.WorldFolder;
 import me.lokka30.phantomworlds.misc.WorldLoadResponse;
-import org.bukkit.Bukkit;
 import revxrsal.commands.bukkit.BukkitCommandActor;
 
-import java.io.File;
 import java.util.Arrays;
 
 import static me.lokka30.phantomworlds.misc.WorldLoadResponse.ALREADY_LOADED;

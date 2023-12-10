@@ -12,7 +12,12 @@ import org.bukkit.WorldType;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static me.lokka30.phantomworlds.misc.Utils.zipFolder;
 
@@ -23,6 +28,8 @@ import static me.lokka30.phantomworlds.misc.Utils.zipFolder;
  * @since v2.0.0
  */
 public class WorldManager {
+
+  public final Map<String, String> aliases = new LinkedHashMap<>();
 
   /**
    * For all worlds listed in PW's data file, if they aren't already loaded by Bukkit, then tell
@@ -114,22 +121,35 @@ public class WorldManager {
   public PhantomWorld getPhantomWorldFromData(final String name) {
     final String cfgPath = "worlds-to-load." + name + ".";
 
+    if(PhantomWorlds.instance().data.getConfig().contains(cfgPath + "alias")) {
+      for(final String alias : PhantomWorlds.instance().data.getConfig().getConfigurationSection(cfgPath + "alias").getKeys(false)) {
+        aliases.put(alias, name);
+      }
+    }
+
     final PhantomWorld world = new PhantomWorld(
             name,
             World.Environment.valueOf(
-                    PhantomWorlds.instance().data.getConfig().getString(cfgPath + "environment", "NORMAL")),
+                    PhantomWorlds.instance().data.getConfig().getString(cfgPath + "environment", "NORMAL")
+            ),
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "generateStructures", true),
             PhantomWorlds.instance().data.getConfig().getString(cfgPath + "generator", null),
             PhantomWorlds.instance().data.getConfig().getString(cfgPath + "generatorSettings", null),
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "hardcore", false),
             PhantomWorlds.instance().data.getConfig().getLong(cfgPath + "seed", 0),
-            WorldType.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "worldType", "NORMAL")),
+            WorldType.valueOf(
+                    PhantomWorlds.instance().data.getConfig().getString(cfgPath + "worldType", "NORMAL")
+            ),
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "spawnMobs", true),
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "spawnAnimals", true),
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "keepSpawnInMemory", false),
             PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + "allowPvP", true),
-            Difficulty.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "difficulty", "NORMAL")),
-            GameMode.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + "gameMode", "SURVIVAL"))
+            Difficulty.valueOf(
+                    PhantomWorlds.instance().data.getConfig().getString(cfgPath + "difficulty", "NORMAL")
+            ),
+            GameMode.valueOf(
+                    PhantomWorlds.instance().data.getConfig().getString(cfgPath + "gameMode", "SURVIVAL")
+            )
     );
 
     if(PhantomWorlds.instance().data.getConfig().contains(cfgPath + "rules") &&

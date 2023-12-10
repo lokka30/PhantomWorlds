@@ -4,7 +4,9 @@ import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.other.UpdateChecker;
 import me.lokka30.phantomworlds.commands.phantomworlds.PWCommand;
+import me.lokka30.phantomworlds.commands.phantomworlds.parameters.resolvers.AliasWorldResolver;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.resolvers.WorldFolderResolver;
+import me.lokka30.phantomworlds.commands.phantomworlds.parameters.suggestion.AliasWorldSuggestion;
 import me.lokka30.phantomworlds.commands.phantomworlds.parameters.suggestion.WorldFolderSuggestion;
 import me.lokka30.phantomworlds.commands.phantomworlds.utils.WorldFolder;
 import me.lokka30.phantomworlds.listeners.player.PlayerChangeWorldListener;
@@ -18,7 +20,6 @@ import me.lokka30.phantomworlds.misc.CompatibilityChecker;
 import me.lokka30.phantomworlds.misc.UpdateCheckerResult;
 import me.lokka30.phantomworlds.scheduler.BackupScheduler;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +27,8 @@ import org.bukkit.scheduler.BukkitTask;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -57,6 +60,8 @@ public class PhantomWorlds extends JavaPlugin {
    * If you have contributed code to the plugin, add your name to the end of this list! :)
    */
   public static final String[] CONTRIBUTORS = new String[]{"madison-allen"};
+
+  public static final List<String> COMMAND_HELP = new LinkedList<>();
 
   public static final String BACKUP_FOLDER = "backups";
   public static final String ARCHIVE_FOLDER = "archives";
@@ -213,24 +218,20 @@ public class PhantomWorlds extends JavaPlugin {
     this.command = BukkitCommandHandler.create(this);
 
     //Set our command help writer
-    command.setHelpWriter((command, actor) -> {
-      if(command.getDescription() == null) {
-        return "";
-      }
+    for(final String key : messages.getConfig().getConfigurationSection("command.phantomworlds.help").getKeys(false)) {
+      COMMAND_HELP.add(ChatColor.translateAlternateColorCodes('&', messages.getConfig().getString("command.phantomworlds.help." + key, "Missing help message. Key: " + key)));
+    }
 
-      final String description = PhantomWorlds.instance().messages.getConfig().getString(command.getDescription());
-      if(description == null) {
-        return "";
-      }
-
-      return ChatColor.translateAlternateColorCodes('&', description);
-    });
+    //Override the help writer because it dupes commands for some reason.
+    command.setHelpWriter((command, actor) ->"");
 
     //Register Resolvers
     this.command.registerValueResolver(WorldFolder.class, new WorldFolderResolver());
+    this.command.registerValueResolver(World.class, new AliasWorldResolver());
 
     //Register Suggestors
     this.command.getAutoCompleter().registerParameterSuggestions(WorldFolder.class, new WorldFolderSuggestion());
+    this.command.getAutoCompleter().registerParameterSuggestions(World.class, new AliasWorldSuggestion());
 
     this.command.register(new PWCommand());
     this.command.registerBrigadier();
