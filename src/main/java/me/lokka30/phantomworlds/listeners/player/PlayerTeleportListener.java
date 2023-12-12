@@ -20,7 +20,6 @@ package me.lokka30.phantomworlds.listeners.player;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 /**
@@ -50,12 +49,12 @@ public class PlayerTeleportListener implements Listener {
     final String cfgPath = "worlds-to-load." + event.getTo().getWorld().getName();
 
     if(PhantomWorlds.instance().data.getConfig().getBoolean(cfgPath + ".whitelist", false)
-            && !event.getPlayer().hasPermission("phantomworlds.world.access." + event.getPlayer().getWorld())) {
+            && !event.getPlayer().hasPermission("phantomworlds.world.access." + event.getTo().getWorld().getName())) {
       event.setCancelled(true);
       return;
     }
 
-    if(event.getPlayer().hasPermission("phantomworlds.world.deny." + event.getPlayer().getWorld())) {
+    if(event.getPlayer().hasPermission("phantomworlds.world.deny." + event.getTo().getWorld().getName())) {
       event.setCancelled(true);
     }
   }
