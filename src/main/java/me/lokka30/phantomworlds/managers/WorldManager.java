@@ -9,14 +9,12 @@ import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.WorldType;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import static me.lokka30.phantomworlds.misc.Utils.zipFolder;
@@ -159,6 +157,12 @@ public class WorldManager {
       }
     }
     return world;
+  }
+
+  @Nullable
+  public World findWorld(final String name) {
+
+    return Bukkit.getWorld(aliases.getOrDefault(name, name));
   }
 
   public boolean backupWorld(final String world) {

@@ -13,6 +13,7 @@ import me.lokka30.phantomworlds.listeners.player.PlayerChangeWorldListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerDeathListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerJoinListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerPortalListener;
+import me.lokka30.phantomworlds.listeners.player.PlayerTeleportListener;
 import me.lokka30.phantomworlds.listeners.world.WorldInitListener;
 import me.lokka30.phantomworlds.managers.FileManager;
 import me.lokka30.phantomworlds.managers.WorldManager;
@@ -249,6 +250,7 @@ public class PhantomWorlds extends JavaPlugin {
     getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
     getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
     getServer().getPluginManager().registerEvents(new PlayerPortalListener(this), this);
+    getServer().getPluginManager().registerEvents(new PlayerTeleportListener(this), this);
 
     getServer().getPluginManager().registerEvents(new WorldInitListener(this), this);
   }

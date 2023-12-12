@@ -18,7 +18,6 @@ package me.lokka30.phantomworlds.commands.phantomworlds.parameters.resolvers;
  */
 
 import me.lokka30.phantomworlds.PhantomWorlds;
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.process.ValueResolver;
@@ -35,8 +34,6 @@ public class AliasWorldResolver implements ValueResolver<World> {
   public World resolve(@NotNull ValueResolverContext context) throws Throwable {
     final String value = context.arguments().pop();
 
-    final String name = PhantomWorlds.worldManager().aliases.getOrDefault(value, value);
-
-    return Bukkit.getWorld(name);
+    return PhantomWorlds.worldManager().findWorld(value);
   }
 }

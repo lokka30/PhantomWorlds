@@ -86,7 +86,7 @@ public class PWCommand {
   @Subcommand({"create", "+", "new"})
   @CommandPermission("phantomworlds.command.phantomworlds.create")
   @Description("command.phantomworlds.help.create")
-  public void create(BukkitCommandActor actor) {
+  public void create(BukkitCommandActor actor, final String name) {
     //todo: port create command
   }
 

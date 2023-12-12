@@ -25,7 +25,6 @@ import revxrsal.commands.autocomplete.SuggestionProvider;
 import revxrsal.commands.command.CommandActor;
 import revxrsal.commands.command.ExecutableCommand;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

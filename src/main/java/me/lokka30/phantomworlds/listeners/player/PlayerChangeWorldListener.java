@@ -56,7 +56,7 @@ public class PlayerChangeWorldListener implements Listener {
     }
 
     final String cfgPath = "worlds-to-load." + event.getPlayer().getWorld().getName();
-    if(PhantomWorlds.instance().data.getConfig().contains(cfgPath + ".gameMode")) {
+    if(PhantomWorlds.instance().data.getConfig().contains(cfgPath + ".gameMode") && !event.getPlayer().hasPermission("phantomworlds.world.bypass.gamemode")) {
       final GameMode mode = GameMode.valueOf(PhantomWorlds.instance().data.getConfig().getString(cfgPath + ".gameMode"));
       event.getPlayer().setGameMode(mode);
     }
