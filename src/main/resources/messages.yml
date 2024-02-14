@@ -18,15 +18,37 @@ command:
 
     usage:
       - '%prefix% Available commands:'
-      - '&8 &m->&b /%label% create &8- &7create/import a world'
+      - '&8 &m->&b /%label% create &8- &7create a world'
+      - '&8 &m->&b /%label% import &8- &7import a world'
       - '&8 &m->&b /%label% list &8- &7list loaded worlds'
       - '&8 &m->&b /%label% teleport &8- &7teleport to a loaded world''s spawnpoint'
-      - '&8 &m->&b /%label% spawn &8- &7teleport to the spawn of the current world'
+      - '&8 &m->&b /%label% spawn [player] &8- &7teleport to the spawn of the current world'
       - '&8 &m->&b /%label% setspawn &8- &7set the spawnpoint of a world'
+      - '&8 &m->&b /%label% delete &8- &7delete a world'
+      - '&8 &m->&b /%label% backup &8- &backup a world'
       - '&8 &m->&b /%label% unload &8- &7unload a loaded world'
+      - '&8 &m->&b /%label% load &8- &7load an unloaded world'
       - '&8 &m->&b /%label% reload &8- &7reload all config & data files'
       - '&8 &m->&b /%label% info &8- &7view info about the plugin'
       - '&8 &m->&b /%label% compatibility &8- &7check for incompatibilities'
+
+    help-header: '&7=== %prefix% &f[&7%page%&f/&b%max%&f] &7==='
+
+    help:
+      create: '&b/pw create <world> <environment> [options...] &8- &7create a world'
+      import: '&b/pw import <world> &8- &7import a world'
+      list: '&b/pw list &8- &7list worlds'
+      tp: '&b/pw teleport <world> [player] &8- &7teleport to a loaded world''s spawnpoint'
+      spawn: '&b/pw spawn &8- &7teleport to the spawn of the current world'
+      debug: '&b/pw debug <type> &8- &7Change the debug mode for PhantomWorlds.'
+      setspawn: '&b/pw setspawn [x] [y] [z] [world] [yaw] [pitch] &8- &7set the spawnpoint of a world'
+      delete: '&b/pw delete <world> &8- &7delete a world'
+      backup: '&b/pw backup <world> &8- &7backup a world'
+      unload: '&b/pw unload <world> &8- &7unload a loaded world'
+      load: '&b/pw load <world> &8- &7load an unloaded world'
+      reload: '&b/pw reload &8- &7reload all config & data files'
+      info: '&b/pw info &8- &7view info about the plugin'
+      compatibility: '&b/pw compatibility &8- &7check for incompatibilities'
 
     invalid-subcommand:
       - '%prefix% Invalid subcommand ''&b%arg%&7''.'
@@ -42,6 +64,17 @@ command:
 
         player-offline:
           - '%prefix% Player ''&b%player%&7'' is offline.'
+
+      backup:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% backup <world>&7''.'
+
+        success:
+          - '%prefix% You have created a back up for the world ''&b%world%&7''.'
+
+        failure:
+          - '%prefix% Issue while creating a back up for the world ''&b%world%&7''.'
 
       compatibility:
 
@@ -105,6 +138,42 @@ command:
         usage:
           - '%prefix% Invalid usage, try ''&b/%label% create <world> <environment> [options...]&7''.'
 
+      debug:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% debug <type>&7''.'
+
+        success:
+          - '%prefix%: &7Note: Please do not run this subcommand unless you are sure you are meant to be doing so'
+
+        failure:
+          - '%prefix%: &7Invalid debug method ''%method%''.'
+
+      delete:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% delete <world>&7''.'
+
+        success:
+          - '%prefix% You have deleted the world ''&b%world%&7''.'
+
+        failure:
+          - '%prefix% Issue while deleting the world ''&b%world%&7''.'
+
+      import:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% import <world>&7''.'
+
+        success:
+          - '%prefix% You have imported the world ''&b%world%&7''.'
+
+        failure-exist:
+          - '%prefix% Issue while importing the world. The world does not exist!'
+
+        failure-already:
+          - '%prefix% Issue while importing the world ''&b%world%&7''. The world is already managed by PhantomWorlds!'
+
       info:
 
         success:
@@ -117,13 +186,33 @@ command:
         usage:
           - '%prefix% Invalid usage, try ''&b/%label% info&7''.'
 
+      load:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% load <world>&7''.'
+
+        success:
+          - '%prefix% You have loaded the world ''&b%world%&7''.'
+
+        failure-folder:
+          - '%prefix% Issue while loading the world. The world folder does not exist!'
+
+        failure-loading:
+          - '%prefix% Unknown issue while loading the world.'
+
       list:
 
         usage:
           - '%prefix% Invalid usage, try ''&b/%label% list&7''.'
 
-        header:
+        header-loaded:
           - '%prefix% Worlds loaded &8(&b%amount%&8)&7:'
+
+        header-unloaded:
+          - '%prefix% Worlds unloaded &8(&b%amount%&8)&7:'
+
+        header-archived:
+          - '%prefix% Worlds archived &8(&b%amount%&8)&7:'
 
         entry:
           - '&8 &m->&b %world%'
@@ -180,6 +269,26 @@ command:
         success:
           - '%prefix% Teleported player ''&b%player%&7'' to the spawn point of world ''&b%world%&7''.'
 
+      gamerule:
+
+        rules:
+
+          invalid-rule:
+            - '%prefix% Invalid gamerule ''&b%rule%&7''.'
+            - '%prefix% Valid world gamerules: &b%rules%&7.'
+
+          invalid-value:
+            - '%prefix% Invalid gamerule value ''&b%value%&7'' for gamerule ''&b%rule%&7'', a &b%expected%&7 value was expected.'
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% gamerule <world> [gamerules]&7''.'
+
+        usage-console:
+          - '%prefix% Invalid usage for console, try ''&b/%label% <world> [gamerules]&7''.'
+
+        success:
+          - '%prefix% Set the gamerules of world ''&b%world%&7''.'
+
       unload:
 
         usage:
@@ -197,5 +306,5 @@ command:
 
 # Do not touch anything here unless you know what you are doing.
 advanced:
-  file-version: 5
+  file-version: 7
   generated-with: '${project.version}'

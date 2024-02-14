@@ -10,14 +10,15 @@
 * Click [here](https://www.spigotmc.org/resources/phantomworlds.84099/) to visit the SpigotMC
   resource page for PhantomWorlds, where you can learn more and download the resource if you
   wish. :)
-* Click [here](https://github.com/lokka30/PhantomWorlds/wiki) to visit the Wiki.
+* Click [here](https://github.com/TheNewEconomy/PhantomWorlds/wiki) to visit the Wiki.
 
 ## Contributors
 
-* Please see the [Credits](https://github.com/lokka30/PhantomWorlds/wiki/Credits) - thank you very
+* Please see the [Credits](https://github.com/TheNewEconomy/PhantomWorlds/wiki/Credits) - thank you
+  very
   much to all contributors to the resource! ❤
 
 ## License
 
 * Licensed under `GNU AGPL v3.0` (
-  see [LICENSE.md](https://github.com/lokka30/PhantomWorlds/blob/master/LICENSE.md)).
+  see [LICENSE.md](https://github.com/TheNewEconomy/PhantomWorlds/blob/master/LICENSE.md)).
