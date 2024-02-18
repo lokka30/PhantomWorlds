@@ -23,9 +23,13 @@ command:
       - '&8 &m->&b /%label% list &8- &7list loaded worlds'
       - '&8 &m->&b /%label% teleport &8- &7teleport to a loaded world''s spawnpoint'
       - '&8 &m->&b /%label% spawn [player] &8- &7teleport to the spawn of the current world'
+      - '&8 &m->&b /%label% set effects <world> [effects] &8- &7set the potion effects to be applied to players in this world.'
+      - '&8 &m->&b /%label% set gamemode <world> <gamemode> &8- &7set the gamemode for this world.'
+      - '&8 &m->&b /%label% set portal <world> <portal type> <world to> &8- &7set where the specified portal type takes players in this world.'
+      - '&8 &m->&b /%label% set whitelist <world> <whitelist(true/false)> &8- &7set whether there is a whitelist for this world or not.'
       - '&8 &m->&b /%label% setspawn &8- &7set the spawnpoint of a world'
       - '&8 &m->&b /%label% delete &8- &7delete a world'
-      - '&8 &m->&b /%label% backup &8- &backup a world'
+      - '&8 &m->&b /%label% backup <world> &8- &7Backup a world'
       - '&8 &m->&b /%label% unload &8- &7unload a loaded world'
       - '&8 &m->&b /%label% load &8- &7load an unloaded world'
       - '&8 &m->&b /%label% reload &8- &7reload all config & data files'
@@ -41,6 +45,10 @@ command:
       tp: '&b/pw teleport <world> [player] &8- &7teleport to a loaded world''s spawnpoint'
       spawn: '&b/pw spawn &8- &7teleport to the spawn of the current world'
       debug: '&b/pw debug <type> &8- &7Change the debug mode for PhantomWorlds.'
+      seteffects: '&b/pw set effects <world> [effects] &8- &7set the potion effects to be applied to players in this world.'
+      setgamemode: '&b/pw set gamemode <world> <gamemode> &8- &7set the gamemode for this world.'
+      setportal: '&b/pw set portal <world> <portal type> <world to> &8- &7set where the specified portal type takes players in this world.'
+      setwhitelist: '&b/pw set whitelist <world> <whitelist(true/false)> &8- &7set whether there is a whitelist for this world or not.'
       setspawn: '&b/pw setspawn [x] [y] [z] [world] [yaw] [pitch] &8- &7set the spawnpoint of a world'
       delete: '&b/pw delete <world> &8- &7delete a world'
       backup: '&b/pw backup <world> &8- &7backup a world'
@@ -231,6 +239,38 @@ command:
         reload-complete:
           - '%prefix% Reload complete.'
 
+      seteffects:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% set effects <world> [effects] &8- &7''.'
+
+        success:
+          - '%prefix% Successfully set the potion effects of world ''&b%world%&7'' to ''&b%effects%&7''.'
+
+      setgamemode:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% set gamemode <world> <gamemode> &8- &7''.'
+
+        success:
+          - '%prefix% Successfully set the gamemode of world ''&b%world%&7'' to ''&b%gamemode%&7''.'
+
+      setportal:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% set portal <world> <portal type> <world to> &8- &7''.'
+
+        success:
+          - '%prefix% Successfully set the portal destination for portal ''&b%portal%&7'' of world ''&b%world%&7'' to world ''&b%world_to%&7''.'
+
+      setwhitelist:
+
+        usage:
+          - '%prefix% Invalid usage, try ''&b/%label% set whitelist <world> <whitelist(true/false)> &8- &7''.'
+
+        success:
+          - '%prefix% Successfully set whitelist of world ''&b%world%&7'' to ''&b%whitelist%&7''.'
+
       setspawn:
 
         usage:
@@ -306,5 +346,5 @@ command:
 
 # Do not touch anything here unless you know what you are doing.
 advanced:
-  file-version: 7
+  file-version: 8
   generated-with: '${project.version}'

@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.sub;
+package me.lokka30.phantomworlds.commandsredux.sub;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,9 +19,9 @@ package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.commands.phantomworlds.utils.WorldFolder;
+import me.lokka30.phantomworlds.commandsredux.utils.WorldFolder;
 import me.lokka30.phantomworlds.misc.WorldLoadResponse;
-import revxrsal.commands.bukkit.BukkitCommandActor;
+import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
 
@@ -37,7 +37,7 @@ import static me.lokka30.phantomworlds.misc.WorldLoadResponse.LOADED;
  */
 public class LoadCommand {
 
-  public static void onCommand(final BukkitCommandActor actor, final WorldFolder world) {
+  public static void onCommand(final CommandSender sender, final WorldFolder world) {
 
     if(world == null || world.getFolder() == null) {
       (new MultiMessage(
@@ -47,7 +47,7 @@ public class LoadCommand {
                       PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                       true),
               new MultiMessage.Placeholder("label", "pw", false)
-      ))).send(actor.getSender());
+      ))).send(sender);
       return;
     }
 
@@ -62,7 +62,7 @@ public class LoadCommand {
                               .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
                       new MultiMessage.Placeholder("world", world.getFolder(), false),
                       new MultiMessage.Placeholder("label", "pw", false)
-              ))).send(actor.getSender());
+              ))).send(sender);
       return;
     }
 
@@ -75,7 +75,7 @@ public class LoadCommand {
                               .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
                       new MultiMessage.Placeholder("world", world.getFolder(), false),
                       new MultiMessage.Placeholder("label", "pw", false)
-              ))).send(actor.getSender());
+              ))).send(sender);
       return;
     }
 
@@ -89,7 +89,7 @@ public class LoadCommand {
                               .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
                       new MultiMessage.Placeholder("world", world.getFolder(), false),
                       new MultiMessage.Placeholder("label", "pw", false)
-              ))).send(actor.getSender());
+              ))).send(sender);
       return;
     }
 
@@ -100,6 +100,6 @@ public class LoadCommand {
                     new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
                             .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
                     new MultiMessage.Placeholder("world", world.getFolder(), false)
-            ))).send(actor.getSender());
+            ))).send(sender);
   }
 }

@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.sub;
+package me.lokka30.phantomworlds.commandsredux.sub;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,27 +21,28 @@ import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import revxrsal.commands.bukkit.BukkitCommandActor;
 
 import java.util.Arrays;
 
 /**
- * UnloadCommand
+ * DeleteCommand
  *
  * @author creatorfromhell
  * @since 2.0.5.0
  */
-public class UnloadCommand {
+public class DeleteCommand {
 
-  public static void onCommand(final BukkitCommandActor actor, final World world) {
-    if(!Utils.checkWorld(actor.getSender(), "command.phantomworlds.subcommands.unload.usage", world)) {
+  public static void onCommand(final CommandSender sender, final World world) {
+
+    if(!Utils.checkWorld(sender, "command.phantomworlds.subcommands.delete.usage", world)) {
       return;
     }
 
-    if(actor.getSender() instanceof Player) {
+    if(sender instanceof Player) {
 
-      if(world.getPlayers().contains((Player)actor.getSender())) {
+      if(world.getPlayers().contains((Player)sender)) {
         (new MultiMessage(
                 PhantomWorlds.instance().messages.getConfig().getStringList(
                         "command.phantomworlds.subcommands.unload.in-specified-world"),
@@ -49,21 +50,29 @@ public class UnloadCommand {
                         new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
                                 .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
                         new MultiMessage.Placeholder("world", world.getName(), false)
-                ))).send(actor.getSender());
+                ))).send(sender);
         return;
       }
     }
 
-    //noinspection ConstantConditions
-    Utils.unloadWorld(world);
+    if(!PhantomWorlds.worldManager().backupAndDeleteWorld(world.getName())) {
+      (new MultiMessage(
+              PhantomWorlds.instance().messages.getConfig()
+                      .getStringList("command.phantomworlds.subcommands.delete.failure"), Arrays.asList(
+              new MultiMessage.Placeholder("prefix",
+                      PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
+                      true),
+              new MultiMessage.Placeholder("world", world.getName(), false)
+      ))).send(sender);
+    }
 
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
-                    .getStringList("command.phantomworlds.subcommands.unload.success"), Arrays.asList(
+                    .getStringList("command.phantomworlds.subcommands.delete.success"), Arrays.asList(
             new MultiMessage.Placeholder("prefix",
                     PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                     true),
             new MultiMessage.Placeholder("world", world.getName(), false)
-    ))).send(actor.getSender());
+    ))).send(sender);
   }
 }

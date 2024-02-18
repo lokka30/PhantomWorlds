@@ -5,8 +5,8 @@
 # /     /    | `.__/| /    |  \__/  `._.' /   '   / |,'  \,'    `._.' /     /\__ `___,' \___.'
 
 name: 'PhantomWorlds'
-version: '${project.version}'
-description: '${project.description}'
+version: '2.05'
+description: 'The Robust World Manager for Minecraft Servers'
 authors: [ 'creatorfromhell', 'lokka30' ]
 website: 'https://github.com/lokka30/PhantomWorlds'
 
@@ -28,6 +28,16 @@ permissions:
       phantomworlds.knows-vanished-users: true
       phantomworlds.command.phantomworlds.*: true
 
+
+  phantomworlds.world.bypass.gamemode:
+    default: op
+    description: 'Used to bypass the gamemode setting for worlds.'
+
+
+  phantomworlds.world.bypass.effects:
+    default: op
+    description: 'Used to bypass the effects setting for worlds.'
+
   phantomworlds.knows-vanished-users:
     default: op
     description: 'Users with this permission will ignore the status of vanished players when using commands from PhantomWorlds, such as in tab-completion suggestions.'
@@ -37,12 +47,19 @@ permissions:
     description: 'Ability to run all /pw commands.'
     children:
       phantomworlds.command.phantomworlds: true
+      phantomworlds.command.phantomworlds.backup: true
       phantomworlds.command.phantomworlds.compatibility: true
       phantomworlds.command.phantomworlds.create: true
       phantomworlds.command.phantomworlds.debug: true
+      phantomworlds.command.phantomworlds.import: true
       phantomworlds.command.phantomworlds.info: true
       phantomworlds.command.phantomworlds.list: true
+      phantomworlds.command.phantomworlds.load: true
       phantomworlds.command.phantomworlds.setspawn: true
+      phantomworlds.command.phantomworlds.set.effects: true
+      phantomworlds.command.phantomworlds.set.gamemode: true
+      phantomworlds.command.phantomworlds.set.portal: true
+      phantomworlds.command.phantomworlds.set.whitelist: true
       phantomworlds.command.phantomworlds.teleport: true
       phantomworlds.command.phantomworlds.spawn: true
       phantomworlds.command.phantomworlds.unload: true
@@ -51,6 +68,10 @@ permissions:
   phantomworlds.command.phantomworlds:
     default: op
     description: 'Ability to run /pw'
+
+  phantomworlds.command.phantomworlds.backup:
+    default: op
+    description: 'Ability to run /pw backup'
 
   phantomworlds.command.phantomworlds.compatibility:
     default: op
@@ -64,6 +85,10 @@ permissions:
     default: op
     description: 'Ability to run /pw create'
 
+  phantomworlds.command.phantomworlds.import:
+    default: op
+    description: 'Ability to run /pw import'
+
   phantomworlds.command.phantomworlds.info:
     default: true
     description: 'Ability to run /pw info'
@@ -72,9 +97,29 @@ permissions:
     default: op
     description: 'Ability to run /pw list'
 
+  phantomworlds.command.phantomworlds.load:
+    default: op
+    description: 'Ability to run /pw load'
+
   phantomworlds.command.phantomworlds.setspawn:
     default: op
     description: 'Ability to run /pw setspawn'
+
+  phantomworlds.command.phantomworlds.set.effects:
+    default: op
+    description: 'Ability to run /pw set effects'
+
+  phantomworlds.command.phantomworlds.set.gamemode:
+    default: op
+    description: 'Ability to run /pw set gamemode'
+
+  phantomworlds.command.phantomworlds.set.portal:
+    default: op
+    description: 'Ability to run /pw set portal'
+
+  phantomworlds.command.phantomworlds.set.whitelist:
+    default: op
+    description: 'Ability to run /pw set whitelist'
 
   phantomworlds.command.phantomworlds.teleport:
     default: op

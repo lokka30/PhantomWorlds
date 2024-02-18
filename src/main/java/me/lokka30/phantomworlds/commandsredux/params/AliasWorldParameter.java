@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.parameters.suggestion;
+package me.lokka30.phantomworlds.commandsredux.params;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,34 +17,40 @@ package me.lokka30.phantomworlds.commands.phantomworlds.parameters.suggestion;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import dev.rollczi.litecommands.argument.Argument;
+import dev.rollczi.litecommands.argument.parser.ParseResult;
+import dev.rollczi.litecommands.argument.resolver.ArgumentResolver;
+import dev.rollczi.litecommands.invocation.Invocation;
+import dev.rollczi.litecommands.suggestion.SuggestionContext;
+import dev.rollczi.litecommands.suggestion.SuggestionResult;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.jetbrains.annotations.NotNull;
-import revxrsal.commands.autocomplete.SuggestionProvider;
-import revxrsal.commands.command.CommandActor;
-import revxrsal.commands.command.ExecutableCommand;
+import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
- * AliasWorldSuggestion
+ * AliasWorldParameter
  *
  * @author creatorfromhell
  * @since 2.0.5.0
  */
-public class AliasWorldSuggestion implements SuggestionProvider {
+public class AliasWorldParameter extends ArgumentResolver<CommandSender, World> {
+  @Override
+  protected ParseResult<World> parse(Invocation<CommandSender> invocation, Argument<World> context, String argument) {
+    return ParseResult.success(PhantomWorlds.worldManager().findWorld(argument));
+  }
 
   @Override
-  public @NotNull Collection<String> getSuggestions(@NotNull List<String> list, @NotNull CommandActor commandActor, @NotNull ExecutableCommand executableCommand) throws Throwable {
+  public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<World> argument, SuggestionContext context) {
 
     final List<String> worlds = new ArrayList<>(PhantomWorlds.worldManager().aliases.keySet());
 
     for(final World world : Bukkit.getWorlds()) {
       worlds.add(world.getName());
     }
-    return worlds;
+    return SuggestionResult.of(worlds);
   }
 }

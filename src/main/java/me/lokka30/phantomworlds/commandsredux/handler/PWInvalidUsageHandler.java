@@ -1,4 +1,4 @@
-package me.lokka30.phantomworlds.listeners.player;
+package me.lokka30.phantomworlds.commandsredux.handler;
 /*
  * Phantom Worlds
  * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
@@ -17,35 +17,25 @@ package me.lokka30.phantomworlds.listeners.player;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import me.lokka30.phantomworlds.PhantomWorlds;
-import me.lokka30.phantomworlds.misc.Utils;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import dev.rollczi.litecommands.handler.result.ResultHandlerChain;
+import dev.rollczi.litecommands.invalidusage.InvalidUsage;
+import dev.rollczi.litecommands.invalidusage.InvalidUsageHandler;
+import dev.rollczi.litecommands.invocation.Invocation;
+import dev.rollczi.litecommands.schematic.Schematic;
+import org.bukkit.command.CommandSender;
 
 /**
- * PlayerDeathListener
+ * InvalidUsageHandler
  *
  * @author creatorfromhell
  * @since 2.0.5.0
  */
-public class PlayerDeathListener implements Listener {
+public class PWInvalidUsageHandler implements InvalidUsageHandler<CommandSender> {
+  @Override
+  public void handle(Invocation<CommandSender> invocation, InvalidUsage<CommandSender> result, ResultHandlerChain<CommandSender> chain) {
 
-  final PhantomWorlds plugin;
+    final CommandSender sender = invocation.sender();
+    final Schematic schematic = result.getSchematic();
 
-  public PlayerDeathListener(PhantomWorlds plugin) {
-    this.plugin = plugin;
-  }
-
-  @EventHandler
-  public void onDeath(PlayerDeathEvent event) {
-    if(!PhantomWorlds.instance().settings.getConfig().getBoolean("spawning.respawn-world", false)) {
-      return;
-    }
-
-    if(event.getEntity().getBedSpawnLocation() == null) {
-
-      event.getEntity().teleport(Utils.parseSpawn(event.getEntity().getWorld()));
-    }
   }
 }

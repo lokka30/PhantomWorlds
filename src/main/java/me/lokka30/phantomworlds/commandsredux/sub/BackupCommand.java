@@ -1,8 +1,8 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.sub;
+package me.lokka30.phantomworlds.commandsredux.sub;
 
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -22,7 +22,7 @@ import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.World;
-import revxrsal.commands.bukkit.BukkitCommandActor;
+import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
 
@@ -34,9 +34,9 @@ import java.util.Arrays;
  */
 public class BackupCommand {
 
-  public static void onCommand(final BukkitCommandActor actor, final World world) {
+  public static void onCommand(final CommandSender sender, final World world) {
 
-    if(!Utils.checkWorld(actor.getSender(), "command.phantomworlds.subcommands.backup.usage", world)) {
+    if(!Utils.checkWorld(sender, "command.phantomworlds.subcommands.backup.usage", world)) {
       return;
     }
 
@@ -48,7 +48,7 @@ public class BackupCommand {
                       PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                       true),
               new MultiMessage.Placeholder("world", world.getName(), false)
-      ))).send(actor.getSender());
+      ))).send(sender);
     }
 
     (new MultiMessage(
@@ -58,6 +58,6 @@ public class BackupCommand {
                     PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                     true),
             new MultiMessage.Placeholder("world", world.getName(), false)
-    ))).send(actor.getSender());
+    ))).send(sender);
   }
 }

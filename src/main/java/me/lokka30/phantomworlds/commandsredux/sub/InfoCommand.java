@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.sub;
+package me.lokka30.phantomworlds.commandsredux.sub;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import revxrsal.commands.bukkit.BukkitCommandActor;
+import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
 
@@ -31,7 +31,7 @@ import java.util.Arrays;
  */
 public class InfoCommand {
 
-  public static void onCommand(final BukkitCommandActor actor) {
+  public static void onCommand(final CommandSender sender) {
 
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
@@ -48,6 +48,6 @@ public class InfoCommand {
                             PhantomWorlds.CONTRIBUTORS), false),
             new MultiMessage.Placeholder("supportedServerVersions", PhantomWorlds.instance().supportedServerVersions,
                     false)
-    ))).send(actor.getSender());
+    ))).send(sender);
   }
 }

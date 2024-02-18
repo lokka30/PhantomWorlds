@@ -1,7 +1,7 @@
 package me.lokka30.phantomworlds.listeners.player;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,6 +20,7 @@ package me.lokka30.phantomworlds.listeners.player;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -62,25 +63,25 @@ public class PlayerChangeWorldListener implements Listener {
     }
 
     final String cfgPrevPath = "worlds-to-load." + event.getFrom().getName();
-    if(PhantomWorlds.instance().getConfig().contains(cfgPrevPath + ".effects") &&
-            PhantomWorlds.instance().getConfig().isConfigurationSection(cfgPrevPath + ".effects")) {
-      for(final String effName : PhantomWorlds.instance().getConfig().getConfigurationSection(cfgPrevPath + ".effects").getKeys(false)) {
+    if(PhantomWorlds.instance().data.getConfig().contains(cfgPrevPath + ".effects") &&
+            PhantomWorlds.instance().data.getConfig().isConfigurationSection(cfgPrevPath + ".effects")) {
+      for(final String effName : PhantomWorlds.instance().data.getConfig().getConfigurationSection(cfgPrevPath + ".effects").getKeys(false)) {
 
-        final PotionEffectType type = PotionEffectType.getByName(effName);
+        final PotionEffectType type = PotionEffectType.getByKey(NamespacedKey.fromString(effName));
         if(type != null) {
           event.getPlayer().removePotionEffect(type);
         }
       }
     }
 
-    if(PhantomWorlds.instance().getConfig().contains(cfgPath + ".effects") &&
-            PhantomWorlds.instance().getConfig().isConfigurationSection(cfgPath + ".effects")) {
+    if(PhantomWorlds.instance().data.getConfig().contains(cfgPath + ".effects") &&
+            PhantomWorlds.instance().data.getConfig().isConfigurationSection(cfgPath + ".effects") && !event.getPlayer().hasPermission("phantomworlds.world.bypass.effects")) {
 
-      for(final String effName : PhantomWorlds.instance().getConfig().getConfigurationSection(cfgPath + ".effects").getKeys(false)) {
-        final int duration = PhantomWorlds.instance().getConfig().getInt(cfgPath + ".effects." + effName, 60);
-        final int amplifier = PhantomWorlds.instance().getConfig().getInt(cfgPath + ".effects." + effName, 1);
+      for(final String effName : PhantomWorlds.instance().data.getConfig().getConfigurationSection(cfgPath + ".effects").getKeys(false)) {
+        final int duration = PhantomWorlds.instance().data.getConfig().getInt(cfgPath + ".effects." + effName + ".duration", -1);
+        final int amplifier = PhantomWorlds.instance().data.getConfig().getInt(cfgPath + ".effects." + effName + ".amplifier", 1);
 
-        final PotionEffectType type = PotionEffectType.getByName(effName);
+        final PotionEffectType type = PotionEffectType.getByKey(NamespacedKey.fromString(effName));
         if(type != null) {
           final PotionEffect effect = new PotionEffect(type, duration, amplifier);
           event.getPlayer().addPotionEffect(effect);

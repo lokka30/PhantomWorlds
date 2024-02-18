@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.sub;
+package me.lokka30.phantomworlds.commandsredux.sub;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,7 +20,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.misc.CompatibilityChecker;
-import revxrsal.commands.bukkit.BukkitCommandActor;
+import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,7 +33,7 @@ import java.util.Collections;
  */
 public class CompatibilityCommand {
 
-  public static void onCommand(final BukkitCommandActor actor) {
+  public static void onCommand(final CommandSender sender) {
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
                     .getStringList("command.phantomworlds.subcommands.compatibility.start"),
@@ -41,7 +41,7 @@ public class CompatibilityCommand {
                     new MultiMessage.Placeholder("prefix",
                             PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                             true)
-            ))).send(actor.getSender());
+            ))).send(sender);
 
     PhantomWorlds.instance().compatibilityChecker.checkAll();
 
@@ -52,7 +52,7 @@ public class CompatibilityCommand {
               Collections.singletonList(
                       new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
                               .getString("common.prefix", "&b&lPhantomWorlds: &7"), true)
-              ))).send(actor.getSender());
+              ))).send(sender);
       return;
     }
 
@@ -65,7 +65,7 @@ public class CompatibilityCommand {
                             true),
                     new MultiMessage.Placeholder("amount",
                             String.valueOf(PhantomWorlds.instance().compatibilityChecker.incompatibilities.size()), false)
-            ))).send(actor.getSender());
+            ))).send(sender);
 
     for(int i = 0; i < PhantomWorlds.instance().compatibilityChecker.incompatibilities.size(); i++) {
       CompatibilityChecker.Incompatibility incompatibility = PhantomWorlds.instance().compatibilityChecker.incompatibilities.get(
@@ -82,7 +82,7 @@ public class CompatibilityCommand {
                       new MultiMessage.Placeholder("reason", incompatibility.reason, true),
                       new MultiMessage.Placeholder("recommendation", incompatibility.recommendation,
                               true)
-              ))).send(actor.getSender());
+              ))).send(sender);
     }
   }
 }
