@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.utils;
+package me.lokka30.phantomworlds.commandsredux.utils;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by

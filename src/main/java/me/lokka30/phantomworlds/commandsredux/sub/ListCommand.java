@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.sub;
+package me.lokka30.phantomworlds.commandsredux.sub;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,7 +21,7 @@ import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import revxrsal.commands.bukkit.BukkitCommandActor;
+import org.bukkit.command.CommandSender;
 
 import java.io.File;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ import java.util.HashSet;
  */
 public class ListCommand {
 
-  public static void onCommand(final BukkitCommandActor actor) {
+  public static void onCommand(final CommandSender sender) {
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
                     .getStringList("command.phantomworlds.subcommands.list.header-loaded"), Arrays.asList(
@@ -43,7 +43,7 @@ public class ListCommand {
                     PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                     true),
             new MultiMessage.Placeholder("amount", String.valueOf(Bukkit.getWorlds().size()), false)
-    ))).send(actor.getSender());
+    ))).send(sender);
 
     final HashSet<String> loaded = new HashSet<>();
 
@@ -60,7 +60,7 @@ public class ListCommand {
                       PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                       true),
               new MultiMessage.Placeholder("world", world, false)
-      ))).send(actor.getSender());
+      ))).send(sender);
     }
 
     final HashSet<String> unloaded = new HashSet<>();
@@ -82,7 +82,7 @@ public class ListCommand {
                     PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                     true),
             new MultiMessage.Placeholder("amount", String.valueOf(unloaded.size()), false)
-    ))).send(actor.getSender());
+    ))).send(sender);
 
     for(String world : unloaded) {
       (new MultiMessage(
@@ -92,7 +92,7 @@ public class ListCommand {
                       PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                       true),
               new MultiMessage.Placeholder("world", world, false)
-      ))).send(actor.getSender());
+      ))).send(sender);
     }
 
     final HashSet<String> archived = new HashSet<>();
@@ -110,7 +110,7 @@ public class ListCommand {
                     PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                     true),
             new MultiMessage.Placeholder("amount", String.valueOf(archived.size()), false)
-    ))).send(actor.getSender());
+    ))).send(sender);
 
     for(String world : archived) {
       (new MultiMessage(
@@ -120,7 +120,7 @@ public class ListCommand {
                       PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                       true),
               new MultiMessage.Placeholder("world", world, false)
-      ))).send(actor.getSender());
+      ))).send(sender);
     }
   }
 }

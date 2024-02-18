@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.sub;
+package me.lokka30.phantomworlds.commandsredux.sub;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,7 +18,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds.sub;
  */
 
 import me.lokka30.microlib.messaging.MessageUtils;
-import revxrsal.commands.bukkit.BukkitCommandActor;
+import org.bukkit.command.CommandSender;
 
 import java.util.Locale;
 
@@ -30,21 +30,21 @@ import java.util.Locale;
  */
 public class DebugCommand {
 
-  public static void onCommand(final BukkitCommandActor actor, final String level) {
+  public static void onCommand(final CommandSender sender, final String level) {
 
     final String parsed = (level == null)? "nothing" : level;
     switch(parsed.toLowerCase(Locale.ROOT)) {
       case "dump":
-        actor.getSender().sendMessage(
+        sender.sendMessage(
                 MessageUtils.colorizeStandardCodes("&b&lPhantomWorlds: &7Incomplete."));
         break;
       default:
-        actor.getSender().sendMessage(MessageUtils.colorizeStandardCodes(
+        sender.sendMessage(MessageUtils.colorizeStandardCodes(
                         "&b&lPhantomWorlds: &7Invalid debug method '%method%'.")
                 .replace("%method%", parsed)
         );
 
-        actor.getSender().sendMessage(MessageUtils.colorizeStandardCodes(
+        sender.sendMessage(MessageUtils.colorizeStandardCodes(
                 "&b&lPhantomWorlds: &7Note: Please do not run this subcommand unless you are sure you are meant to be doing so."));
         break;
     }

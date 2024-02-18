@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.sub;
+package me.lokka30.phantomworlds.commandsredux.sub;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@ package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 
 import me.lokka30.microlib.messaging.MultiMessage;
 import me.lokka30.phantomworlds.PhantomWorlds;
-import revxrsal.commands.bukkit.BukkitCommandActor;
+import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
 
@@ -31,7 +31,7 @@ import java.util.Collections;
  */
 public class ReloadCommand {
 
-  public static void onCommand(final BukkitCommandActor actor) {
+  public static void onCommand(final CommandSender sender) {
     (new MultiMessage(
             PhantomWorlds.instance().messages.getConfig()
                     .getStringList("command.phantomworlds.subcommands.reload.reloading-files"),
@@ -39,7 +39,7 @@ public class ReloadCommand {
                     new MultiMessage.Placeholder("prefix",
                             PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                             true)
-            ))).send(actor.getSender());
+            ))).send(sender);
 
     PhantomWorlds.instance().loadFiles();
 
@@ -50,7 +50,7 @@ public class ReloadCommand {
                     new MultiMessage.Placeholder("prefix",
                             PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                             true)
-            ))).send(actor.getSender());
+            ))).send(sender);
 
     PhantomWorlds.instance().loadWorlds();
 
@@ -61,6 +61,6 @@ public class ReloadCommand {
                     new MultiMessage.Placeholder("prefix",
                             PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                             true)
-            ))).send(actor.getSender());
+            ))).send(sender);
   }
 }

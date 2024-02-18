@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.sub;
+package me.lokka30.phantomworlds.commandsredux.sub;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -22,7 +22,8 @@ import me.lokka30.phantomworlds.PhantomWorlds;
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.Location;
 import org.bukkit.World;
-import revxrsal.commands.bukkit.BukkitCommandActor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -35,9 +36,9 @@ import java.util.Arrays;
  */
 public class SetSpawnCommand {
 
-  public static void onCommand(final BukkitCommandActor actor, Double x, Double y, Double z, World world, Float yaw, Float pitch) {
+  public static void onCommand(final CommandSender sender, Double x, Double y, Double z, World world, Float yaw, Float pitch) {
 
-    if(actor.isConsole() || actor.getAsPlayer() == null) {
+    if(!(sender instanceof Player)) {
       if(x == null || y == null || z == null || world == null) {
         (new MultiMessage(
                 PhantomWorlds.instance().messages.getConfig()
@@ -46,24 +47,26 @@ public class SetSpawnCommand {
                         new MultiMessage.Placeholder("prefix", PhantomWorlds.instance().messages.getConfig()
                                 .getString("common.prefix", "&b&lPhantomWorlds: &7"), true),
                         new MultiMessage.Placeholder("label", "setspawn", false)
-                ))).send(actor.getSender());
+                ))).send(sender);
         return;
       }
     }
 
-    final World finalWorld = (world == null)? actor.getAsPlayer().getWorld() : world;
-    final double finalX = (x == null)? actor.getAsPlayer().getLocation().getX() : x;
-    final double finalY = (y == null)? actor.getAsPlayer().getLocation().getY() : y;
-    final double finalZ = (z == null)? actor.getAsPlayer().getLocation().getZ() : z;
+    final Player player = (Player)sender;
+
+    final World finalWorld = (world == null)? ((Player)sender).getWorld() : world;
+    final double finalX = (x == null)? ((Player)sender).getLocation().getX() : x;
+    final double finalY = (y == null)? ((Player)sender).getLocation().getY() : y;
+    final double finalZ = (z == null)? ((Player)sender).getLocation().getZ() : z;
     float finalYaw = (yaw == null)? 0 : yaw;
     float finalPitch = (pitch == null)? 0 : pitch;
 
-    if(yaw == null && actor.getAsPlayer() != null) {
-      finalYaw = actor.getAsPlayer().getLocation().getYaw();
+    if(yaw == null && sender instanceof Player) {
+      finalYaw = ((Player)sender).getLocation().getYaw();
     }
 
-    if(pitch == null && actor.getAsPlayer() != null) {
-      finalPitch = actor.getAsPlayer().getLocation().getPitch();
+    if(pitch == null && sender instanceof Player) {
+      finalPitch = ((Player)sender).getLocation().getPitch();
     }
 
     final String cfgPath = "worlds-to-load." + finalWorld.getName();
@@ -104,6 +107,6 @@ public class SetSpawnCommand {
             new MultiMessage.Placeholder("z", String.valueOf(Utils.roundTwoDecimalPlaces(finalZ)), false),
             new MultiMessage.Placeholder("yaw", String.valueOf(Utils.roundTwoDecimalPlaces(finalYaw)), false),
             new MultiMessage.Placeholder("pitch", String.valueOf(Utils.roundTwoDecimalPlaces(finalPitch)), false)
-    ))).send(actor.getSender());
+    ))).send(sender);
   }
 }

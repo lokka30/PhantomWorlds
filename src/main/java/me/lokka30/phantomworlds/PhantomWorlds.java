@@ -1,14 +1,18 @@
 package me.lokka30.phantomworlds;
 
+import dev.rollczi.litecommands.LiteCommands;
+import dev.rollczi.litecommands.bukkit.LiteBukkitFactory;
 import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
 import me.lokka30.microlib.other.UpdateChecker;
-import me.lokka30.phantomworlds.commands.phantomworlds.PWCommand;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.resolvers.AliasWorldResolver;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.resolvers.WorldFolderResolver;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.suggestion.AliasWorldSuggestion;
-import me.lokka30.phantomworlds.commands.phantomworlds.parameters.suggestion.WorldFolderSuggestion;
-import me.lokka30.phantomworlds.commands.phantomworlds.utils.WorldFolder;
+import me.lokka30.phantomworlds.commandsredux.PWCommand;
+import me.lokka30.phantomworlds.commandsredux.params.AliasWorldParameter;
+import me.lokka30.phantomworlds.commandsredux.params.GamemodeParameter;
+import me.lokka30.phantomworlds.commandsredux.params.PortalParameter;
+import me.lokka30.phantomworlds.commandsredux.params.PotionEffectParameter;
+import me.lokka30.phantomworlds.commandsredux.params.SettingParameter;
+import me.lokka30.phantomworlds.commandsredux.params.WorldFolderParameter;
+import me.lokka30.phantomworlds.commandsredux.utils.WorldFolder;
 import me.lokka30.phantomworlds.listeners.player.PlayerChangeWorldListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerDeathListener;
 import me.lokka30.phantomworlds.listeners.player.PlayerJoinListener;
@@ -21,13 +25,16 @@ import me.lokka30.phantomworlds.misc.CompatibilityChecker;
 import me.lokka30.phantomworlds.misc.UpdateCheckerResult;
 import me.lokka30.phantomworlds.scheduler.BackupScheduler;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.PortalType;
 import org.bukkit.World;
+import org.bukkit.WorldType;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
-import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +48,8 @@ import java.util.logging.Logger;
  */
 public class PhantomWorlds extends JavaPlugin {
 
+  public static final List<String> createTabs = new ArrayList<>();
+
     /*
      *TODO:
      * - Translate backslash character in world names as a space so world names with a space can be used in the plugin
@@ -51,9 +60,10 @@ public class PhantomWorlds extends JavaPlugin {
      * - log in console (LogLevel:INFO) when a command is prevented due to a target player seemingly being vanished to the command sender.
      */
 
+
   private static PhantomWorlds instance;
 
-  protected BukkitCommandHandler command;
+  protected LiteCommands<?> command;
 
   private BukkitTask backupService = null;
 
@@ -111,6 +121,8 @@ public class PhantomWorlds extends JavaPlugin {
   public void onEnable() {
 
     instance = this;
+
+    createTabs.addAll(generateCreateSuggestions());
 
     QuickTimer timer = new QuickTimer(TimeUnit.MILLISECONDS);
     checkCompatibility();
@@ -214,28 +226,15 @@ public class PhantomWorlds extends JavaPlugin {
    */
   void registerCommands() {
     getLogger().info("Registering commands...");
-    //Utils.registerCommand(new PhantomWorldsCommand(), "phantomworlds");
 
-    this.command = BukkitCommandHandler.create(this);
-
-    //Set our command help writer
-    for(final String key : messages.getConfig().getConfigurationSection("command.phantomworlds.help").getKeys(false)) {
-      COMMAND_HELP.add(ChatColor.translateAlternateColorCodes('&', messages.getConfig().getString("command.phantomworlds.help." + key, "Missing help message. Key: " + key)));
-    }
-
-    //Override the help writer because it dupes commands for some reason.
-    command.setHelpWriter((command, actor) ->"");
-
-    //Register Resolvers
-    this.command.registerValueResolver(WorldFolder.class, new WorldFolderResolver());
-    this.command.registerValueResolver(World.class, new AliasWorldResolver());
-
-    //Register Suggestors
-    this.command.getAutoCompleter().registerParameterSuggestions(WorldFolder.class, new WorldFolderSuggestion());
-    this.command.getAutoCompleter().registerParameterSuggestions(World.class, new AliasWorldSuggestion());
-
-    this.command.register(new PWCommand());
-    this.command.registerBrigadier();
+    this.command = LiteBukkitFactory.builder()
+            .commands(new PWCommand())
+            .argument(GameMode.class, new GamemodeParameter())
+            .argument(PortalType.class, new PortalParameter())
+            .argument(List.class, new PotionEffectParameter())
+            .argument(List.class, new SettingParameter())
+            .argument(World.class, new AliasWorldParameter())
+            .argument(WorldFolder.class, new WorldFolderParameter()).build();
   }
 
   /**
@@ -308,5 +307,53 @@ public class PhantomWorlds extends JavaPlugin {
 
   public static WorldManager worldManager() {
     return instance.worldManager;
+  }
+
+  private ArrayList<String> generateCreateSuggestions() {
+    final ArrayList<String> suggestions = new ArrayList<>();
+
+    suggestions.addAll(addTrueFalseValues("generatestructures"));
+    suggestions.addAll(addTrueFalseValues("genstructures"));
+    suggestions.addAll(addTrueFalseValues("structures"));
+    suggestions.addAll(addTrueFalseValues("spawnmobs"));
+    suggestions.addAll(addTrueFalseValues("mobs"));
+    suggestions.addAll(addTrueFalseValues("spawnanimals"));
+    suggestions.addAll(addTrueFalseValues("animals"));
+    suggestions.addAll(addTrueFalseValues("keepspawninmemory"));
+    suggestions.addAll(addTrueFalseValues("spawninmemory"));
+    suggestions.addAll(addTrueFalseValues("hardcore"));
+    suggestions.addAll(addTrueFalseValues("allowpvp"));
+    suggestions.addAll(addTrueFalseValues("pvp"));
+    suggestions.addAll(addTrueFalseValues("difficulty"));
+    suggestions.addAll(addTrueFalseValues("diff"));
+
+    suggestions.add("generator:");
+    suggestions.add("gen:");
+
+    suggestions.add("generatorsettings:");
+    suggestions.add("gensettings:");
+
+    suggestions.add("gamemode:ADVENTURE");
+    suggestions.add("gamemode:CREATIVE");
+    suggestions.add("gamemode:HARDCORE");
+    suggestions.add("gamemode:SURVIVAL");
+
+    suggestions.add("seed:");
+
+    for(WorldType worldType : WorldType.values()) {
+      suggestions.add("type:" + worldType.toString());
+    }
+
+    return suggestions;
+  }
+
+  private ArrayList<String> addTrueFalseValues(String option) {
+    final ArrayList<String> list = new ArrayList<>();
+    option = option + ":";
+
+    list.add(option + "true");
+    list.add(option + "false");
+
+    return list;
   }
 }

@@ -1,7 +1,7 @@
-package me.lokka30.phantomworlds.commands.phantomworlds.sub;
+package me.lokka30.phantomworlds.commandsredux.sub;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,8 +19,8 @@ package me.lokka30.phantomworlds.commands.phantomworlds.sub;
 
 import me.lokka30.phantomworlds.misc.Utils;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import revxrsal.commands.bukkit.BukkitCommandActor;
 
 /**
  * SpawnCommand
@@ -30,10 +30,10 @@ import revxrsal.commands.bukkit.BukkitCommandActor;
  */
 public class SpawnCommand {
 
-  public static void onCommand(final BukkitCommandActor actor, final World world, final Player player) {
-    if(actor.isConsole() && !Utils.checkWorld(actor.getSender(), "command.phantomworlds.subcommands.spawn.usage", world)) {
+  public static void onCommand(final CommandSender sender, final World world, final Player player) {
+    if(!(sender instanceof Player) && !Utils.checkWorld(sender, "command.phantomworlds.subcommands.spawn.usage", world)) {
       return;
     }
-    Utils.teleportToWorld(actor.getSender(), "spawn", "spawn", (player == null)? actor.getSender().getName() : player.getName(), (actor.isPlayer() && world == null)? actor.getAsPlayer().getWorld().getName() : world.getName());
+    Utils.teleportToWorld(sender, "spawn", "spawn", (player == null)? sender.getName() : player.getName(), (sender instanceof Player && world == null)? ((Player)sender).getWorld().getName() : world.getName());
   }
 }
