@@ -54,7 +54,7 @@ public class PlayerTeleportListener implements Listener {
       return;
     }
 
-    if(event.getPlayer().hasPermission("phantomworlds.world.deny." + event.getTo().getWorld().getName())) {
+    if(!event.getPlayer().isOp() && event.getPlayer().hasPermission("phantomworlds.world.deny." + event.getTo().getWorld().getName())) {
       event.setCancelled(true);
     }
   }

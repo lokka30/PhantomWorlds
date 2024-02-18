@@ -74,7 +74,7 @@ public class PlayerChangeWorldListener implements Listener {
     }
 
     if(PhantomWorlds.instance().getConfig().contains(cfgPath + ".effects") &&
-            PhantomWorlds.instance().getConfig().isConfigurationSection(cfgPath + ".effects")) {
+            PhantomWorlds.instance().getConfig().isConfigurationSection(cfgPath + ".effects") && !event.getPlayer().hasPermission("phantomworlds.world.bypass.effects")) {
 
       for(final String effName : PhantomWorlds.instance().getConfig().getConfigurationSection(cfgPath + ".effects").getKeys(false)) {
         final int duration = PhantomWorlds.instance().getConfig().getInt(cfgPath + ".effects." + effName, 60);
