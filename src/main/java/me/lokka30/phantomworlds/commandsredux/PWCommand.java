@@ -57,7 +57,7 @@ import java.util.List;
  * @author creatorfromhell
  * @since 2.0.5.0
  */
-@Command(name = "phantomworlds", aliases = "pw")
+@Command(name = "phantomworlds", aliases = {"pw"})
 public class PWCommand {
 
   @Execute(name = "backup", aliases = {"archive", "bu"})
@@ -70,7 +70,7 @@ public class PWCommand {
   @Execute(name = "create", aliases = {"+", "new"})
   @Permission("phantomworlds.command.phantomworlds.create")
   @Description("command.phantomworlds.help.create")
-  public void create(@Context CommandSender commandSender, @Arg("world name") final String name, @Arg("environment")World.Environment environment, @OptionalArg("world-setting") List<String> settings) {
+  public void create(@Context CommandSender commandSender, @Arg("world name") final String name, @Arg("environment")World.Environment environment, @Arg("world-setting") List<String> settings) {
     CreateCommand.onCommand(commandSender, name, environment, settings);
   }
 
@@ -133,7 +133,7 @@ public class PWCommand {
   @Execute(name = "set effects", aliases = {"set eff"})
   @Permission("phantomworlds.command.phantomworlds.set.effects")
   @Description("command.phantomworlds.help.seteffects")
-  public void setEffects(@Context CommandSender commandSender, @Arg("world") World world, @OptionalArg("potion-effects") List<String> effects) {
+  public void setEffects(@Context CommandSender commandSender, @Arg("world") World world, @Arg("potion-effects") List<String> effects) {
     SetEffectsCommand.onCommand(commandSender, world, effects);
   }
 

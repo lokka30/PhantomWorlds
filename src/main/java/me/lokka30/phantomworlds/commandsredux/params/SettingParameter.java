@@ -1,7 +1,7 @@
 package me.lokka30.phantomworlds.commandsredux.params;
 /*
  * Phantom Worlds
- * Copyright (C) 2023 - 2024 Daniel "creatorfromhell" Vidmar
+ * Copyright (C) 2023 Daniel "creatorfromhell" Vidmar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -26,28 +26,20 @@ import dev.rollczi.litecommands.suggestion.SuggestionResult;
 import me.lokka30.phantomworlds.PhantomWorlds;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
- * Setting
+ * SettingParameterRedux
  *
  * @author creatorfromhell
  * @since 2.0.5.0
  */
-public class SettingParameter extends ArgumentResolver<CommandSender, List> {
+public class SettingParameter extends ArgumentResolver<CommandSender, String> {
   @Override
-  protected ParseResult<List> parse(Invocation<CommandSender> invocation, Argument<List> context, String argument) {
-    return ParseResult.success(Collections.singletonList(argument));
+  protected ParseResult<String> parse(Invocation<CommandSender> invocation, Argument<String> context, String argument) {
+    return ParseResult.success(argument);
   }
 
   @Override
-  public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<List> argument, SuggestionContext context) {
-
-    if(argument.getKeyName().equalsIgnoreCase("world-setting")) {
-      return SuggestionResult.of(PhantomWorlds.createTabs);
-    }
-    return SuggestionResult.of(new ArrayList<>());
+  public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<String> argument, SuggestionContext context) {
+    return SuggestionResult.of(PhantomWorlds.createTabs);
   }
 }

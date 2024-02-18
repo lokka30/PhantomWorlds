@@ -29,7 +29,7 @@ command:
       - '&8 &m->&b /%label% set whitelist <world> <whitelist(true/false)> &8- &7set whether there is a whitelist for this world or not.'
       - '&8 &m->&b /%label% setspawn &8- &7set the spawnpoint of a world'
       - '&8 &m->&b /%label% delete &8- &7delete a world'
-      - '&8 &m->&b /%label% backup &8- &backup a world'
+      - '&8 &m->&b /%label% backup <world> &8- &7Backup a world'
       - '&8 &m->&b /%label% unload &8- &7unload a loaded world'
       - '&8 &m->&b /%label% load &8- &7load an unloaded world'
       - '&8 &m->&b /%label% reload &8- &7reload all config & data files'

@@ -40,19 +40,47 @@ public class SetEffectsCommand {
       return;
     }
 
+    final StringBuilder eff = new StringBuilder();
+
     final World finalWorld = (world == null)? ((Player)sender).getWorld() : world;
 
     final String cfgPath = "worlds-to-load." + finalWorld.getName();
-    if(PhantomWorlds.instance().data.getConfig().contains(cfgPath)) {
-      //PhantomWorlds manages this world so let's set the spawn here for better accuracy.
-      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".effects", String.join(", ", effects));
 
-      try {
-        PhantomWorlds.instance().data.save();
-      } catch(final IOException ex) {
-        throw new RuntimeException(ex);
+    for(String effString : effects) {
+
+      if(eff.length() > 0) {
+        eff.append(", ");
       }
 
+      final String[] effSettings = effString.split(",");
+
+      int duration = -1;
+      if(effSettings.length > 1) {
+        try {
+          duration = Integer.parseInt(effSettings[1]);
+        } catch(NumberFormatException ignore) {
+        }
+      }
+
+
+      int amplifier = 1;
+      if(effSettings.length > 2) {
+        try {
+          amplifier = Integer.parseInt(effSettings[2]);
+        } catch(NumberFormatException ignore) {
+        }
+      }
+
+      eff.append(effSettings[0]);
+
+      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".effects." + effSettings[0] + ".duration", duration);
+      PhantomWorlds.instance().data.getConfig().set(cfgPath + ".effects." + effSettings[0] + ".amplifier", amplifier);
+    }
+
+    try {
+      PhantomWorlds.instance().data.save();
+    } catch(final IOException ex) {
+      throw new RuntimeException(ex);
     }
 
     (new MultiMessage(
@@ -62,7 +90,7 @@ public class SetEffectsCommand {
                     PhantomWorlds.instance().messages.getConfig().getString("common.prefix", "&b&lPhantomWorlds: &7"),
                     true),
             new MultiMessage.Placeholder("world", finalWorld.getName(), false),
-            new MultiMessage.Placeholder("effects", effects.toString(), false)
+            new MultiMessage.Placeholder("effects", eff.toString(), false)
     ))).send(sender);
   }
 }

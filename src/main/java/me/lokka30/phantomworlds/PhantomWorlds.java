@@ -1,6 +1,7 @@
 package me.lokka30.phantomworlds;
 
 import dev.rollczi.litecommands.LiteCommands;
+import dev.rollczi.litecommands.argument.ArgumentKey;
 import dev.rollczi.litecommands.bukkit.LiteBukkitFactory;
 import me.lokka30.microlib.files.YamlConfigFile;
 import me.lokka30.microlib.maths.QuickTimer;
@@ -228,10 +229,14 @@ public class PhantomWorlds extends JavaPlugin {
 
     this.command = LiteBukkitFactory.builder()
             .commands(new PWCommand())
+            .settings(settings -> settings
+                    .fallbackPrefix("phantomworlds")
+                    .nativePermissions(false)
+            )
             .argument(GameMode.class, new GamemodeParameter())
             .argument(PortalType.class, new PortalParameter())
-            .argument(List.class, new PotionEffectParameter())
-            .argument(List.class, new SettingParameter())
+            .argument(String.class, ArgumentKey.of("world-setting"), new SettingParameter())
+            .argument(String.class, ArgumentKey.of("potion-effects"), new PotionEffectParameter())
             .argument(World.class, new AliasWorldParameter())
             .argument(WorldFolder.class, new WorldFolderParameter()).build();
   }

@@ -27,7 +27,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,27 +35,24 @@ import java.util.List;
  * @author creatorfromhell
  * @since 2.0.5.0
  */
-public class PotionEffectParameter extends ArgumentResolver<CommandSender, List> {
+public class PotionEffectParameter extends ArgumentResolver<CommandSender, String> {
 
   private static final List<String> POTION_EFFECTS = new ArrayList<>();
 
   static {
-    for (PotionEffectType value : PotionEffectType.values()) {
-      POTION_EFFECTS.add(value.getName());
+    for(PotionEffectType value : PotionEffectType.values()) {
+      POTION_EFFECTS.add(value.getKey() + ",duration,amplifier");
+      POTION_EFFECTS.add(value.getKey() + ",-1,1");
     }
   }
 
   @Override
-  protected ParseResult<List> parse(Invocation<CommandSender> invocation, Argument<List> context, String argument) {
-    return ParseResult.success(Collections.singletonList(argument));
+  protected ParseResult<String> parse(Invocation<CommandSender> invocation, Argument<String> context, String argument) {
+    return ParseResult.success(argument);
   }
 
   @Override
-  public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<List> argument, SuggestionContext context) {
-
-    if(argument.getKeyName().equalsIgnoreCase("potion-effects")) {
-      return SuggestionResult.of(POTION_EFFECTS);
-    }
-    return SuggestionResult.of(new ArrayList<>());
+  public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<String> argument, SuggestionContext context) {
+    return SuggestionResult.of(POTION_EFFECTS);
   }
 }
