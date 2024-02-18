@@ -62,8 +62,6 @@ public class PlayerChangeWorldListener implements Listener {
       event.getPlayer().setGameMode(mode);
     }
 
-    System.out.println("Effects Checks");
-
     final String cfgPrevPath = "worlds-to-load." + event.getFrom().getName();
     if(PhantomWorlds.instance().data.getConfig().contains(cfgPrevPath + ".effects") &&
             PhantomWorlds.instance().data.getConfig().isConfigurationSection(cfgPrevPath + ".effects")) {
@@ -79,14 +77,10 @@ public class PlayerChangeWorldListener implements Listener {
     if(PhantomWorlds.instance().data.getConfig().contains(cfgPath + ".effects") &&
             PhantomWorlds.instance().data.getConfig().isConfigurationSection(cfgPath + ".effects") && !event.getPlayer().hasPermission("phantomworlds.world.bypass.effects")) {
 
-      System.out.println("Apply effects.");
-
       for(final String effName : PhantomWorlds.instance().data.getConfig().getConfigurationSection(cfgPath + ".effects").getKeys(false)) {
         final int duration = PhantomWorlds.instance().data.getConfig().getInt(cfgPath + ".effects." + effName + ".duration", -1);
         final int amplifier = PhantomWorlds.instance().data.getConfig().getInt(cfgPath + ".effects." + effName + ".amplifier", 1);
 
-
-        System.out.println("Apply effect: " + effName);
         final PotionEffectType type = PotionEffectType.getByKey(NamespacedKey.fromString(effName));
         if(type != null) {
           final PotionEffect effect = new PotionEffect(type, duration, amplifier);
